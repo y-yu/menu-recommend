@@ -1,0 +1,29 @@
+{
+    "nutritionsNames" : {
+        "energy":{"ja":"エネルギー","defaultValue":600},
+        "salt":{"ja":"塩分","defaultValue":3},
+        "protein":{"ja":"たんぱく質","defaultValue":30},
+        "vegetable":{"ja":"野菜摂取量","defaultValue":100}
+    },
+    "timeNames" : {
+        "time":{
+            "ja":"調理時間",
+            "defaultValue":60
+        }
+    },
+    "nutritionsParams" : {
+        "energy":{"ja":"エネルギー","defaultValue":0.1},
+        "salt":{"ja":"塩分","defaultValue":0.1},
+        "protein":{"ja":"たんぱく質","defaultValue":0.1},
+        "vegetable":{"ja":"野菜摂取量","defaultValue":0.1}
+    },
+    "timeParams" : {
+        "time" : {
+            "ja":"調理時間","defaultValue":0.1
+        }
+    },
+    "machineNames" : ["Amplify", "Degital Anealer", "D-wave"],
+    "defaultMachine" : "Amplify",
+    "choose_category" : 3,
+    "tabNames" : ["入力", "穀類", "いも及びデンプン類", "砂糖及び甘味類", "豆類", "種実類", "野菜類", "果実類", "キノコ類", "藻類", "魚介類", "肉類", "鶏卵", "乳類", "油脂類", "菓子類", "し好飲料", "調味料及び香辛料", "調理済み"]
+}
