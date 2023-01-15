@@ -55,7 +55,7 @@ const getSuggestions = (value) => {
   console.log(value)
   console.log(FoodArray)
   return inputLength === 0 ? [] : FoodArray.filter((lang) =>
-    lang.name.toLowerCase().slice(0, inputLength) === inputValue
+    (lang.name).indexOf(value) != -1
   );
 };
 
