@@ -48,19 +48,46 @@ let defaultMachine = data.defaultMachine;
 let choose_category = data.choose_category
 
 // postする時に必要なデータ
-var ideal_values = 
-{"energy":nutritionsNames["energy"]["defaultValue"],
-"salt":nutritionsNames["salt"]["defaultValue"],
-"protein":nutritionsNames["protein"]["defaultValue"],
-"vegetable":nutritionsNames["vegetable"]["defaultValue"],
-"time":timeNames["time"]["defaultValue"]}
-var params = 
-{"energy":nutritionsParams["energy"]["defaultValue"],
-"salt":nutritionsParams["salt"]["defaultValue"],
-"protein":nutritionsParams["protein"]["defaultValue"],
-"vegetable":nutritionsParams["vegetable"]["defaultValue"],
-"time":timeParams["time"]["defaultValue"],
-"use_up":0.1}
+var ideal = {
+  "energy": {
+    "value": nutritionsNames["energy"]["defaultValue"],
+    "param": nutritionsParams["energy"]["defaultValue"]
+  },
+  "salt": {
+    "value": nutritionsNames["salt"]["defaultValue"],
+    "param": nutritionsParams["salt"]["defaultValue"]
+  },
+  "protein": {
+    "value": nutritionsNames["protein"]["defaultValue"],
+    "param": nutritionsParams["protein"]["defaultValue"]
+  },
+  "vegetable": {
+    "value": nutritionsNames["vegetable"]["defaultValue"],
+    "param": nutritionsParams["vegetable"]["defaultValue"]
+  },
+  "time": {
+    "value": timeNames["time"]["defaultValue"],
+    "param": timeParams["time"]["defaultValue"]
+  }
+}
+
+// 以下 TO DO
+var machine = "amplify"
+
+var my_food = {
+  "like": [],
+  "dislike": []
+}
+
+var want_food = {}
+
+var staple = ""
+
+var genre = ["korean"]
+
+var people = 1
+
+var count = 0
 
 const ButtonOfCreateMenus=()=>{
 
@@ -93,12 +120,16 @@ const createMenus = (useFoodNameDict,navigate) => {
   //      }
   // }, [pageTransition]);
   
-        let menus = {}
+    let menus = {}
     let requestBody = {
-      "want_food_dict":useFoodNameDict,
-      "ideal_values":ideal_values,
-      "params":params,
-      "choose_category":choose_category
+      "machine": machine,
+      "ideal": ideal,
+      "my_food": my_food,
+      "want_food": want_food,
+      "staple": staple,
+      "genre": genre,
+      "people": people,
+      "count": count
     };
     console.log(requestBody);
 
@@ -106,7 +137,7 @@ const createMenus = (useFoodNameDict,navigate) => {
     // axiosで書き直す
 
 
-    fetch('http://localhost:8000/test', {
+    fetch('http://localhost:8000/menu', {
       method: 'POST',
       body: JSON.stringify(requestBody),
       headers: new Headers({ 'Content-type' : 'application/json', 'Access-Control-Allow-Origin': '*' })
@@ -117,8 +148,10 @@ const createMenus = (useFoodNameDict,navigate) => {
       // pageTransition = true;
 
       // setPageTransition(true);
-
-      navigate('/result', {state: {'body':menus}});
+      // 成功した時だけ
+      if(menus["status"] == "Done"){
+        navigate('/result', {state: {'body':menus}});
+      }
     })
 
     
