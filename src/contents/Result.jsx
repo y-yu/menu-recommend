@@ -14,22 +14,23 @@ const Result = () => {
     const location = useLocation(); 
     let state = location.state;
     console.log(state.body);
-    let resultMenus = state.body;
+    // feasibleは成功、unfeasibleは何かの制約破ってる
+    let resultMenus = state.body["results"]["feasible"];
   
     let resultArray = [];
     // for (let resultMenu of resultMenus){
     for (let i=0;i<resultMenus.length; i++){
       let resultMenu = resultMenus[i];
-      console.log(resultMenu.menu.map(menu => menu.title));
+      console.log(resultMenu.menu.map(menu => menu["title"]));
       resultArray.push(<h3>献立{i+1}</h3>);
 
       let tmp = resultMenu.menu.map(
         menu => {
           return (<>
             <Grid item xs={12/resultMenu.menu.length}>
-              <img className="recipeImage" src={menu.image_url}/><br/>
-              <a href={menu.url}>{menu.title}</a><br/>
-              <h7>{"時間:"+menu.time+"分"}</h7>
+              <img className="recipeImage" src={menu["imageUrl"]}/><br/>
+              <a href={menu["url"]}>{menu["title"]}</a><br/>
+              <h7>{"時間:"+menu["time"]+"分"}</h7>
             </Grid>
           </>)
         }
