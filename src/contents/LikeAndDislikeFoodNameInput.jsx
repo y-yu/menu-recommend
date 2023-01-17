@@ -36,9 +36,28 @@ export default class LikeAndDislikeFoodNameInput extends React.Component {
     componentDidUpdate(){
         let newLikeAndDislikeFoodNameDict = this.context[0]
         const setLikeAndDislikeFoodNameDict = this.context[1]
-        newLikeAndDislikeFoodNameDict[this.state.foodName]={"like":this.state.like,"dislike":this.state.dislike};
+        // newLikeAndDislikeFoodNameDict[this.state.foodName]={"like":this.state.like,"dislike":this.state.dislike};
+        // setLikeAndDislikeFoodNameDict(newLikeAndDislikeFoodNameDict);
+        // console.log(this.context[0])
+        // console.log(newLikeAndDislikeFoodNameDict["like"]);
+        // console.log(this.state.foodName);
+      
+        if ((!(newLikeAndDislikeFoodNameDict["like"].includes(this.state.foodName))) && this.state.like){
+          newLikeAndDislikeFoodNameDict["like"].push(this.state.foodName);
+        }
+        if ((!(newLikeAndDislikeFoodNameDict["dislike"].includes(this.state.foodName))) && this.state.dislike){
+          newLikeAndDislikeFoodNameDict["dislike"].push(this.state.foodName);
+        }
+        if ((newLikeAndDislikeFoodNameDict["like"].includes(this.state.foodName)) && !this.state.like){
+          newLikeAndDislikeFoodNameDict["like"] = newLikeAndDislikeFoodNameDict["like"].filter(x => x !== this.state.foodName)
+        }
+        if ((newLikeAndDislikeFoodNameDict["dislike"].includes(this.state.foodName)) && !this.state.dislike){
+          newLikeAndDislikeFoodNameDict["dislike"] = newLikeAndDislikeFoodNameDict["dislike"].filter(x => x !== this.state.foodName)
+        }
+
         setLikeAndDislikeFoodNameDict(newLikeAndDislikeFoodNameDict);
-        console.log(this.context[0])
+        console.log(newLikeAndDislikeFoodNameDict);
+      
     }
 
   

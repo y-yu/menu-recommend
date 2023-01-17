@@ -18,13 +18,16 @@ import Slider, { SliderThumb } from '@mui/material/Slider';
 import Tooltip from '@mui/material/Tooltip';
 import Divider from '@mui/material/Divider';
 
+import {NutritionAndTimeContext} from './context';
+
 
 //　デフォルトデータ
 import data from '../data/data.json';
-let nutritionsNames  = data.nutritionsNames;
-let timeNames = data.timeNames;
-let nutritionsParams = data.nutritionsParams;
-let timeParams = data.timeParams;
+let defaultNutritions  = data.defaultNutritions;
+let defaultTimeNames = data.defaultTimeNames;
+let defaultNutritionsParams = data.defaultNutritionsParams;
+let defaultTimeParams = data.defaultTimeParams;
+let cardSize = data.cardSize;
 
 
 export default class NutritionAndTimeInputCard extends React.Component {
@@ -41,45 +44,36 @@ export default class NutritionAndTimeInputCard extends React.Component {
     makeNutritionsNames(){
 
       let tmpComp = [];
-      for (let nutritionsName in nutritionsNames){
-          tmpComp.push(<><NutritionsAndTimeInput 
-          name = {nutritionsName}
-          name_ja = {nutritionsNames[nutritionsName]["ja"]} 
-          value = {nutritionsNames[nutritionsName]["defaultValue"]} 
-          parameter={nutritionsParams[nutritionsName]["defaultValue"]}
-          category="nutritions"
-          params = {this.props.params}
-          ideal_values = {this.props.ideal_values}
-      />    
-      <Divider/></>)
+      for (let nutritionsName in defaultNutritions){
+          tmpComp.push(
+          <>
+            <NutritionsAndTimeInput 
+              name = {nutritionsName}
+              category="nutritions"
+            />    
+            <Divider/>
+          </>)
       };
 
-      for (let timeName in timeNames){
+      for (let timeName in defaultTimeNames){
         tmpComp.push(<NutritionsAndTimeInput 
           name = {timeName} 
-          name_ja = {timeNames[timeName]["ja"]}
-          value = {timeNames[timeName]["defaultValue"]} 
-          parameter={timeParams[timeName]["defaultValue"]}
           category="time"
-          params = {this.props.params}
-          ideal_values = {this.props.ideal_values}
       />)
       }
       // return <div sx={{ display: "flex"}}>{tmpComp}</div>;
-      return <Box sx={{ width:'95%', height:550, overflow: 'auto'}}>{tmpComp}</Box>;
+      return <Box sx={{ width:'95%', height:600, overflow: 'auto'}}>{tmpComp}</Box>;
     }
 
     render(){
-        const  {category} = this.state;
-
         return(
-          <Card sx={{height:700}}>
+          <Card sx={{height:cardSize}}>
                 <CardContent>
                     <Typography variant="h5" component="div">
-                        栄養素
+                        栄養素と調理時間
                     </Typography>
                     <Typography variant="body2">
-                        <br/>栄養素の値と値の強さを設定してください<br/>パラメータは0だとこの制限は効かなくなります
+                        <br/>栄養素の値と値の重みを設定してください<br/>パラメータは0だとこの制限は効かなくなります
                     </Typography>
                 </CardContent>
                 <CardActions>
@@ -90,71 +84,89 @@ export default class NutritionAndTimeInputCard extends React.Component {
     }
 }
 
-class NutritionsAndTimeInput extends React.Component {
-    constructor(props){
-      super(props);
-      this.state = {
-        name:this.props.name,
-        name_ja:this.props.name_ja,
-        value:Number(this.props.value),
-        parameter:Number(this.props.parameter),
-        category:this.props.category,
-        // showAlert:false
+// class NutritionsAndTimeInput extends React.Component {
+  const NutritionsAndTimeInput = (props) => {
+
+    const name = props.name;
+    const category = props.category;
+
+    // console.log(name);
+
+    let name_ja;
+    let defaultValue;
+    let defaultParameter;
+    if (category=="nutritions"){
+      name_ja = defaultNutritions[name]["ja"]
+      defaultValue = defaultNutritions[name]["defaultValue"]
+      defaultParameter = defaultNutritionsParams[name]["defaultValue"]
+    }else{
+      name_ja = defaultTimeNames[name]["ja"]
+      defaultValue = defaultTimeNames[name]["defaultValue"]
+      defaultParameter = defaultTimeParams[name]["defaultValue"]
+    }
+
+    // let params = defaultParameter;
+    const [ideal, setIdeal] = React.useContext(NutritionAndTimeContext);
+    const [value, setValue] = React.useState(defaultValue);
+    const [param, setParam] = React.useState(defaultParameter);
+
+    React.useEffect(() =>
+    {      
+      let tmpIdeal = Object.assign(ideal);
+      tmpIdeal[name] = {
+        "value" :  value,
+        "param" : param
       }
-    }
+      setIdeal(tmpIdeal);
+      console.log(tmpIdeal);
+    },
+      [value, param]
+    );
 
-    componentDidUpdate(){
-      this.props.ideal_values[this.state.name] = Number(this.state.value);
-      this.props.params[this.state.name] = Number(this.state.parameter);
-      // if (this.state.parameter == 0){
-      //   console.log("説明出したいね");
-      //   this.setState({showAlert:true});
-      // }
-      console.log(this.state.name+":"+this.state.value);
-    }
+    // componentDidUpdate=()=>{ 
+      // this.props.ideal_values[this.state.name] = Number(this.state.value);
+      // this.props.params[this.state.name] = Number(this.state.parameter);
+      // console.log(this.state.name+":"+this.state.value);
+    // }
 
-    AddProperAdornment=()=>{
-      if(this.state.name=="energy"){
+    const AddProperAdornment=()=>{
+      if(name=="energy"){
         return "kcal"
-      }else if(this.state.name=="time"){
+      }else if(name=="time"){
         return "分"
       }else{return "g"}
     }
 
-    render(){
-      return (
-      <><FormControl variant="standard" sx={{ m: 1, mt: 3, width: '25ch' }}>
-         <Typography variant="h9" component="div">
-            {this.state.name_ja}
-         </Typography>
-         {/* <FormHelperText id="standard-weight-helper-text">{this.state.name_ja}</FormHelperText> */}
-         <Input
-          type = "number"
-          id={"input_"+this.state.name}
-          endAdornment={<InputAdornment position="end">{this.AddProperAdornment()}</InputAdornment>}
-          value = {this.state.value}
-          onChange={(event) => this.setState({value: event.target.value})}
-        />
-      </FormControl>
-
-<br/>
-      <br/>
-      <Slider
-      style={{ color: '#52af77'}}
-      valueLabelDisplay="auto"
-      slots={{
-        valueLabel: ValueLabelComponent,
-      }}
-      value={Number(this.state.parameter)}
-      min = {0}
-      max = {0.5}
-      step = {0.01}
-      onChange={e => this.setState({parameter:Number(e.target.value)})}/>
+    
+    return (
+      <>
+        <FormControl variant="standard" sx={{ m: 1, mt: 3, width: '25ch' }}>
+          <Typography variant="h9" component="div">
+            {name_ja}
+          </Typography>
+          <Input
+            type = "number"
+            id={"input_"+name}
+            endAdornment={<InputAdornment position="end">{AddProperAdornment()}</InputAdornment>}
+            value = {value}
+            onChange={(event) => setValue(event.target.value)}
+          />
+        </FormControl>
+        <br/>
+        <br/>
+        <Slider
+          style={{ color: '#52af77'}}
+          valueLabelDisplay="auto"
+          slots={{
+            valueLabel: ValueLabelComponent,
+          }}
+          value={Number(param)}
+          min = {0}
+          max = {0.5}
+          step = {0.01}
+          onChange={e => setParam(e.target.value)}/>
       </>
-    // <FormHelperText id="standard-weight-helper-text2">パラメータ</FormHelperText>
-      );
-    }
-
+    );
   }
 
 

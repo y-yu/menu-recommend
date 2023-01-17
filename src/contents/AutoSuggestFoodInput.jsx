@@ -86,18 +86,19 @@ const AutoSuggestFoodInput = (props) => {
   // let foodButtons = useContext(UseFoodNameDictContext)[0]
   // const setFoodButtons = useContext(UseFoodNameDictContext)[1]
   const [useFoodNameDict, setUseFoodNameDict] = useContext(UseFoodNameDictContext)
+  const [selectedList, setSelectedList] = useState(new Set([]));
   // const [useFoodNameDict, setUseFoodNameDict] = useState(foodButtons)
 
 
   //全部の食材名の配列
   const allFoodArray = useContext(AllFoodArrayContext)
-  console.log(allFoodArray)
+  // console.log(allFoodArray)
   FoodArray = allFoodArray
 
   //好き嫌いの辞書
   // let likeAndDislikeFoodNameDict = useContext(LikeAndDislikeFoodNameDictContext)[0];
   // const setLikeAndDislikeFoodNameDict = useContext(LikeAndDislikeFoodNameDictContext)[1];
-  const [likeAndDislikeFoodNameDict, setLikeAndDislikeFoodNameDict] = useContext(LikeAndDislikeFoodNameDictContext);
+  // const [likeAndDislikeFoodNameDict, setLikeAndDislikeFoodNameDict] = useContext(LikeAndDislikeFoodNameDictContext);
 
 
 
@@ -109,8 +110,8 @@ const AutoSuggestFoodInput = (props) => {
     // let newUseFoodNameDict=useFoodNameDict
     // newUseFoodNameDict[1]=2
     // setUseFoodNameDict(newUseFoodNameDict)
-    console.log(useFoodNameDict)
-    console.log(allFoodArray)
+    // console.log(useFoodNameDict)
+    // console.log(allFoodArray)
     // setSuggestions({'name':1})
   },[]);
 
@@ -148,28 +149,37 @@ const AutoSuggestFoodInput = (props) => {
       // foodButtonArray
       // var newFoodButtons = this.state.foodButtons;
       // stateArray.slice(0, stateArray.length);
-      var newUseFoodNameDict = Object.create(useFoodNameDict)
+      var newUseFoodNameDict = Object.assign(useFoodNameDict)
       if (!(getSuggestionValue(suggestion) in newUseFoodNameDict)){
         newUseFoodNameDict[getSuggestionValue(suggestion)] = {
           'gram':0,
           'buy':false,
           'use_up':false
         };
-      }else{
-        newUseFoodNameDict[getSuggestionValue(suggestion)]['gram']=0;
-        // newFoodButtons[getSuggestionValue(suggestion)]['gram']=0;
       }
+      // else{
+      //   // newUseFoodNameDict[getSuggestionValue(suggestion)]['gram']=0;
+      //   // newFoodButtons[getSuggestionValue(suggestion)]['gram']=0;
+      // }
       // this.setState({
       //   foodButtons:newFoodButtons
       // });
       console.log(newUseFoodNameDict)
       setUseFoodNameDict(newUseFoodNameDict);
     }else{
-      var newLikeAndDislikeFoodNameDict = Object.create(likeAndDislikeFoodNameDict);
-      newLikeAndDislikeFoodNameDict[getSuggestionValue(suggestion)] = {"like":false,"dislike":false}
-      setLikeAndDislikeFoodNameDict(newLikeAndDislikeFoodNameDict)
-      console.log(newLikeAndDislikeFoodNameDict)
+      // var newLikeAndDislikeFoodNameDict = Object.create(likeAndDislikeFoodNameDict);
+      // newLikeAndDislikeFoodNameDict[getSuggestionValue(suggestion)] = {"like":false,"dislike":false}
+      // setLikeAndDislikeFoodNameDict(newLikeAndDislikeFoodNameDict)
+      // console.log(newLikeAndDislikeFoodNameDict)
+
       // this.props.likeAndDislikeFoodNameDict[getSuggestionValue(suggestion)]={"like":this.state.like,"dislike":this.state.dislike};
+
+      // var newSelectedList = mapForSet(new Set())(selectedList);
+      // console.log(typeof newSelectedList)
+      // newSelectedList.add.bind(getSuggestionValue(suggestion));
+      // setSelectedList(newSelectedList);
+      // console.log(newSelectedList)
+      setSelectedList(new Set([...selectedList,getSuggestionValue(suggestion)]))
     }
   };
 
@@ -189,8 +199,11 @@ const AutoSuggestFoodInput = (props) => {
       //   this.props.likeAndDislikeFoodNameDict[buttonName] = 
       //   s.push(<ul><LikeAndDislikeFoodNameInput name={buttonName}/></ul>);
       // }
-      for (let likeAndDislikeFoodName in likeAndDislikeFoodNameDict){
-        s.push(<ul><LikeAndDislikeFoodNameInput name={likeAndDislikeFoodName}/></ul>)
+      // for (let likeAndDislikeFoodName in likeAndDislikeFoodNameDict){
+      //   s.push(<ul><LikeAndDislikeFoodNameInput name={likeAndDislikeFoodName}/></ul>)
+      // }
+      for(let likeAndDislikeFoodName of selectedList){
+        s.push(<ul><LikeAndDislikeFoodNameInput name={likeAndDislikeFoodName}/></ul>);
       }
     }
     return <div>{s}</div>;
@@ -236,7 +249,7 @@ const AutoSuggestFoodInput = (props) => {
         inputProps={inputProps}
       />
       {makeFoodArray()}
-      {console.log(suggestions)}
+      {/* {console.log(suggestions)} */}
       {/* {Make()} */}
     </div>);
 

@@ -35,68 +35,77 @@ import Tooltip from '@mui/material/Tooltip';
 
 import TextField from '@mui/material/TextField';
 
-import { UseFoodNameDictContext, AllFoodArrayContext, LikeAndDislikeFoodNameDictContext, AllFoodNameDictContext } from './context.js';
+import { UseFoodNameDictContext, AllFoodArrayContext, LikeAndDislikeFoodNameDictContext, AllFoodNameDictContext, MachineContext, NutritionAndTimeContext, StapleContext, GenreContext, PeopleNumContext, MenuNumContext } from './context.js';
 
 //　デフォルトデータ
 import data from '../data/data.json';
-let nutritionsNames  = data.nutritionsNames;
-let timeNames = data.timeNames;
-let nutritionsParams = data.nutritionsParams;
-let timeParams = data.timeParams;
+import { removeAllListeners } from 'npm';
+
+let defaultNutritions  = data.defaultNutritions;
+let defaultTimeNames = data.defaultTimeNames;
+let defaultNutritionsParams = data.defaultNutritionsParams;
+let defaultTimeParams = data.defaultTimeParams;
 let machineNames = data.machineNames;
 let defaultMachine = data.defaultMachine;
 let choose_category = data.choose_category
 
 // postする時に必要なデータ
-var ideal = {
-  "energy": {
-    "value": nutritionsNames["energy"]["defaultValue"],
-    "param": nutritionsParams["energy"]["defaultValue"]
-  },
-  "salt": {
-    "value": nutritionsNames["salt"]["defaultValue"],
-    "param": nutritionsParams["salt"]["defaultValue"]
-  },
-  "protein": {
-    "value": nutritionsNames["protein"]["defaultValue"],
-    "param": nutritionsParams["protein"]["defaultValue"]
-  },
-  "vegetable": {
-    "value": nutritionsNames["vegetable"]["defaultValue"],
-    "param": nutritionsParams["vegetable"]["defaultValue"]
-  },
-  "time": {
-    "value": timeNames["time"]["defaultValue"],
-    "param": timeParams["time"]["defaultValue"]
-  }
-}
 
 // 以下 TO DO
-var machine = "amplify"
 
-var my_food = {
-  "like": [],
-  "dislike": []
-}
+// var my_food = {
+//   "like": [],
+//   "dislike": []
+// }
 
 var want_food = {}
 
 var staple = ""
 
-var genre = ["korean"]
+var genre = ["korean","chinese"]
 
 var people = 1
 
 var count = 0
 
 const ButtonOfCreateMenus=()=>{
+    const [machine, setMachine] = useContext(MachineContext);
+    const [ideal, setIdeal] = React.useContext(NutritionAndTimeContext);
+    const [want_food, setUseFoodNameDict] = React.useContext(UseFoodNameDictContext);
+    const [my_food, setMyFood] = React.useContext(LikeAndDislikeFoodNameDictContext);
+    const [staple, setStaple] = React.useContext(StapleContext);
+    const [genre, setGenre] = React.useContext(GenreContext);
+    const [people, setPeople] = React.useContext(PeopleNumContext);
+    const [count, setCount] = React.useContext(MenuNumContext);
 
-    console.log("うううううう");
-    const [useFoodNameDict, setUseFoodNameDict] = useContext(UseFoodNameDictContext)
+
+
+    
+    const createRequest=()=>{
+      let menus = {}
+      // setValue((val) => val.filter((text) => text !== "all"));
+      // setGenre((genre)=>genre.filter((t)=> t!="all"));
+      // console.log(genre)
+
+      let requestBody = {
+        "machine": machine,
+        "ideal": ideal,
+        "my_food": my_food,
+        "want_food": want_food,
+        "staple": staple,
+        "genre": genre,
+        "people": people,
+        "count": count
+      };
+      CreateMenus(navigate,requestBody)
+    }
+
+    
+    //CreateMenus(navigate)
     //画面遷移
     const navigate = useNavigate();
     return (
-    <Button color="success" variant="contained" endIcon={<SendIcon />} onClick={() => {createMenus(useFoodNameDict,navigate)}}>
+    <Button color="success" variant="contained" endIcon={<SendIcon />} onClick={() => {}}>
         献立を作成
     </Button>    
     );
@@ -106,8 +115,10 @@ const ButtonOfCreateMenus=()=>{
 // 
 var pageTransition = false;
 
-const createMenus = (useFoodNameDict,navigate) => {
-
+const CreateMenus = (navigate, requestBody) => {
+  
+  // const navigate = props.navigate
+  // const requestBody = props.requestBody
 // const [pageTransition ,setPageTransition] = useState(false);
 
   // useEffect(() => {
@@ -119,18 +130,31 @@ const createMenus = (useFoodNameDict,navigate) => {
   //       console.log("遷移しない")
   //      }
   // }, [pageTransition]);
+
   
     let menus = {}
-    let requestBody = {
-      "machine": machine,
-      "ideal": ideal,
-      "my_food": my_food,
-      "want_food": want_food,
-      "staple": staple,
-      "genre": genre,
-      "people": people,
-      "count": count
-    };
+
+    // let requestBody = {
+    //   "machine": machine,
+    //   "ideal": ideal,
+    //   "my_food": my_food,
+    //   "want_food": want_food,
+    //   "staple": staple,
+    //   "genre": genre,
+    //   "people": people,
+    //   "count": count
+    // };
+
+    //新しい型
+    // let requestBody = {
+    //   "machine":machine,
+    //   "ideal":ideal,
+    //   "my_food":my_food,
+    //   "want_food":useFoodNameDict,
+    //   "staple":staple,
+    //   "genre":genre,
+    //   "people":people
+    // };
     console.log(requestBody);
 
 

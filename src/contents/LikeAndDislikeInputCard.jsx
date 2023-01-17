@@ -19,6 +19,7 @@ import AutoSuggestFoodInput from './AutoSuggestFoodInput';
 import data from '../data/data.json';
 let machineNames = data.machineNames;
 let defaultMachine = data.defaultMachine;
+let cardSize = data.cardSize;
 
 //好き嫌いのカードの大枠を作る
 
@@ -32,7 +33,7 @@ export default class LikeAndDislikeInputCard extends React.Component {
 
     render(){
         return(
-            <Card sx={{height:700}}>
+            <Card sx={{height:cardSize}}>
                 <CardContent>
                     <Typography variant="h5" component="div">
                         好き嫌い

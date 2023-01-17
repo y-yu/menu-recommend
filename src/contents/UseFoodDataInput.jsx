@@ -19,83 +19,147 @@ const UseFoodDataInput = (props) => {
 
     const foodName = props.name
     const [useFoodNameDict, setUseFoodNameDict] = useContext(UseFoodNameDictContext);
-    console.log(foodName)
-    console.log(useFoodNameDict)
+    const [value, setValue] = useState(() =>{if(foodName in useFoodNameDict){return useFoodNameDict[foodName]['gram']}else{return 0}});
+    const [buy, setBuy] = useState(false);
+    const [useUp,setUseUp] = useState(false);
+    // console.log(foodName)
+    // console.log(useFoodNameDict)
+    // setUseFoodNameDict({"a":{"gram":"food"}});
+    // console.log(useFoodNameDict);
+    
+    useEffect(()=>{
+          console.log(useFoodNameDict);
+          console.log(value);
+    // console.log(useFoodNameDict)
+    // setUseFoodNameDict({"a":{"gram":"food"}});
+    // console.log(useFoodNameDict);
+    },[])
 
+    // useEffect(()=>{makeValue('gram')},[value]);
 
-    const makeValue=(type)=>{
-      if (type=='gram'){
-        if(foodName in useFoodNameDict){return useFoodNameDict[foodName]['gram']}else{return 0}
-      }else if(type=='buy'){
-        if(foodName in useFoodNameDict){return useFoodNameDict[foodName]['buy']}else{return false}
-      }else{
-        if(foodName in useFoodNameDict){return useFoodNameDict[foodName]['use_up']}else{return false}
+    const makeValue=()=>{
+      console.log(useFoodNameDict)
+
+      if(foodName in useFoodNameDict){
+        if(useFoodNameDict[foodName]['gram']!=value){
+          setValue(useFoodNameDict[foodName]['gram']);
+        }
       }
+
+      if(foodName in useFoodNameDict){
+        if(useFoodNameDict[foodName]['buy']!=buy){
+          setBuy(useFoodNameDict[foodName]['buy']);
+        }
+      }
+
+      if(foodName in useFoodNameDict){
+        if(useFoodNameDict[foodName]['use_up']!=useUp){
+          setUseUp(useFoodNameDict[foodName]['use_up']);
+        }
+      }
+      
     }
+
+    const setV=(value)=>{
+      // console.log(useFoodNameDict);
+      // console.log(value)
+      let newUseFoodNameDict = Object.assign(useFoodNameDict); 
+      // console.log(newUseFoodNameDict)
+      if(foodName in newUseFoodNameDict){
+        newUseFoodNameDict[foodName]['gram'] = value; 
+      }else{
+        newUseFoodNameDict[foodName] = {'gram':value,'buy':false,'use_up':false};
+      }
+      // console.log(newUseFoodNameDict)
+      setUseFoodNameDict(newUseFoodNameDict);
+      setValue(value);
+    }
+
+    const setB=(B)=>{
+      let newUseFoodNameDict = Object.assign(useFoodNameDict); 
+      if(foodName in newUseFoodNameDict){
+        newUseFoodNameDict[foodName]['buy'] = B; 
+      }else{
+        newUseFoodNameDict[foodName] = {'gram':0,'buy':B,'use_up':false};
+      }
+      setUseFoodNameDict(newUseFoodNameDict);
+      console.log(B);
+      setBuy(B);
+    }
+
+    const setU=(U)=>{
+      let newUseFoodNameDict = Object.assign(useFoodNameDict); 
+      if(foodName in newUseFoodNameDict){
+        newUseFoodNameDict[foodName]['use_up'] = U; 
+      }else{
+        newUseFoodNameDict[foodName] = {'gram':0,'buy':false,'use_up':U};
+      }
+      setUseFoodNameDict(newUseFoodNameDict);
+      console.log(U);
+      setUseUp(U);
+    }
+
+
     return (
       <>
       {console.log(useFoodNameDict)}
+      {makeValue()}
           <label>{foodName}：
             <input 
             type="number" 
-            value={makeValue('gram')} 
+            value = {value}
+            // value={makeValue('gram')} 
             name={foodName} 
-            onChange={(event) => 
-              {
-                setUseFoodNameDict((useFoodNameDict) => 
-                {
-                  let newUseFoodNameDict = Object.create(useFoodNameDict); 
-                  if(foodName in newUseFoodNameDict){
-                    newUseFoodNameDict[foodName]['gram'] = event.target.value; 
-                  }else{
-                    newUseFoodNameDict[foodName] = {'gram':event.target.value,'buy':false,'use_up':false};
-                  }
-                  console.log(newUseFoodNameDict)
-                return newUseFoodNameDict})
-              }
+            onChange={
+              (event) =>
+               setV(event.target.value)
+              // {console.log(useFoodNameDict);
+              //   setUseFoodNameDict((useFoodNameDict) => 
+              //   {
+              //     let newUseFoodNameDict = Object.create(useFoodNameDict); 
+              //     if(foodName in newUseFoodNameDict){
+              //       newUseFoodNameDict[foodName]['gram'] = event.target.value; 
+              //     }else{
+              //       newUseFoodNameDict[foodName] = {'gram':event.target.value,'buy':false,'use_up':false};
+              //     }
+              //     console.log(newUseFoodNameDict)
+              //   return newUseFoodNameDict})
+              // }
             }
             />
           </label>
           <label>　Buy：
             <input
              type="checkbox" name={foodName+"Buy"} 
-             checked={makeValue('buy')} 
+             checked={buy} 
              onChange={(event) => 
               {
-                setUseFoodNameDict((useFoodNameDict) =>
-                {
-                  let newUseFoodNameDict = Object.create(useFoodNameDict); 
-                  if(foodName in newUseFoodNameDict){
-                    newUseFoodNameDict[foodName]['buy'] = event.target.checked; 
-                  }else{
-                    newUseFoodNameDict[foodName] = {'gram':0,'buy':event.target.checked,'use_up':false};
-                  }
-                  return newUseFoodNameDict
-                })
+                setB(event.target.checked)
               }
             } 
-             value={makeValue('buy')}/>
+             value={buy}/>
           </label>
           <label>　UseUp：
             <input 
             type="checkbox" 
             name={foodName+"UseUp"} 
-            checked={makeValue('use_up')} 
+            checked={useUp} 
             onChange={(event) => 
               {
-                setUseFoodNameDict((useFoodNameDict) =>
-                {
-                  let newUseFoodNameDict = Object.create(useFoodNameDict); 
-                  if(foodName in newUseFoodNameDict){
-                    newUseFoodNameDict[foodName]['use_up'] = event.target.checked; 
-                  }else{
-                    newUseFoodNameDict[foodName] = {'gram':0,'buy':false,'use_up':event.target.checked};
-                  }
-                  return newUseFoodNameDict
-                })
+                setU(event.target.checked);
+                // setUseFoodNameDict((useFoodNameDict) =>
+                // {
+                //   let newUseFoodNameDict = Object.assign(useFoodNameDict); 
+                //   if(foodName in newUseFoodNameDict){
+                //     newUseFoodNameDict[foodName]['use_up'] = event.target.checked; 
+                //   }else{
+                //     newUseFoodNameDict[foodName] = {'gram':0,'buy':false,'use_up':event.target.checked};
+                //   }
+                //   return newUseFoodNameDict
+                // })
               }
             } 
-            value={makeValue('use_up')}/>
+            value={useUp}/>
           </label>
       </>
     );
