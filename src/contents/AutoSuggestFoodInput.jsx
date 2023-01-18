@@ -92,13 +92,13 @@ const AutoSuggestFoodInput = (props) => {
 
   //全部の食材名の配列
   const allFoodArray = useContext(AllFoodArrayContext)
-  // console.log(allFoodArray)
+  console.log(allFoodArray)
   FoodArray = allFoodArray
 
   //好き嫌いの辞書
   // let likeAndDislikeFoodNameDict = useContext(LikeAndDislikeFoodNameDictContext)[0];
   // const setLikeAndDislikeFoodNameDict = useContext(LikeAndDislikeFoodNameDictContext)[1];
-  // const [likeAndDislikeFoodNameDict, setLikeAndDislikeFoodNameDict] = useContext(LikeAndDislikeFoodNameDictContext);
+  const [likeAndDislikeFoodNameDict, setLikeAndDislikeFoodNameDict] = useContext(LikeAndDislikeFoodNameDictContext);
 
 
 
@@ -110,8 +110,8 @@ const AutoSuggestFoodInput = (props) => {
     // let newUseFoodNameDict=useFoodNameDict
     // newUseFoodNameDict[1]=2
     // setUseFoodNameDict(newUseFoodNameDict)
-    // console.log(useFoodNameDict)
-    // console.log(allFoodArray)
+    console.log(useFoodNameDict)
+    console.log(allFoodArray)
     // setSuggestions({'name':1})
   },[]);
 
@@ -157,10 +157,6 @@ const AutoSuggestFoodInput = (props) => {
           'use_up':false
         };
       }
-      // else{
-      //   // newUseFoodNameDict[getSuggestionValue(suggestion)]['gram']=0;
-      //   // newFoodButtons[getSuggestionValue(suggestion)]['gram']=0;
-      // }
       // this.setState({
       //   foodButtons:newFoodButtons
       // });
@@ -171,16 +167,9 @@ const AutoSuggestFoodInput = (props) => {
       // newLikeAndDislikeFoodNameDict[getSuggestionValue(suggestion)] = {"like":false,"dislike":false}
       // setLikeAndDislikeFoodNameDict(newLikeAndDislikeFoodNameDict)
       // console.log(newLikeAndDislikeFoodNameDict)
-
       // this.props.likeAndDislikeFoodNameDict[getSuggestionValue(suggestion)]={"like":this.state.like,"dislike":this.state.dislike};
 
-      // var newSelectedList = mapForSet(new Set())(selectedList);
-      // console.log(typeof newSelectedList)
-      // newSelectedList.add.bind(getSuggestionValue(suggestion));
-      // setSelectedList(newSelectedList);
-      // console.log(newSelectedList)
-      setSelectedList(new Set([...selectedList,getSuggestionValue(suggestion)]))
-    }
+      setSelectedList(new Set([...selectedList,getSuggestionValue(suggestion)]))    }
   };
 
   const makeFoodArray = () =>{

@@ -35,12 +35,10 @@ import Tooltip from '@mui/material/Tooltip';
 
 import TextField from '@mui/material/TextField';
 
-import { UseFoodNameDictContext, AllFoodArrayContext, LikeAndDislikeFoodNameDictContext, AllFoodNameDictContext, MachineContext, NutritionAndTimeContext, StapleContext, GenreContext, PeopleNumContext, MenuNumContext } from './context.js';
+import { MachineContext, NutritionAndTimeContext, StapleContext, GenreContext, PeopleNumContext, MenuNumContext, UseFoodNameDictContext, AllFoodArrayContext, LikeAndDislikeFoodNameDictContext, AllFoodNameDictContext } from './context.js';
 
 //　デフォルトデータ
 import data from '../data/data.json';
-import { removeAllListeners } from 'npm';
-
 let defaultNutritions  = data.defaultNutritions;
 let defaultTimeNames = data.defaultTimeNames;
 let defaultNutritionsParams = data.defaultNutritionsParams;
@@ -51,61 +49,60 @@ let choose_category = data.choose_category
 
 // postする時に必要なデータ
 
-// 以下 TO DO
-
-// var my_food = {
-//   "like": [],
-//   "dislike": []
-// }
-
-var want_food = {}
-
-var staple = ""
-
-var genre = ["korean","chinese"]
-
-var people = 1
-
-var count = 0
 
 const ButtonOfCreateMenus=()=>{
-    const [machine, setMachine] = useContext(MachineContext);
-    const [ideal, setIdeal] = React.useContext(NutritionAndTimeContext);
-    const [want_food, setUseFoodNameDict] = React.useContext(UseFoodNameDictContext);
-    const [my_food, setMyFood] = React.useContext(LikeAndDislikeFoodNameDictContext);
-    const [staple, setStaple] = React.useContext(StapleContext);
-    const [genre, setGenre] = React.useContext(GenreContext);
-    const [people, setPeople] = React.useContext(PeopleNumContext);
-    const [count, setCount] = React.useContext(MenuNumContext);
+  const [machine, setMachine] = useContext(MachineContext);
+  const [ideal, setIdeal] = React.useContext(NutritionAndTimeContext);
+  const [want_food, setUseFoodNameDict] = React.useContext(UseFoodNameDictContext);
+  const [my_food, setMyFood] = React.useContext(LikeAndDislikeFoodNameDictContext);
+  const [staple, setStaple] = React.useContext(StapleContext);
+  const [genre, setGenre] = React.useContext(GenreContext);
+  const [people, setPeople] = React.useContext(PeopleNumContext);
+  const [count, setCount] = React.useContext(MenuNumContext);
 
 
 
-    
-    const createRequest=()=>{
-      let menus = {}
-      // setValue((val) => val.filter((text) => text !== "all"));
-      // setGenre((genre)=>genre.filter((t)=> t!="all"));
-      // console.log(genre)
-
-      let requestBody = {
-        "machine": machine,
-        "ideal": ideal,
-        "my_food": my_food,
-        "want_food": want_food,
-        "staple": staple,
-        "genre": genre,
-        "people": people,
-        "count": count
-      };
-      CreateMenus(navigate,requestBody)
+  
+  const createRequest=()=>{
+    let menus = {}
+    // setValue((val) => val.filter((text) => text !== "all"));
+    let newGenre = [];
+    // console.log(genre)
+    for(let g of genre){
+      if(g!="all"){
+        newGenre.push(g);
+      }
+    }
+    let newIdeal = Object.assign(ideal)
+    for(let category of Object.keys(newIdeal)){
+      newIdeal[category]["value"]=Number(newIdeal[category]["value"])
+      newIdeal[category]["param"]=parseFloat(newIdeal[category]["param"])
     }
 
-    
-    //CreateMenus(navigate)
+    let newWantFood = Object.assign(want_food)
+    for(let food of Object.keys(newWantFood)){
+      newWantFood[food]["gram"] = Number(newWantFood[food]["gram"])
+    }
+
+
+    let requestBody = {
+      "machine" : machine,
+      "ideal" : newIdeal,
+      "my_food" : my_food,
+      "want_food" : want_food,
+      "staple" : staple,
+      "genre" : newGenre,
+      "people" : Number(people),
+      "count" : Number(count)
+    };
+    createMenus(navigate,requestBody)
+  }
+
+ 
     //画面遷移
     const navigate = useNavigate();
     return (
-    <Button color="success" variant="contained" endIcon={<SendIcon />} onClick={() => {}}>
+    <Button color="success" variant="contained" endIcon={<SendIcon />} onClick={() => {createRequest()}}>
         献立を作成
     </Button>    
     );
@@ -115,10 +112,8 @@ const ButtonOfCreateMenus=()=>{
 // 
 var pageTransition = false;
 
-const CreateMenus = (navigate, requestBody) => {
-  
-  // const navigate = props.navigate
-  // const requestBody = props.requestBody
+const createMenus = (navigate, requestBody) => {
+
 // const [pageTransition ,setPageTransition] = useState(false);
 
   // useEffect(() => {
@@ -130,10 +125,8 @@ const CreateMenus = (navigate, requestBody) => {
   //       console.log("遷移しない")
   //      }
   // }, [pageTransition]);
-
   
     let menus = {}
-
     // let requestBody = {
     //   "machine": machine,
     //   "ideal": ideal,
@@ -144,24 +137,13 @@ const CreateMenus = (navigate, requestBody) => {
     //   "people": people,
     //   "count": count
     // };
-
-    //新しい型
-    // let requestBody = {
-    //   "machine":machine,
-    //   "ideal":ideal,
-    //   "my_food":my_food,
-    //   "want_food":useFoodNameDict,
-    //   "staple":staple,
-    //   "genre":genre,
-    //   "people":people
-    // };
     console.log(requestBody);
 
 
     // axiosで書き直す
 
 
-    fetch('http://localhost:8000/menu', {
+    fetch('http://ec2-52-197-228-43.ap-northeast-1.compute.amazonaws.com:8000/menu', {
       method: 'POST',
       body: JSON.stringify(requestBody),
       headers: new Headers({ 'Content-type' : 'application/json', 'Access-Control-Allow-Origin': '*' })
@@ -175,7 +157,13 @@ const CreateMenus = (navigate, requestBody) => {
       // 成功した時だけ
       if(menus["status"] == "Done"){
         navigate('/result', {state: {'body':menus}});
+      }else{
+        console.log("ステータス的に失敗");
       }
+    })
+    .catch(error => {
+      console.log(error)
+      console.error('通信に失敗しました', error);
     })
 
     

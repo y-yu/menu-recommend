@@ -28,8 +28,8 @@ const UseFoodDataInput = (props) => {
     // console.log(useFoodNameDict);
     
     useEffect(()=>{
-          console.log(useFoodNameDict);
-          console.log(value);
+          // console.log(useFoodNameDict);
+          // console.log(value);
     // console.log(useFoodNameDict)
     // setUseFoodNameDict({"a":{"gram":"food"}});
     // console.log(useFoodNameDict);
@@ -38,7 +38,7 @@ const UseFoodDataInput = (props) => {
     // useEffect(()=>{makeValue('gram')},[value]);
 
     const makeValue=()=>{
-      console.log(useFoodNameDict)
+      // console.log(useFoodNameDict)
 
       if(foodName in useFoodNameDict){
         if(useFoodNameDict[foodName]['gram']!=value){
@@ -102,7 +102,7 @@ const UseFoodDataInput = (props) => {
 
     return (
       <>
-      {console.log(useFoodNameDict)}
+      {/* {console.log(useFoodNameDict)} */}
       {makeValue()}
           <label>{foodName}：
             <input 

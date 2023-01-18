@@ -22,16 +22,8 @@ let defaultMachine = data.defaultMachine;
 let cardSize = data.cardSize;
 
 //好き嫌いのカードの大枠を作る
+const LikeAndDislikeInputCard=()=>{
 
-export default class LikeAndDislikeInputCard extends React.Component {
-    constructor(props){
-        super(props);
-        this.state = {
-        }
-      console.log(this.props.useFoodNameDict);
-    }
-
-    render(){
         return(
             <Card sx={{height:cardSize}}>
                 <CardContent>
@@ -51,4 +43,4 @@ export default class LikeAndDislikeInputCard extends React.Component {
         );
     }
 
-}
+    export default LikeAndDislikeInputCard

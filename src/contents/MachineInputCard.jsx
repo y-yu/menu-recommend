@@ -38,7 +38,7 @@ let genreNames = data.genreNames;
 let cardSize = data.cardSize;
 let defaultMainFood = data.defaultMainFood;
 
-const MachineAndMainFoodsAndGenreInputCard = () => {
+const MachineInputCard = () => {
 
     // constructor(props){
     //     super(props);
@@ -55,12 +55,10 @@ const MachineAndMainFoodsAndGenreInputCard = () => {
     const [isSupecified, setIsSupecified] = useState(false);
     
     
-    // render(){
-        
+    
+    // render(){        
         return (
             <Card sx={{ width:'95%', height:cardSize, overflow: 'auto'}}>
-              {console.log("指定するかどうか:"+isSupecified)}
-              {console.log("メニュー数:"+menuNum)}
                 <CardContent>
                 <Typography variant="h5" component="div">
                     マシン
@@ -77,7 +75,7 @@ const MachineAndMainFoodsAndGenreInputCard = () => {
                         name="radio-buttons-group"
                         >
                             {machineNames.map((machineName) => {return <FormControlLabel value = {machineName} control={<Radio sx={{'&.Mui-checked': { color: '#52af77'}}}/>} label={machineName} onChange = {e => setMachine(e.target.value)}/>})}
-                        </RadioGroup>
+                        </RadioGroup>                    
                     </FormControl>
                 </CardActions>
 
@@ -96,7 +94,7 @@ const MachineAndMainFoodsAndGenreInputCard = () => {
                         defaultValue={defaultMainFood}
                         name="radio-buttons-group"
                         >
-                            {mainFoods.map((mainFood) => {return <FormControlLabel value = {mainFood} control={<Radio sx={{'&.Mui-checked': { color: '#52af77'}}}/>} label={mainFood} onChange = {e => setStaple(e.target.value)}/>})}
+                            {Object.keys(mainFoods).map((mainFood) => {return <FormControlLabel value = {mainFood} control={<Radio sx={{'&.Mui-checked': { color: '#52af77'}}}/>} label={mainFood} onChange = {e => setStaple(mainFoods[e.target.value])}/>})}
                         </RadioGroup>
                     </FormControl>
                 </CardActions>
@@ -166,114 +164,114 @@ const MachineAndMainFoodsAndGenreInputCard = () => {
                 </CardActions>
                 
             </Card>);
-    // };
+   // };
 }
 
 function inputPeopleNum(isSupecified, menuNum, setMenuNum){
-  if(isSupecified){
-    return (<Input
-      type = "number"
-      id={"input_menu_num"}
-      endAdornment={<InputAdornment position="end">{"個"}</InputAdornment>}
-      value = {menuNum}
-      onChange={(event) => setMenuNum(event.target.value)}
-    />);
-  }else{
-    return (<Input
-      disabled
-      type = "number"
-      id={"input_menu_num"}
-      endAdornment={<InputAdornment position="end">{"個"}</InputAdornment>}
-      value = {menuNum}
-      // onChange={(event) => setMenuNum(event.target.value)}
-    />);
+    if(isSupecified){
+      return (<Input
+        type = "number"
+        id={"input_menu_num"}
+        endAdornment={<InputAdornment position="end">{"個"}</InputAdornment>}
+        value = {menuNum}
+        onChange={(event) => setMenuNum(event.target.value)}
+      />);
+    }else{
+      return (<Input
+        disabled
+        type = "number"
+        id={"input_menu_num"}
+        endAdornment={<InputAdornment position="end">{"個"}</InputAdornment>}
+        value = {menuNum}
+        // onChange={(event) => setMenuNum(event.target.value)}
+      />);
+    }
   }
-}
-
-function ExampleChoiceChipCheckbox() {
-    const [value, setValue] = useContext(GenreContext);
-    // const [value, setValue] = React.useState(["全て","和風","洋風","中華風","韓国風","エスニック"]);
-    console.log("バリュー:"+value);
-    return (
-      <Sheet
-        // variant="outlined"
-        // sx={{ width: 360, p: 2, borderRadius: 'sm', bgcolor: 'background.body' }}
-      >
-        {/* <Typography id="rank" level="body2" fontWeight="lg" sx={{ mb: 1.5 }}>
-          Choose amenities
-        </Typography> */}
-        <Box role="group" aria-labelledby="rank">
-          <List
-            row
-            wrap
-            sx={{
-              '--List-gap': '8px',
-              '--List-item-radius': '20px',
-              '--List-item-minHeight': '32px',
-            }}
-          >
-            {Object.keys(genreNames).map(
-              (item, index) => (
-                <ListItem key={genreNames[item]}>
-                  {value.includes(genreNames[item]) && (
-                    <Done
-                      fontSize="md"
-                      color="primary"
-                      sx={{ ml: -0.5, mr: 0.5, zIndex: 2, pointerEvents: 'none', color: '#52af77'}}
+  
+  function ExampleChoiceChipCheckbox() {
+      const [value, setValue] = useContext(GenreContext);
+      // const [value, setValue] = React.useState(["全て","和風","洋風","中華風","韓国風","エスニック"]);
+      console.log("バリュー:"+value);
+      return (
+        <Sheet
+          // variant="outlined"
+          // sx={{ width: 360, p: 2, borderRadius: 'sm', bgcolor: 'background.body' }}
+        >
+          {/* <Typography id="rank" level="body2" fontWeight="lg" sx={{ mb: 1.5 }}>
+            Choose amenities
+          </Typography> */}
+          <Box role="group" aria-labelledby="rank">
+            <List
+              row
+              wrap
+              sx={{
+                '--List-gap': '8px',
+                '--List-item-radius': '20px',
+                '--List-item-minHeight': '32px',
+              }}
+            >
+              {Object.keys(genreNames).map(
+                (item, index) => (
+                  <ListItem key={genreNames[item]}>
+                    {value.includes(genreNames[item]) && (
+                      <Done
+                        fontSize="md"
+                        color="primary"
+                        sx={{ ml: -0.5, mr: 0.5, zIndex: 2, pointerEvents: 'none', color: '#52af77'}}
+                      />
+                    )}
+                    <Checkbox
+                      size="sm"
+                      // disabled={index === 0}
+                      disableIcon
+                      overlay
+                      label={item}
+                      checked={value.includes(genreNames[item])}
+                      variant={value.includes(genreNames[item]) ? 'soft' : 'outlined'}
+                      onChange={(event) => {
+                        console.log(item)
+                        if (event.target.checked) {
+                          //"全て"にチェックが入ってたら全てのカテゴリーにチェックをつける
+                          if (genreNames[item] == "all"){
+                              for(let genreName of Object.keys(genreNames)){
+                                  if (!(value.includes(genreNames[genreName]))){
+                                      setValue((val) => [...val, genreNames[genreName]]);
+                                  }
+                              }
+                          }else{
+                              setValue((val) => [...val, genreNames[item]]);
+                          }
+                        } else {
+                          console.log(genreNames[item])
+                          if(genreNames[item] == "all"){
+                              setValue([]);
+                          }else{
+                              if(value.includes("all")){
+                                  setValue((val) => val.filter((text) => text !== "all"));
+                              }
+                              setValue((val) => val.filter((text) => text !== genreNames[item]));
+                          }
+                        }
+                      }}
+                      slotProps={{
+                        action: ({ checked }) => ({
+                          sx: checked
+                            ? {
+                                border: '1px solid',
+                                borderColor: '#52af77',
+                              }
+                            : {},
+                        }),
+                      }}
                     />
-                  )}
-                  <Checkbox
-                    size="sm"
-                    // disabled={index === 0}
-                    disableIcon
-                    overlay
-                    label={item}
-                    checked={value.includes(genreNames[item])}
-                    variant={value.includes(genreNames[item]) ? 'soft' : 'outlined'}
-                    onChange={(event) => {
-                      console.log(item)
-                      if (event.target.checked) {
-                        //"全て"にチェックが入ってたら全てのカテゴリーにチェックをつける
-                        if (genreNames[item] == "all"){
-                            for(let genreName of Object.keys(genreNames)){
-                                if (!(value.includes(genreNames[genreName]))){
-                                    setValue((val) => [...val, genreNames[genreName]]);
-                                }
-                            }
-                        }else{
-                            setValue((val) => [...val, genreNames[item]]);
-                        }
-                      } else {
-                        console.log(genreNames[item])
-                        if(genreNames[item] == "all"){
-                            setValue([]);
-                        }else{
-                            if(value.includes("all")){
-                                setValue((val) => val.filter((text) => text !== "all"));
-                            }
-                            setValue((val) => val.filter((text) => text !== genreNames[item]));
-                        }
-                      }
-                    }}
-                    slotProps={{
-                      action: ({ checked }) => ({
-                        sx: checked
-                          ? {
-                              border: '1px solid',
-                              borderColor: '#52af77',
-                            }
-                          : {},
-                      }),
-                    }}
-                  />
-                </ListItem>
-              ),
-            )}
-          </List>
-        </Box>
-      </Sheet>
-    );
-  }
-
-
-  export default MachineAndMainFoodsAndGenreInputCard
+                  </ListItem>
+                ),
+              )}
+            </List>
+          </Box>
+        </Sheet>
+      );
+    }
+  
+  
+    export default MachineInputCard

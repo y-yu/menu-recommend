@@ -27,9 +27,10 @@ import List from '@mui/joy/List';
 import ListItem from '@mui/joy/ListItem';
 import Checkbox from '@mui/joy/Checkbox';
 
+import BasicCard from './contents/Card';
 import Result from './contents/Result'
 import Header from './contents/Header';
-import MachineAndStapleFoodsAndGenreInputCard from './contents/MachineAndStapleFoodsAndGenreInputCard';
+import MachineInputCard from './contents/MachineInputCard';
 import NutritionAndTimeInputCard from './contents/NutritionAndTimeInputCard';
 import ImageOfMenu from './contents/ImageOfMenu';
 import LikeAndDislikeInputCard from './contents/LikeAndDislikeInputCard';
@@ -62,6 +63,8 @@ let defaultPeopleNum = data.defaultPeopleNum;
 let defaultMenuNum = data.defaultMenuNum;
 let defaultIdeal = data.defaultIdeal;
 let defaultLikeAndDislikeFoodNameDict = data.defaultLikeAndDislikeFoodNameDict;
+let defaultMainFood = data.defaultMainFood;
+let mainFoods = data.mainFoods;
 
 // // サジェストに表示する項目
 // var allFoodArray = [];
@@ -92,11 +95,11 @@ var params =
 
 
 const App = () => {
-  const url = "http://localhost:8000/foods/front";
+  const url = "http://ec2-52-197-228-43.ap-northeast-1.compute.amazonaws.com:8000/foods/front";
   const tabNames = ["手入力", "穀類", "いも及びデンプン類", "砂糖及び甘味類", "豆類", "種実類", "野菜類", "果実類", "キノコ類", "藻類", "魚介類", "肉類", "鶏卵", "乳類", "油脂類", "菓子類", "し好飲料", "調味料及び香辛料", "調理済み"];
   // const [foodNameDict, setFoodNameDict] = useState({});
   // const [foodNameArray, setFoodNameArray] = useState([]);
-  const [machine, setMachine] = useState('SA');
+  const [machine, setMachine] = useState(defaultMachine);
   //使う食材と使う量の辞書
   const [useFoodNameDict, setUseFoodNameDict] = useState({});
   //タブに表示させる全部の食材名
@@ -113,7 +116,7 @@ const App = () => {
   const [menuNum, setMenuNum] = useState(defaultMenuNum);
 
   //主食
-  const [staple, setStaple] = useState("指定なし");
+  const [staple, setStaple] = useState(mainFoods[defaultMainFood]);
 
   //ジャンル
   const [genre, setGenre] = useState(Object.values(genreNames));
@@ -190,7 +193,7 @@ const App = () => {
   //     return (<>
   //         <ul>
   //           <label>
-  //             {(this.state.category == "nutritions"?defaultNutritions[this.state.name]["ja"]:defaultTimeNames[this.state.name]["ja"])}<input type="number" value={this.state.value} name={this.state.name} onChange={(event) => this.setState({value: event.target.value})}/>
+  //             {(this.state.category == "nutritions"?nutritionsNames[this.state.name]["ja"]:timeNames[this.state.name]["ja"])}<input type="number" value={this.state.value} name={this.state.name} onChange={(event) => this.setState({value: event.target.value})}/>
   //           </label>
   //         </ul>
   //         <ul>
@@ -227,7 +230,7 @@ const App = () => {
   //       <NutritionsAndTimeInput 
   //         name={paramName} 
   //         value={paramsData[paramName]["defaultValue"]} 
-  //         parameter={(category=="nutritions" ? defaultNutritionsParams[paramName]["defaultValue"]:defaultTimeParams[paramName]["defaultValue"])}
+  //         parameter={(category=="nutritions" ? nutritionsParams[paramName]["defaultValue"]:timeParams[paramName]["defaultValue"])}
   //         category={category}
   //       />
   //     </ul>)
@@ -253,10 +256,11 @@ const App = () => {
   return(
     <>
     <Routes>
-      {/* {console.log(Object.keys(genre))} */}
-      {/* {console.log(useFoodNameDict)} */}
-      {/* {console.log(allFoodNameDict)} */}
-      {/* {console.log("人数"+peopleNum)} */}
+      {/* {console.log(useFoodNameDict)}
+      {console.log(allFoodNameDict)} */}
+      {console.log(mainFoods)}
+      {console.log(staple)}
+      {console.log(defaultMainFood)}
       <Route path="/" element={
         <div>
         <Header />
@@ -272,20 +276,27 @@ const App = () => {
         <AllFoodArrayContext.Provider value = {allFoodArray}>
         <LikeAndDislikeFoodNameDictContext.Provider value = {[likeAndDislikeFoodNameDict, setLikeAndDislikeFoodNameDict]}>
         <AllFoodNameDictContext.Provider value = {allFoodNameDict}>
-          <Grid container spacing={2}>
-            <Grid item xs={4}>      
-              <MachineAndStapleFoodsAndGenreInputCard />                
-            </Grid>
-            <Grid item xs={4}>             
-              <NutritionAndTimeInputCard category = "nutritions" params = {params} ideal_values = {ideal_values}/>            
-            </Grid>
-              <Grid item xs={4}>
-                <LikeAndDislikeInputCard setUseFoodNameDict = {setUseFoodNameDict} useFoodNameDict = {useFoodNameDict} setLikeAndDislikeFoodNameDict = {setLikeAndDislikeFoodNameDict} likeAndDislikeFoodNameDict = {likeAndDislikeFoodNameDict} allFoodArray = {allFoodArray}/>
-              </Grid>
-            <Grid item xs={12}>
-              <UseFoodInputCard/>
-            </Grid>
+        <Grid container spacing={2}>
+          <Grid item xs={4}>
+            <MachineInputCard />
           </Grid>
+          <Grid item xs={4}>
+            <NutritionAndTimeInputCard category = "nutritions" params = {params} ideal_values = {ideal_values}/>
+          </Grid>
+          <Grid item xs={4}>
+            <LikeAndDislikeInputCard setUseFoodNameDict = {setUseFoodNameDict} useFoodNameDict = {useFoodNameDict} setLikeAndDislikeFoodNameDict = {setLikeAndDislikeFoodNameDict} likeAndDislikeFoodNameDict = {likeAndDislikeFoodNameDict} allFoodArray = {allFoodArray}/>
+          </Grid>
+          <Grid item xs={12}>
+            <UseFoodInputCard/>
+          </Grid>
+          </Grid>
+          <Tabs>
+            <Grid container alignItems='center' justifyContent='center' direction="column">
+              <br/>
+                <ButtonOfCreateMenus/>
+              <br/>
+            </Grid>
+          </Tabs>
           {/* <ButtonOfCreateMenus/> */}
         </AllFoodNameDictContext.Provider>
         </LikeAndDislikeFoodNameDictContext.Provider>
@@ -297,12 +308,7 @@ const App = () => {
         </GenreContext.Provider>
         </StapleContext.Provider>
         </MachineContext.Provider>
-        <Tabs>
-          {/* <div>
-            <button onClick={createMenus}>献立作成</button> 
-          </div> */}
-          
-        </Tabs>
+
         </div>
       } />
       <Route path="/result" element={<Result />} />
@@ -312,5 +318,6 @@ const App = () => {
   )
   
 }  
+
 
 export default App;

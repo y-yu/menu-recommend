@@ -56,9 +56,9 @@ export default class LikeAndDislikeFoodNameInput extends React.Component {
         }
 
         setLikeAndDislikeFoodNameDict(newLikeAndDislikeFoodNameDict);
-        console.log(newLikeAndDislikeFoodNameDict);
-      
-    }
+        console.log(newLikeAndDislikeFoodNameDict);    
+    
+      }
 
   
     render(){

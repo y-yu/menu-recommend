@@ -20,7 +20,6 @@ import Divider from '@mui/material/Divider';
 
 import {NutritionAndTimeContext} from './context';
 
-
 //　デフォルトデータ
 import data from '../data/data.json';
 let defaultNutritions  = data.defaultNutritions;
@@ -45,14 +44,14 @@ export default class NutritionAndTimeInputCard extends React.Component {
 
       let tmpComp = [];
       for (let nutritionsName in defaultNutritions){
-          tmpComp.push(
-          <>
-            <NutritionsAndTimeInput 
-              name = {nutritionsName}
-              category="nutritions"
-            />    
-            <Divider/>
-          </>)
+        tmpComp.push(
+        <>
+          <NutritionsAndTimeInput 
+          name = {nutritionsName}
+          category="nutritions"
+      />    
+      <Divider/>
+      </>)
       };
 
       for (let timeName in defaultTimeNames){
@@ -83,7 +82,6 @@ export default class NutritionAndTimeInputCard extends React.Component {
         );
     }
 }
-
 // class NutritionsAndTimeInput extends React.Component {
   const NutritionsAndTimeInput = (props) => {
 

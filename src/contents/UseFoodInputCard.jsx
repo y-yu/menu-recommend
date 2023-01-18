@@ -5,7 +5,7 @@ import ReactDom from 'react-dom'
 import axios from "axios";
 
 // import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import 'react-tabs/style/react-tabs.css';
+// import 'react-tabs/style/react-tabs.css';
 
 import { render } from 'react-dom';
 import Autosuggest from 'react-autosuggest';
@@ -52,7 +52,7 @@ import AutoSuggestFoodInput from './AutoSuggestFoodInput';
 
 //　デフォルトデータ
 import data from '../data/data.json';
-const tabNames = data.tabNames;
+const tabNames = data.foodTabNames;
 
 
 
@@ -116,23 +116,23 @@ const MakeTabContents = (tabName) => {
 }
 
 function TabPanel(props) {
-const { children, value, index, ...other } = props;
+    const { children, value, index, ...other } = props;
 
-return (
-    <div
-    role="tabpanel"
-    hidden={value !== index}
-    id={`simple-tabpanel-${index}`}
-    aria-labelledby={`simple-tab-${index}`}
-    {...other}
-    >
-    {value === index && (
-        <Box sx={{ p: 3 }}>
-        <Typography>{children}</Typography>
-        </Box>
-    )}
-    </div>
-);
+    return (
+        <div
+        role="tabpanel"
+        hidden={value !== index}
+        id={`simple-tabpanel-${index}`}
+        aria-labelledby={`simple-tab-${index}`}
+        {...other}
+        >
+        {value === index && (
+            <Box sx={{ p: 3 }}>
+            <Typography>{children}</Typography>
+            </Box>
+        )}
+        </div>
+    );
 }
 
 TabPanel.propTypes = {

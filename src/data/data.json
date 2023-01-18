@@ -45,14 +45,17 @@
         }
     },
     "defaultLikeAndDislikeFoodNameDict" :{"like":[],"dislike":[]},
-    "machineNames" : ["SA","Amplify", "Degital Anealer", "D-wave"],
-    "mainFoods":["指定なし","ご飯"],
-    "defaultMachine" : "SA",
+    "machineNames" : ["sa","amplify", "da", "dwave"],
+    "mainFoods":{"指定なし":"none","ご飯":"rice"},
+    "defaultMachine" : "sa",
     "defaultMainFood" : "指定なし",
     "defaultPeopleNum" : 1,
     "defaultMenuNum" : 0,
     "choose_category" : 3,
-    "tabNames" : ["入力", "穀類", "いも及びデンプン類", "砂糖及び甘味類", "豆類", "種実類", "野菜類", "果実類", "キノコ類", "藻類", "魚介類", "肉類", "鶏卵", "乳類", "油脂類", "菓子類", "し好飲料", "調味料及び香辛料", "調理済み"],
+    "foodTabNames" : ["入力", "穀類", "いも及びデンプン類", "砂糖及び甘味類", "豆類", "種実類", "野菜類", "果実類", "キノコ類", "藻類", "魚介類", "肉類", "鶏卵", "乳類", "油脂類", "菓子類", "し好飲料", "調味料及び香辛料", "調理済み"],
     "cardSize": 750,
-    "genreNames":{"全て":"all","和風":"japanese","洋風":"western","中華風":"chinese","韓国風":"korean"}
+    "genreNames":{"全て":"all","和風":"japanese","洋風":"western","中華風":"chinese","韓国風":"korean"},
+    "resultTabNames":["制約満たしている献立","制約満たしてない献立"],
+    "menuCategoryNames":["主菜","副菜","主食","汁物"],
+    "nutritionAndTimeInfoNames":{"energy":"エネルギー","salt":"塩分","protein":"たんぱく質","vegetable":"野菜摂取量","time":"時間"}
 }
