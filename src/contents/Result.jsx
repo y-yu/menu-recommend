@@ -30,6 +30,7 @@ import data from '../data/data.json';
 let resultTabNames = data.resultTabNames;
 let menuCategoryNames = data.menuCategoryNames;
 let nutritionAndTimeInfoNames = data.nutritionAndTimeInfoNames;
+let unfeasibleName = data.unfeasibleName;
 
 const Result = () => {
     const [value, setValue] = useState(0);
@@ -117,9 +118,30 @@ const Result = () => {
           }
         );
 
+        const makeUnfeasibleCategory = () => {
+          if(tabName == "制約満たしてない献立"){
+          return(
+            <>
+              <Grid item xs={3}></Grid>
+              <Grid item align="center" xs={6}>
+                <Typography align="center">満たしていない項目</Typography>
+                <TableContainer component={Paper}>
+                  <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                    <TableBody>
+                      {Object.keys(resultMenu["penalty"]).map((name)=><TableCell align="center">{unfeasibleName[name]}</TableCell>)}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Grid>
+              <Grid item xs={3}></Grid>
+            </>
+          );
+          }
+        }
 
         tmp.push(
-        <>
+        <>  
+          {makeUnfeasibleCategory()}
           <Grid item xs={2}></Grid>
           <Grid item xs={8}>
             <Typography align="center">栄養素と時間</Typography>

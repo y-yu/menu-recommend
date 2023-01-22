@@ -56,6 +56,7 @@
     "cardSize": 750,
     "genreNames":{"全て":"all","和風":"japanese","洋風":"western","中華風":"chinese","韓国風":"korean"},
     "resultTabNames":["制約満たしている献立","制約満たしてない献立"],
-    "menuCategoryNames":["主菜","副菜","主食","汁物"],
-    "nutritionAndTimeInfoNames":{"energy":"エネルギー","salt":"塩分","protein":"たんぱく質","vegetable":"野菜摂取量","time":"時間"}
+    "menuCategoryNames":["主菜","副菜","主食","汁物","デザート"],
+    "nutritionAndTimeInfoNames":{"energy":"エネルギー","salt":"塩分","protein":"たんぱく質","vegetable":"野菜摂取量","time":"時間"},
+    "unfeasibleName" :{"val_energy":"エネルギー","val_protein":"タンパク質","val_vegetable":"野菜摂取量","val_salt":"塩分","val_time":"時間"}
 }
