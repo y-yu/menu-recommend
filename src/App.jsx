@@ -95,7 +95,8 @@ var params =
 
 
 const App = () => {
-  const url = "http://ec2-52-197-228-43.ap-northeast-1.compute.amazonaws.com:8000/foods/front";
+  // const url = "http://localhost:8000/foods/front";
+  const url = "https://ising-menu-recommend-api.com/foods/front";
   const tabNames = ["手入力", "穀類", "いも及びデンプン類", "砂糖及び甘味類", "豆類", "種実類", "野菜類", "果実類", "キノコ類", "藻類", "魚介類", "肉類", "鶏卵", "乳類", "油脂類", "菓子類", "し好飲料", "調味料及び香辛料", "調理済み"];
   // const [foodNameDict, setFoodNameDict] = useState({});
   // const [foodNameArray, setFoodNameArray] = useState([]);
