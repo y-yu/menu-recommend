@@ -47,7 +47,7 @@
     "defaultLikeAndDislikeFoodNameDict" :{"like":[],"dislike":[]},
     "machineNames" : ["sa","amplify", "da", "dwave"],
     "mainFoods":{"指定なし":"none","ご飯":"rice"},
-    "defaultMachine" : "sa",
+    "defaultMachine" : "amplify",
     "defaultMainFood" : "指定なし",
     "defaultPeopleNum" : 1,
     "defaultMenuNum" : 0,

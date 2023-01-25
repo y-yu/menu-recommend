@@ -12,12 +12,16 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 import {UseFoodNameDictContext} from './context.js';
 
 const UseFoodDataInput = (props) => {
 
     const foodName = props.name
+    const type = props.type
     const [useFoodNameDict, setUseFoodNameDict] = useContext(UseFoodNameDictContext);
     const [value, setValue] = useState(() =>{if(foodName in useFoodNameDict){return useFoodNameDict[foodName]['gram']}else{return 0}});
     const [buy, setBuy] = useState(false);
@@ -99,6 +103,30 @@ const UseFoodDataInput = (props) => {
       setUseUp(U);
     }
 
+    const deleteComponent=(foodName)=>{
+      let newUseFoodNameDict = {};
+      for(let i in useFoodNameDict){
+        newUseFoodNameDict[i]=useFoodNameDict[i];
+      }
+      delete newUseFoodNameDict[foodName]; 
+      setUseFoodNameDict(newUseFoodNameDict);
+      console.log(newUseFoodNameDict)
+      console.log(foodName+"を消しました")
+      return;
+    }
+
+    const addDeleteButton=(type)=>{
+      if(type=="入力"){
+        return (
+        <Tooltip title="Delete">
+          <IconButton onClick={()=>{deleteComponent(foodName)}}>
+            <DeleteIcon />
+          </IconButton>
+        </Tooltip>);
+      }
+    }
+
+
 
     return (
       <>
@@ -161,6 +189,7 @@ const UseFoodDataInput = (props) => {
             } 
             value={useUp}/>
           </label>
+          {addDeleteButton(type)}
       </>
     );
 };

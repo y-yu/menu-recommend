@@ -95,7 +95,8 @@ const Result = () => {
       //制約満たしている献立のタブの中身
       for (let i=0;i<resultMenus.length; i++){
         let resultMenu = resultMenus[i];
-        console.log(resultMenu.menu.map(menu => menu["title"]));    
+        console.log(resultMenu.menu.map(menu => menu["title"]));
+
         let tmp = resultMenu.menu.map(
           menu => {
             // {console.log(Object.keys(menu))}
@@ -117,7 +118,7 @@ const Result = () => {
             )
           }
         );
-
+        
         const makeUnfeasibleCategory = () => {
           if(tabName == "制約満たしてない献立"){
           return(
@@ -170,6 +171,7 @@ const Result = () => {
         resultArray.push(<Divider/>);
         resultArray.push(<br />);
       }
+
       return <>{resultArray}</>;
     }
 

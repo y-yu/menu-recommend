@@ -108,7 +108,7 @@ const MakeTabContents = (tabName) => {
         let isInUseDict = foodName in useFoodNameDict;
         tabContents.push(
         <ul>
-            <UseFoodDataInput name={foodName}/>
+            <UseFoodDataInput name={foodName} type={tabName}/>
         </ul>);
         }
     }

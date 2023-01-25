@@ -47,7 +47,8 @@ import { ResourceContext,
   StapleContext,
   GenreContext,
   PeopleNumContext,
-  MenuNumContext} from './contents/context.js';
+  MenuNumContext,
+  LikeAndDislikeFoodNameSelectedListContext} from './contents/context.js';
 
 //　デフォルトデータ
 import data from './data/data.json';
@@ -95,8 +96,8 @@ var params =
 
 
 const App = () => {
-  // const url = "http://localhost:8000/foods/front";
-  const url = "https://ising-menu-recommend-api.com/foods/front";
+  const url = "http://localhost:8000/foods/front";
+  // const url = "https://ising-menu-recommend-api.com/foods/front";
   const tabNames = ["手入力", "穀類", "いも及びデンプン類", "砂糖及び甘味類", "豆類", "種実類", "野菜類", "果実類", "キノコ類", "藻類", "魚介類", "肉類", "鶏卵", "乳類", "油脂類", "菓子類", "し好飲料", "調味料及び香辛料", "調理済み"];
   // const [foodNameDict, setFoodNameDict] = useState({});
   // const [foodNameArray, setFoodNameArray] = useState([]);
@@ -120,13 +121,16 @@ const App = () => {
   const [staple, setStaple] = useState(mainFoods[defaultMainFood]);
 
   //ジャンル
-  const [genre, setGenre] = useState(Object.values(genreNames));
+  const [genre, setGenre] = useState(["korean"]);
 
   //値と重みの理想値
   const [ideal, setIdeal] = useState(defaultIdeal);
 
   // //画面遷移
   const navigate = useNavigate();
+
+  //　好き嫌いで選択した食材リスト
+  const [likeAndDislikeFoodNameSelectedList, setLikeAndDislikeFoodNameSelectedList] = useState(new Set([]));
 
   useEffect(
     ()=>{
@@ -262,18 +266,23 @@ const App = () => {
       {console.log(mainFoods)}
       {console.log(staple)}
       {console.log(defaultMainFood)}
+      {console.log("likeAndDislikeList:")}
+      {console.log(likeAndDislikeFoodNameSelectedList)}
+      {console.log("usedFood:")}
+      {console.log(useFoodNameDict)}
       <Route path="/" element={
         <div>
         <Header />
         <ImageOfMenu/>
-        <h3>アニーリングマシンで献立を作成してみませんか</h3>
+        <UseFoodNameDictContext.Provider value={[useFoodNameDict,setUseFoodNameDict]}>
+        <LikeAndDislikeFoodNameSelectedListContext.Provider value={[likeAndDislikeFoodNameSelectedList, setLikeAndDislikeFoodNameSelectedList]}>
+        
         <MachineContext.Provider value={[machine, setMachine]}>
         <StapleContext.Provider value={[staple, setStaple]}>
         <GenreContext.Provider value={[genre, setGenre]}>
         <PeopleNumContext.Provider value={[peopleNum,setPeopleNum]}>
         <MenuNumContext.Provider value={[menuNum, setMenuNum]}>
         <NutritionAndTimeContext.Provider value = {[ideal, setIdeal]}>
-        <UseFoodNameDictContext.Provider value={[useFoodNameDict,setUseFoodNameDict]}>
         <AllFoodArrayContext.Provider value = {allFoodArray}>
         <LikeAndDislikeFoodNameDictContext.Provider value = {[likeAndDislikeFoodNameDict, setLikeAndDislikeFoodNameDict]}>
         <AllFoodNameDictContext.Provider value = {allFoodNameDict}>
@@ -302,14 +311,15 @@ const App = () => {
         </AllFoodNameDictContext.Provider>
         </LikeAndDislikeFoodNameDictContext.Provider>
         </AllFoodArrayContext.Provider>
-        </UseFoodNameDictContext.Provider>
         </NutritionAndTimeContext.Provider>
         </MenuNumContext.Provider>
         </PeopleNumContext.Provider>
         </GenreContext.Provider>
         </StapleContext.Provider>
         </MachineContext.Provider>
-
+        
+        </LikeAndDislikeFoodNameSelectedListContext.Provider>
+        </UseFoodNameDictContext.Provider>
         </div>
       } />
       <Route path="/result" element={<Result />} />

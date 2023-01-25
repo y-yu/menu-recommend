@@ -34,6 +34,7 @@ import Paper from '@material-ui/core/Paper'
 import Tooltip from '@mui/material/Tooltip';
 
 import TextField from '@mui/material/TextField';
+import CircularProgress from '@mui/material/CircularProgress';
 
 import { MachineContext, NutritionAndTimeContext, StapleContext, GenreContext, PeopleNumContext, MenuNumContext, UseFoodNameDictContext, AllFoodArrayContext, LikeAndDislikeFoodNameDictContext, AllFoodNameDictContext } from './context.js';
 
@@ -50,6 +51,7 @@ let choose_category = data.choose_category
 // postする時に必要なデータ
 
 
+
 const ButtonOfCreateMenus=()=>{
   const [machine, setMachine] = useContext(MachineContext);
   const [ideal, setIdeal] = React.useContext(NutritionAndTimeContext);
@@ -60,7 +62,7 @@ const ButtonOfCreateMenus=()=>{
   const [people, setPeople] = React.useContext(PeopleNumContext);
   const [count, setCount] = React.useContext(MenuNumContext);
 
-
+  const [loading, setLoading] = useState(false);
 
   
   const createRequest=()=>{
@@ -96,16 +98,24 @@ const ButtonOfCreateMenus=()=>{
       "count" : Number(count)
     };
     createMenus(navigate,requestBody)
+    setLoading(true);
+  }
+
+  const makeButtonOrNot = ()=>{
+    if(!loading){
+    return (    
+      <Button color="success" variant="contained" endIcon={<SendIcon />} onClick={() => {createRequest()}}>
+        献立を作成
+      </Button>);
+    }else{
+      return <CircularProgress color="success" />
+    }
   }
 
  
-    //画面遷移
-    const navigate = useNavigate();
-    return (
-    <Button color="success" variant="contained" endIcon={<SendIcon />} onClick={() => {createRequest()}}>
-        献立を作成
-    </Button>    
-    );
+  //画面遷移
+  const navigate = useNavigate();
+  return (<>{makeButtonOrNot()}</>);
     
 }
 
@@ -143,8 +153,8 @@ const createMenus = (navigate, requestBody) => {
     // axiosで書き直す
 
 
-    // fetch('http://localhost:8000/menu', {
-    fetch('https://ising-menu-recommend-api.com/menu', {
+    fetch('http://localhost:8000/menu', {
+    // fetch('https://ising-menu-recommend-api.com/menu', {
       method: 'POST',
       body: JSON.stringify(requestBody),
       headers: new Headers({ 'Content-type' : 'application/json', 'Access-Control-Allow-Origin': '*' })

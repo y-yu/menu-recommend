@@ -21,3 +21,5 @@ export const GenreContext = createContext([{},()=>{}]);
 export const PeopleNumContext = createContext([{},()=>{}]);
 //献立中のメニュー数
 export const MenuNumContext = createContext([{},()=>{}]);
+//好き嫌いの選ばれた名前のリスト
+export const LikeAndDislikeFoodNameSelectedListContext = createContext([{},()=>{}]);

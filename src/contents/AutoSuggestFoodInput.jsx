@@ -31,13 +31,15 @@ import Grid from "@material-ui/core/Grid";
 import Image from 'mui-image'
 import Paper from '@material-ui/core/Paper' 
 import Tooltip from '@mui/material/Tooltip';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 
 import UseFoodDataInput from './UseFoodDataInput';
 import LikeAndDislikeFoodNameInput from './LikeAndDislikeFoodNameInput';
-import { UseFoodNameDictContext, AllFoodArrayContext, LikeAndDislikeFoodNameDictContext, AllFoodNameDictContext } from './context.js';
+import { UseFoodNameDictContext, AllFoodArrayContext, LikeAndDislikeFoodNameDictContext, AllFoodNameDictContext , LikeAndDislikeFoodNameSelectedListContext} from './context.js';
 
 let FoodArray;
 // // まずはここでコンテキストを作成。
@@ -85,10 +87,13 @@ const AutoSuggestFoodInput = (props) => {
   // const [useFoodNameDict, setUseFoodNameDict] = useState(useContext(UseFoodNameDictContext)[0],useContext(UseFoodNameDictContext)[1]);
   // let foodButtons = useContext(UseFoodNameDictContext)[0]
   // const setFoodButtons = useContext(UseFoodNameDictContext)[1]
-  const [useFoodNameDict, setUseFoodNameDict] = useContext(UseFoodNameDictContext)
-  const [selectedList, setSelectedList] = useState(new Set([]));
-  // const [useFoodNameDict, setUseFoodNameDict] = useState(foodButtons)
 
+
+  const [useFoodNameDict, setUseFoodNameDict] = useContext(UseFoodNameDictContext)
+
+  // const [selectedList, setSelectedList] = useState(new Set([]));
+
+  const [likeAndDislikeFoodNameSelectedList, setLikeAndDislikeFoodNameSelectedList] = useContext(LikeAndDislikeFoodNameSelectedListContext);
 
   //全部の食材名の配列
   const allFoodArray = useContext(AllFoodArrayContext)
@@ -99,7 +104,6 @@ const AutoSuggestFoodInput = (props) => {
   // let likeAndDislikeFoodNameDict = useContext(LikeAndDislikeFoodNameDictContext)[0];
   // const setLikeAndDislikeFoodNameDict = useContext(LikeAndDislikeFoodNameDictContext)[1];
   const [likeAndDislikeFoodNameDict, setLikeAndDislikeFoodNameDict] = useContext(LikeAndDislikeFoodNameDictContext);
-
 
 
   
@@ -114,6 +118,8 @@ const AutoSuggestFoodInput = (props) => {
     console.log(allFoodArray)
     // setSuggestions({'name':1})
   },[]);
+
+  // useEffect(()=>{console.log({selectedList})},[selectedList]);
 
   const onChange = (event, { newValue }) => {
     // console.log(newValue);
@@ -169,8 +175,19 @@ const AutoSuggestFoodInput = (props) => {
       // console.log(newLikeAndDislikeFoodNameDict)
       // this.props.likeAndDislikeFoodNameDict[getSuggestionValue(suggestion)]={"like":this.state.like,"dislike":this.state.dislike};
 
-      setSelectedList(new Set([...selectedList,getSuggestionValue(suggestion)]))    }
+      // setSelectedList(new Set([...selectedList,getSuggestionValue(suggestion)]))    
+      setLikeAndDislikeFoodNameSelectedList(new Set([...likeAndDislikeFoodNameSelectedList,getSuggestionValue(suggestion)]))
+    }
   };
+
+  // const deleteComponent=(foodName)=>{
+  //   let newUseFoodNameDict = Object.assign(useFoodNameDict);
+  //   delete newUseFoodNameDict[foodName]; 
+  //   setUseFoodNameDict(newUseFoodNameDict);
+  //   console.log(newUseFoodNameDict)
+  //   console.log(foodName+"を消しました")
+  //   return;
+  // }
 
   const makeFoodArray = () =>{
     var s = [];
@@ -181,7 +198,15 @@ const AutoSuggestFoodInput = (props) => {
         // console.log(foodButtons[buttonName]['gram']);
         // s.push(<ul><UseFoodDataInput name={buttonName} counts={foodButtons[buttonName]['gram']} buy={foodButtons[buttonName]['buy']} use_up={foodButtons[buttonName]['use_up']}/></ul>);
         console.log(useFoodNameDict[useFoodName]);
-        s.push(<ul><UseFoodDataInput name={useFoodName} /></ul>);
+        s.push(
+        <ul>
+          <UseFoodDataInput name={useFoodName} type={"入力"} />
+          {/* <Tooltip title="Delete">
+            <IconButton onClick={()=>{deleteComponent(useFoodName)}}>
+              <DeleteIcon />
+            </IconButton>
+          </Tooltip> */}
+        </ul>);
       }
     }else{
       // for(let buttonName in this.props.likeAndDislikeFoodNameDict){
@@ -191,7 +216,12 @@ const AutoSuggestFoodInput = (props) => {
       // for (let likeAndDislikeFoodName in likeAndDislikeFoodNameDict){
       //   s.push(<ul><LikeAndDislikeFoodNameInput name={likeAndDislikeFoodName}/></ul>)
       // }
-      for(let likeAndDislikeFoodName of selectedList){
+      
+      // for(let likeAndDislikeFoodName of selectedList){
+      //   s.push(<ul><LikeAndDislikeFoodNameInput name={likeAndDislikeFoodName} selectedList={selectedList} setSelectedList={setSelectedList}/></ul>);
+      // }
+
+      for(let likeAndDislikeFoodName of likeAndDislikeFoodNameSelectedList){
         s.push(<ul><LikeAndDislikeFoodNameInput name={likeAndDislikeFoodName}/></ul>);
       }
     }
@@ -228,6 +258,7 @@ const AutoSuggestFoodInput = (props) => {
 
   return (
     <div>
+      {console.log(useFoodNameDict)}
       <Autosuggest
         suggestions={suggestions}
         onSuggestionsFetchRequested={onSuggestionsFetchRequested}
