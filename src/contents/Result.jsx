@@ -129,7 +129,7 @@ const Result = () => {
                 <TableContainer component={Paper}>
                   <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableBody>
-                      {Object.keys(resultMenu["penalty"]).map((name)=><TableCell align="center">{unfeasibleName[name]}</TableCell>)}
+                      {resultMenu["penalty"].map((name)=><TableCell align="center">{unfeasibleName[name]}</TableCell>)}
                     </TableBody>
                   </Table>
                 </TableContainer>
