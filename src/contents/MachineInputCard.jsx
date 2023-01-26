@@ -26,7 +26,7 @@ import Input from '@mui/material/Input';
 import InputAdornment from '@mui/material/InputAdornment';
 import Grid from "@material-ui/core/Grid";
 
-import {MachineContext, StapleContext, GenreContext, PeopleNumContext, MenuNumContext} from './context.js';
+import {MachineContext, StapleContext, GenreContext, PeopleNumContext, MenuNumContext, TokenContext} from './context.js';
 
 
 //　デフォルトデータ
@@ -52,11 +52,12 @@ const MachineInputCard = () => {
     const [genre, setGenre] = useContext(GenreContext);
     const [peopleNum, setPeopleNum] = useContext(PeopleNumContext);
     const [menuNum, setMenuNum] = useContext(MenuNumContext);
+    const [token, setToken] = useContext(TokenContext);
     const [isSupecified, setIsSupecified] = useState(false);
     
     
     
-    // render(){        
+  
         return (
             <Card sx={{ width:'95%', height:cardSize, overflow: 'auto'}}>
                 <CardContent>
@@ -73,8 +74,27 @@ const MachineInputCard = () => {
                         aria-labelledby="demo-radio-buttons-group-label"
                         defaultValue={defaultMachine}
                         name="radio-buttons-group"
-                        >
-                            {machineNames.map((machineName) => {return <FormControlLabel value = {machineName} control={<Radio sx={{'&.Mui-checked': { color: '#52af77'}}}/>} label={machineName} onChange = {e => setMachine(e.target.value)}/>})}
+                        >            
+                          {Object.keys(machineNames).map
+                            (
+                              (machineName) => {
+                                if(machineName=="amplify" && machine == "amplify"){
+                                  return (
+                                    <Grid container spacing={2}>
+                                      <Grid item xs={6}>
+                                      <FormControlLabel value = {machineName} control={<Radio sx={{'&.Mui-checked': { color: '#52af77'}}}/>} label={machineNames[machineName]} onChange = {e => setMachine(e.target.value)}/>
+                                      </Grid>
+                                      <Grid item xs={6}>
+                                        {inputToken(token, setToken)}
+                                      </Grid>
+                                    </Grid>
+                                  );
+                                }else{
+                                  return <FormControlLabel value = {machineName} control={<Radio sx={{'&.Mui-checked': { color: '#52af77'}}}/>} label={machineNames[machineName]} onChange = {e => setMachine(e.target.value)}/>
+                                }
+                              }
+                            )
+                          }
                         </RadioGroup>                    
                     </FormControl>
                 </CardActions>
@@ -149,16 +169,8 @@ const MachineInputCard = () => {
                         defaultValue={"指定なし"}
                         name="radio-buttons-group"
                         >
-                          <FormControlLabel value = {"指定なし"} control={<Radio sx={{'&.Mui-checked': { color: '#52af77'}}}/>} label={"指定なし"} onChange = {e => {if(e.target.value == "指定なし"){setMenuNum(0);setIsSupecified(false)}else{setIsSupecified(true)}}}/>
-                          <Grid container spacing={2}>
-                            <Grid item xs={6}>
-                              <FormControlLabel value = {"入力"} control={<Radio sx={{'&.Mui-checked': { color: '#52af77'}}}/>} label={"入力"} onChange = {e => {if(e.target.value == "指定なし"){setMenuNum(0);setIsSupecified(false)}else{setIsSupecified(true)}}}/>
-                            </Grid>
-                            <Grid item xs={6}>
-                              {/* {["指定なし","入力"].map((name) => {return <FormControlLabel value = {name} control={<Radio sx={{'&.Mui-checked': { color: '#52af77'}}}/>} label={name} onChange = {e => {if(e.target.value == "指定なし"){setMenuNum(0)};setIsSupecified(e.target.value)}}/>})} */}
-                              {inputPeopleNum(isSupecified,menuNum,setMenuNum)}
-                          </Grid>
-                        </Grid>
+                        <FormControlLabel value = {"指定なし"} control={<Radio sx={{'&.Mui-checked': { color: '#52af77'}}}/>} label={"指定なし"} onChange = {e => {if(e.target.value == "指定なし"){setMenuNum(0);setIsSupecified(false)}else{setIsSupecified(true)}}}/>
+                        {inputPeopleNum(isSupecified,menuNum,setMenuNum,setIsSupecified)}
                       </RadioGroup>
                   </FormControl>
                 </CardActions>
@@ -167,24 +179,35 @@ const MachineInputCard = () => {
    // };
 }
 
-function inputPeopleNum(isSupecified, menuNum, setMenuNum){
+
+function inputToken(token, setToken){
+  return (<Input
+    type = "text"
+    id={"input_token"}
+    value = {token}
+    onChange={(event) => setToken(event.target.value)}
+  />);
+}
+
+function inputPeopleNum(isSupecified, menuNum, setMenuNum,setIsSupecified){
     if(isSupecified){
-      return (<Input
-        type = "number"
-        id={"input_menu_num"}
-        endAdornment={<InputAdornment position="end">{"個"}</InputAdornment>}
-        value = {menuNum}
-        onChange={(event) => setMenuNum(event.target.value)}
-      />);
+      return (
+        <Grid container spacing={2}>
+          <Grid item xs={6}>
+            <FormControlLabel value = {"入力"} control={<Radio sx={{'&.Mui-checked': { color: '#52af77'}}}/>} label={"入力"} onChange = {e => {if(e.target.value == "指定なし"){setMenuNum(0);setIsSupecified(false)}else{setIsSupecified(true)}}}/>
+          </Grid>
+          <Grid item xs={6}>
+            <Input
+              type = "number"
+              id={"input_menu_num"}
+              endAdornment={<InputAdornment position="end">{"個"}</InputAdornment>}
+              value = {menuNum}
+              onChange={(event) => setMenuNum(event.target.value)}
+            />
+          </Grid>
+        </Grid>)
     }else{
-      return (<Input
-        disabled
-        type = "number"
-        id={"input_menu_num"}
-        endAdornment={<InputAdornment position="end">{"個"}</InputAdornment>}
-        value = {menuNum}
-        // onChange={(event) => setMenuNum(event.target.value)}
-      />);
+      return <FormControlLabel value = {"入力"} control={<Radio sx={{'&.Mui-checked': { color: '#52af77'}}}/>} label={"入力"} onChange = {e => {if(e.target.value == "指定なし"){setMenuNum(0);setIsSupecified(false)}else{setIsSupecified(true)}}}/>
     }
   }
   

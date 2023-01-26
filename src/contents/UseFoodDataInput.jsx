@@ -156,7 +156,7 @@ const UseFoodDataInput = (props) => {
             }
             />
           </label>
-          <label>　Buy：
+          <label>　買う：
             <input
              type="checkbox" name={foodName+"Buy"} 
              checked={buy} 
@@ -167,7 +167,7 @@ const UseFoodDataInput = (props) => {
             } 
              value={buy}/>
           </label>
-          <label>　UseUp：
+          <label>　使い切り：
             <input 
             type="checkbox" 
             name={foodName+"UseUp"} 

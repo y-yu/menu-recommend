@@ -23,3 +23,5 @@ export const PeopleNumContext = createContext([{},()=>{}]);
 export const MenuNumContext = createContext([{},()=>{}]);
 //好き嫌いの選ばれた名前のリスト
 export const LikeAndDislikeFoodNameSelectedListContext = createContext([{},()=>{}]);
+//amplifyのトークン
+export const TokenContext = createContext(["",()=>{}]);

@@ -48,7 +48,8 @@ import { ResourceContext,
   GenreContext,
   PeopleNumContext,
   MenuNumContext,
-  LikeAndDislikeFoodNameSelectedListContext} from './contents/context.js';
+  LikeAndDislikeFoodNameSelectedListContext,
+  TokenContext} from './contents/context.js';
 
 //　デフォルトデータ
 import data from './data/data.json';
@@ -66,6 +67,7 @@ let defaultIdeal = data.defaultIdeal;
 let defaultLikeAndDislikeFoodNameDict = data.defaultLikeAndDislikeFoodNameDict;
 let defaultMainFood = data.defaultMainFood;
 let mainFoods = data.mainFoods;
+let defaultToken = data.defaultToken;
 
 // // サジェストに表示する項目
 // var allFoodArray = [];
@@ -125,6 +127,9 @@ const App = () => {
 
   //値と重みの理想値
   const [ideal, setIdeal] = useState(defaultIdeal);
+
+  //トークン
+  const [token, setToken] = useState(defaultToken);
 
   // //画面遷移
   const navigate = useNavigate();
@@ -276,7 +281,6 @@ const App = () => {
         <ImageOfMenu/>
         <UseFoodNameDictContext.Provider value={[useFoodNameDict,setUseFoodNameDict]}>
         <LikeAndDislikeFoodNameSelectedListContext.Provider value={[likeAndDislikeFoodNameSelectedList, setLikeAndDislikeFoodNameSelectedList]}>
-        
         <MachineContext.Provider value={[machine, setMachine]}>
         <StapleContext.Provider value={[staple, setStaple]}>
         <GenreContext.Provider value={[genre, setGenre]}>
@@ -286,6 +290,7 @@ const App = () => {
         <AllFoodArrayContext.Provider value = {allFoodArray}>
         <LikeAndDislikeFoodNameDictContext.Provider value = {[likeAndDislikeFoodNameDict, setLikeAndDislikeFoodNameDict]}>
         <AllFoodNameDictContext.Provider value = {allFoodNameDict}>
+        <TokenContext.Provider value ={[token, setToken]}>
         <Grid container spacing={2}>
           <Grid item xs={4}>
             <MachineInputCard />
@@ -308,6 +313,7 @@ const App = () => {
             </Grid>
           </Tabs>
           {/* <ButtonOfCreateMenus/> */}
+        </TokenContext.Provider>
         </AllFoodNameDictContext.Provider>
         </LikeAndDislikeFoodNameDictContext.Provider>
         </AllFoodArrayContext.Provider>

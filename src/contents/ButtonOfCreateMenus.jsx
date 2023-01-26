@@ -36,7 +36,19 @@ import Tooltip from '@mui/material/Tooltip';
 import TextField from '@mui/material/TextField';
 import CircularProgress from '@mui/material/CircularProgress';
 
-import { MachineContext, NutritionAndTimeContext, StapleContext, GenreContext, PeopleNumContext, MenuNumContext, UseFoodNameDictContext, AllFoodArrayContext, LikeAndDislikeFoodNameDictContext, AllFoodNameDictContext } from './context.js';
+import { 
+  MachineContext,
+  NutritionAndTimeContext, 
+  StapleContext, 
+  GenreContext, 
+  PeopleNumContext, 
+  MenuNumContext, 
+  UseFoodNameDictContext, 
+  AllFoodArrayContext, 
+  LikeAndDislikeFoodNameDictContext, 
+  AllFoodNameDictContext,
+  TokenContext
+} from './context.js';
 
 //　デフォルトデータ
 import data from '../data/data.json';
@@ -54,13 +66,14 @@ let choose_category = data.choose_category
 
 const ButtonOfCreateMenus=()=>{
   const [machine, setMachine] = useContext(MachineContext);
-  const [ideal, setIdeal] = React.useContext(NutritionAndTimeContext);
-  const [want_food, setUseFoodNameDict] = React.useContext(UseFoodNameDictContext);
-  const [my_food, setMyFood] = React.useContext(LikeAndDislikeFoodNameDictContext);
-  const [staple, setStaple] = React.useContext(StapleContext);
-  const [genre, setGenre] = React.useContext(GenreContext);
-  const [people, setPeople] = React.useContext(PeopleNumContext);
-  const [count, setCount] = React.useContext(MenuNumContext);
+  const [ideal, setIdeal] = useContext(NutritionAndTimeContext);
+  const [want_food, setUseFoodNameDict] = useContext(UseFoodNameDictContext);
+  const [my_food, setMyFood] = useContext(LikeAndDislikeFoodNameDictContext);
+  const [staple, setStaple] = useContext(StapleContext);
+  const [genre, setGenre] = useContext(GenreContext);
+  const [people, setPeople] = useContext(PeopleNumContext);
+  const [count, setCount] = useContext(MenuNumContext);
+  const [token, setToken] = useContext(TokenContext);
 
   const [loading, setLoading] = useState(false);
 
@@ -95,7 +108,8 @@ const ButtonOfCreateMenus=()=>{
       "staple" : staple,
       "genre" : newGenre,
       "people" : Number(people),
-      "count" : Number(count)
+      "count" : Number(count),
+      "token" : token
     };
     createMenus(navigate,requestBody)
     setLoading(true);
