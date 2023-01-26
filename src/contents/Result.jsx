@@ -101,15 +101,14 @@ const Result = () => {
           menu => {
             // {console.log(Object.keys(menu))}
             return (
-                <Grid item xs={parseFloat(12/resultMenu.menu.length)} align="center"> 
-                  <Grid container spacing={1}>
-                    <Grid item xs ={2}>
+                <Grid item xs={12} md={parseFloat(12/resultMenu.menu.length)} align="center"> 
+                  <Grid container spacing={1} alignItems="center" justify="center">
+                    <Grid item xs ={3}>
                       <Item key={menuCategoryNames[menu["category"]]} elevation={2}>
                         {menuCategoryNames[menu["category"]]}
                       </Item>
                     </Grid>
                     <Grid item xs ={12}>
-                      <img className="recipeImage" src={menu["imageUrl"]}/><br/>
                       <a href={menu["url"]}>{menu["title"]}</a><br/>
                       {/* <h7>{"時間:"+menu["time"]+"分"}</h7> */}
                     </Grid>
