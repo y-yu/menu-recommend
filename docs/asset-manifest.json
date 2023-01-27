@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/menu-recommend/static/css/main.4099646d.css",
-    "main.js": "/menu-recommend/static/js/main.936878da.js",
+    "main.js": "/menu-recommend/static/js/main.ec23c813.js",
     "static/js/27.195664f6.chunk.js": "/menu-recommend/static/js/27.195664f6.chunk.js",
     "static/media/kondateImage.jpg": "/menu-recommend/static/media/kondateImage.e5df990d7d69e6aefb65.jpg",
     "index.html": "/menu-recommend/index.html"
   },
   "entrypoints": [
     "static/css/main.4099646d.css",
-    "static/js/main.936878da.js"
+    "static/js/main.ec23c813.js"
   ]
 }
