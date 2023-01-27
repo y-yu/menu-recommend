@@ -72,7 +72,7 @@ const MachineInputCard = () => {
                     <FormControl>
                         <RadioGroup
                         aria-labelledby="demo-radio-buttons-group-label"
-                        defaultValue={defaultMachine}
+                        defaultValue={machine}
                         name="radio-buttons-group"
                         >            
                           {Object.keys(machineNames).map
