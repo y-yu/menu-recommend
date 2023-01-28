@@ -72,7 +72,7 @@ const MachineInputCard = () => {
                     <FormControl>
                         <RadioGroup
                         aria-labelledby="demo-radio-buttons-group-label"
-                        defaultValue={defaultMachine}
+                        defaultValue={machine}
                         name="radio-buttons-group"
                         >            
                           {Object.keys(machineNames).map
@@ -111,7 +111,7 @@ const MachineInputCard = () => {
                     <FormControl>
                         <RadioGroup
                         aria-labelledby="demo-radio-buttons-group-label"
-                        defaultValue={defaultMainFood}
+                        defaultValue={staple}
                         name="radio-buttons-group"
                         >
                             {Object.keys(mainFoods).map((mainFood) => {return <FormControlLabel value = {mainFood} control={<Radio sx={{'&.Mui-checked': { color: '#52af77'}}}/>} label={mainFood} onChange = {e => setStaple(mainFoods[e.target.value])}/>})}
@@ -166,7 +166,7 @@ const MachineInputCard = () => {
                   <FormControl variant="standard" sx={{ m: 1, mt: 3}}>
                       <RadioGroup
                         aria-labelledby="demo-radio-buttons-group-label"
-                        defaultValue={"指定なし"}
+                        defaultValue={()=>{if(isSupecified) {return "指定なし"}else{return "ご飯"}}}
                         name="radio-buttons-group"
                         >
                         <FormControlLabel value = {"指定なし"} control={<Radio sx={{'&.Mui-checked': { color: '#52af77'}}}/>} label={"指定なし"} onChange = {e => {if(e.target.value == "指定なし"){setMenuNum(0);setIsSupecified(false)}else{setIsSupecified(true)}}}/>
