@@ -191,7 +191,6 @@ const App = () => {
   return(
     <>
     <Routes>
-      {window.scrollTo(0, 0)}
       <Route path="/" element={
         <div>
         <Header />

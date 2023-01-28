@@ -88,6 +88,7 @@ const MachineInputCard = () => {
                                       </Grid>
                                       <Grid item xs={6}>
                                         <Input
+                                          placeholder='トークン'
                                           type = "text"
                                           id={"input_token"}
                                           value = {token}
