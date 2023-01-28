@@ -49,7 +49,8 @@ import { ResourceContext,
   PeopleNumContext,
   MenuNumContext,
   LikeAndDislikeFoodNameSelectedListContext,
-  TokenContext} from './contents/context.js';
+  TokenContext,
+  MenuSupecifiedContext} from './contents/context.js';
 
 //　デフォルトデータ
 import data from './data/data.json';
@@ -120,7 +121,7 @@ const App = () => {
   const [menuNum, setMenuNum] = useState(defaultMenuNum);
 
   //主食
-  const [staple, setStaple] = useState(mainFoods[defaultMainFood]);
+  const [staple, setStaple] = useState(defaultMainFood);
 
   //ジャンル
   const [genre, setGenre] = useState(["korean"]);
@@ -136,6 +137,9 @@ const App = () => {
 
   //　好き嫌いで選択した食材リスト
   const [likeAndDislikeFoodNameSelectedList, setLikeAndDislikeFoodNameSelectedList] = useState(new Set([]));
+
+  //メニュー数を指定するかどうか
+  const [isSupecified, setIsSupecified] = useState("指定なし");
 
   useEffect(
     ()=>{
@@ -170,85 +174,6 @@ const App = () => {
     []);
   
 
-  
-
-  // let makeTabNames = (nameArray) => {
-  //   var returnStr= []
-  //   for(let i = 0; i < nameArray.length; i++){
-  //     returnStr.push(<Tab>{nameArray[i]}</Tab>);
-  //   }
-  //   return <TabList>{returnStr}</TabList>
-  // };
-
-
-
-  // class NutritionsAndTimeInput extends React.Component {
-  //   constructor(props){
-  //     super(props);
-  //     this.state = {
-  //       name:this.props.name,
-  //       value:Number(this.props.value),
-  //       parameter:Number(this.props.parameter),
-  //       category:this.props.category
-  //     }
-  //   }
-
-  //   componentDidUpdate(){
-  //     ideal_values[this.state.name] = Number(this.state.value);
-  //     params[this.state.name] = Number(this.state.parameter);
-  //     console.log(this.state.name+":"+this.state.value);
-  //   }
-
-  //   render(){
-  //     return (<>
-  //         <ul>
-  //           <label>
-  //             {(this.state.category == "nutritions"?nutritionsNames[this.state.name]["ja"]:timeNames[this.state.name]["ja"])}<input type="number" value={this.state.value} name={this.state.name} onChange={(event) => this.setState({value: event.target.value})}/>
-  //           </label>
-  //         </ul>
-  //         <ul>
-  //           <label>
-  //             パラメタ
-  //           </label>
-  //           <Col xs="3">
-  //           <RangeSlider
-  //             value={this.state.parameter}
-  //             onChange={e => this.setState({parameter:Number(e.target.value)})}
-  //             variant='info'
-  //             min = {0}
-  //             max = {1}
-  //             step = {0.01}
-  //           />
-  //           </Col>
-  //         </ul>
-  //       </>
-  //     );
-  //   }
-
-  // }
-
-
-  // const createParameterInput = (paramsData,category) => {
-  //   let str = []
-
-  //   console.log(paramsData)
-  //   for (let paramName in paramsData){
-  //     console.log(paramName);
-  //     console.log(paramsData[paramName]["defaultValue"]);
-  //     str.push(
-  //     <ul>
-  //       <NutritionsAndTimeInput 
-  //         name={paramName} 
-  //         value={paramsData[paramName]["defaultValue"]} 
-  //         parameter={(category=="nutritions" ? nutritionsParams[paramName]["defaultValue"]:timeParams[paramName]["defaultValue"])}
-  //         category={category}
-  //       />
-  //     </ul>)
-  //   }
-  //   return str;
-  // }
-
-
   function Footer() {
     return (
       <Typography variant="body2" color="textSecondary" align="center">
@@ -266,15 +191,7 @@ const App = () => {
   return(
     <>
     <Routes>
-      {/* {console.log(useFoodNameDict)}
-      {console.log(allFoodNameDict)} */}
-      {console.log(mainFoods)}
-      {console.log(staple)}
-      {console.log(defaultMainFood)}
-      {console.log("likeAndDislikeList:")}
-      {console.log(likeAndDislikeFoodNameSelectedList)}
-      {console.log("usedFood:")}
-      {console.log(useFoodNameDict)}
+      {window.scrollTo(0, 0)}
       <Route path="/" element={
         <div>
         <Header />
@@ -291,6 +208,7 @@ const App = () => {
         <LikeAndDislikeFoodNameDictContext.Provider value = {[likeAndDislikeFoodNameDict, setLikeAndDislikeFoodNameDict]}>
         <AllFoodNameDictContext.Provider value = {allFoodNameDict}>
         <TokenContext.Provider value ={[token, setToken]}>
+        <MenuSupecifiedContext.Provider value ={[isSupecified, setIsSupecified]}>
         <Grid container spacing={2}>
           <Grid item xs={4}>
             <MachineInputCard />
@@ -313,6 +231,7 @@ const App = () => {
             </Grid>
           </Tabs>
           {/* <ButtonOfCreateMenus/> */}
+        </MenuSupecifiedContext.Provider>
         </TokenContext.Provider>
         </AllFoodNameDictContext.Provider>
         </LikeAndDislikeFoodNameDictContext.Provider>

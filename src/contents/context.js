@@ -25,3 +25,5 @@ export const MenuNumContext = createContext([{},()=>{}]);
 export const LikeAndDislikeFoodNameSelectedListContext = createContext([{},()=>{}]);
 //amplifyのトークン
 export const TokenContext = createContext(["",()=>{}]);
+//メニュー数を指定するかどうか
+export const MenuSupecifiedContext = createContext(["",()=>{}]);

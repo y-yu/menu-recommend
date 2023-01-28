@@ -33,6 +33,7 @@ let nutritionAndTimeInfoNames = data.nutritionAndTimeInfoNames;
 let unfeasibleName = data.unfeasibleName;
 
 const Result = () => {
+    useEffect(()=>{window.scrollTo(0, 0);},[]);
     const [value, setValue] = useState(0);
     const location = useLocation(); 
     let state = location.state;

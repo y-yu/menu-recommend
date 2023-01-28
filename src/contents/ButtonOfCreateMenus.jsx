@@ -47,7 +47,8 @@ import {
   AllFoodArrayContext, 
   LikeAndDislikeFoodNameDictContext, 
   AllFoodNameDictContext,
-  TokenContext
+  TokenContext,
+  MenuSupecifiedContext
 } from './context.js';
 
 //　デフォルトデータ
@@ -74,6 +75,7 @@ const ButtonOfCreateMenus=()=>{
   const [people, setPeople] = useContext(PeopleNumContext);
   const [count, setCount] = useContext(MenuNumContext);
   const [token, setToken] = useContext(TokenContext);
+  const [isSupecified, setIsSupecified] = useContext(MenuSupecifiedContext);
 
   const [loading, setLoading] = useState(false);
 
@@ -108,7 +110,7 @@ const ButtonOfCreateMenus=()=>{
       "staple" : staple,
       "genre" : newGenre,
       "people" : Number(people),
-      "count" : Number(count),
+      "count" : (isSupecified == "指定なし"?0:Number(count)),
       "token" : token
     };
     createMenus(navigate,requestBody)
@@ -138,29 +140,7 @@ var pageTransition = false;
 
 const createMenus = (navigate, requestBody) => {
 
-// const [pageTransition ,setPageTransition] = useState(false);
-
-  // useEffect(() => {
-  //   if(pageTransition == true){
-  //     console.log("遷移する")
-  //       pageTransition = false;
-  //        navigate("/result", {state: {'body':menus}})
-  //      }else{
-  //       console.log("遷移しない")
-  //      }
-  // }, [pageTransition]);
-  
     let menus = {}
-    // let requestBody = {
-    //   "machine": machine,
-    //   "ideal": ideal,
-    //   "my_food": my_food,
-    //   "want_food": want_food,
-    //   "staple": staple,
-    //   "genre": genre,
-    //   "people": people,
-    //   "count": count
-    // };
     console.log(requestBody);
 
 
