@@ -4,8 +4,6 @@ import PropTypes from 'prop-types';
 import ReactDom from 'react-dom'
 import axios from "axios";
 
-// import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-// import 'react-tabs/style/react-tabs.css';
 
 import { render } from 'react-dom';
 import Autosuggest from 'react-autosuggest';
@@ -68,33 +66,34 @@ const UseFoodInputCard = () => {
       setValue(newValue);
     };
 
-    return (<Card sx={{ minWidth: 275}}>
-        <CardContent>
-        <Typography variant="h5" component="div">
-            使用食材
-        </Typography>
-        <Typography variant="body2">
-            <br/>使用する食材を選択してください
-        </Typography>
-        </CardContent>
-        <CardActions>
-        {/* <Box sx={{ width: '100%', height:500, overflow: 'auto'}}> */}
-        <Box sx={{ width: '100%'}}>
-            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                <Tabs
-                    value={value}
-                    onChange={handleChange}
-                    variant="scrollable"
-                    scrollButtons={false}
-                    aria-label="scrollable prevent tabs"
-                >
-                    {MakeTabs()}
-                </Tabs>
+    return (
+        <Card sx={{ minWidth: 275}} elevation={3}>
+            <CardContent>
+            <Typography variant="h5" component="div">
+                使用食材
+            </Typography>
+            <Typography variant="body2">
+                <br/>使用する食材を選択してください
+            </Typography>
+            </CardContent>
+            <CardActions>
+            {/* <Box sx={{ width: '100%', height:500, overflow: 'auto'}}> */}
+            <Box sx={{ width: '100%'}}>
+                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                    <Tabs
+                        value={value}
+                        onChange={handleChange}
+                        variant="scrollable"
+                        scrollButtons={false}
+                        aria-label="scrollable prevent tabs"
+                    >
+                        {MakeTabs()}
+                    </Tabs>
+                </Box>
+                    {MakeTabPanels(value)}
             </Box>
-                {MakeTabPanels(value)}
-        </Box>
-        </CardActions>
-    </Card>);
+            </CardActions>
+        </Card>);
 }
 
 

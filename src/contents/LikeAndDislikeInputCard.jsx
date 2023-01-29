@@ -25,7 +25,7 @@ let cardSize = data.cardSize;
 const LikeAndDislikeInputCard=()=>{
 
         return(
-            <Card sx={{height:cardSize}}>
+            <Card sx={{height:cardSize}}  elevation={3}>
                 <CardContent>
                     <Typography variant="h5" component="div">
                         好き嫌い

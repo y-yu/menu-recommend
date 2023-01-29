@@ -25,6 +25,9 @@ import Done from '@mui/icons-material/Done';
 import Input from '@mui/material/Input';
 import InputAdornment from '@mui/material/InputAdornment';
 import Grid from "@material-ui/core/Grid";
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import Tooltip from '@mui/material/Tooltip';
+import Fade from '@mui/material/Fade';
 
 import {MachineContext, StapleContext, GenreContext, PeopleNumContext, MenuNumContext, TokenContext, MenuSupecifiedContext} from './context.js';
 
@@ -61,7 +64,7 @@ const MachineInputCard = () => {
 
 
         return (
-            <Card sx={{ width:'95%', height:cardSize, overflow: 'auto'}}>
+            <Card sx={{ height:cardSize, overflow: 'auto'}}  elevation={3}>
                 <CardContent>
                 <Typography variant="h5" component="div">
                     マシン
@@ -86,7 +89,7 @@ const MachineInputCard = () => {
                                       <Grid item xs={6}>
                                       <FormControlLabel value = {machineName} control={<Radio sx={{'&.Mui-checked': { color: '#52af77'}}}/>} label={machineNames[machineName]} onChange = {e => setMachine(e.target.value)}/>
                                       </Grid>
-                                      <Grid item xs={6}>
+                                      <Grid item xs={5}>
                                         <Input
                                           placeholder='トークン'
                                           type = "text"
@@ -94,6 +97,16 @@ const MachineInputCard = () => {
                                           value = {token}
                                           onChange={(event) => setToken(event.target.value)}
                                         />
+                                      </Grid>                                 
+                                      <Grid item xs={1}>
+                                        <Tooltip 
+                                        title={"ここからトークンを取得してください\nhttps://amplify.fixstars.com/ja/register"} 
+                                        placement="top" 
+                                        arrow   
+                                        TransitionComponent={Fade}
+                                        TransitionProps={{ timeout: 400 }}>
+                                          <HelpOutlineIcon />
+                                        </Tooltip>
                                       </Grid>
                                     </Grid>
                                   );

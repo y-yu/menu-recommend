@@ -66,7 +66,7 @@ export default class NutritionAndTimeInputCard extends React.Component {
 
     render(){
         return(
-          <Card sx={{height:cardSize}}>
+          <Card sx={{height:cardSize}} elevation={3}>
                 <CardContent>
                     <Typography variant="h5" component="div">
                         栄養素と調理時間

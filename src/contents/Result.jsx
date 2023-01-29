@@ -110,8 +110,7 @@ const Result = () => {
                       </Item>
                     </Grid>
                     <Grid item xs ={12}>
-                      <a href={menu["url"]}>{menu["title"]}</a><br/>
-                      {/* <h7>{"時間:"+menu["time"]+"分"}</h7> */}
+                      <a href={menu["url"]} rel="noopener noreferrer">{menu["title"]}</a><br/>
                     </Grid>
                   </Grid>
                 </Grid>

@@ -208,19 +208,32 @@ const App = () => {
         <AllFoodNameDictContext.Provider value = {allFoodNameDict}>
         <TokenContext.Provider value ={[token, setToken]}>
         <MenuSupecifiedContext.Provider value ={[isSupecified, setIsSupecified]}>
-        <Grid container spacing={2}>
-          <Grid item xs={4}>
-            <MachineInputCard />
-          </Grid>
-          <Grid item xs={4}>
-            <NutritionAndTimeInputCard category = "nutritions" params = {params} ideal_values = {ideal_values}/>
-          </Grid>
-          <Grid item xs={4}>
-            <LikeAndDislikeInputCard setUseFoodNameDict = {setUseFoodNameDict} useFoodNameDict = {useFoodNameDict} setLikeAndDislikeFoodNameDict = {setLikeAndDislikeFoodNameDict} likeAndDislikeFoodNameDict = {likeAndDislikeFoodNameDict} allFoodArray = {allFoodArray}/>
-          </Grid>
-          <Grid item xs={12}>
-            <UseFoodInputCard/>
-          </Grid>
+
+          <Grid container spacing={5}>
+            
+              <Grid item xs={1}></Grid>
+              <Grid item xs={10}>
+                <Grid container spacing={5}>
+                  <Grid item md={4} xs={12}>
+                    <MachineInputCard />
+                  </Grid>
+
+                  <Grid item md={4} xs={12}>
+                    <NutritionAndTimeInputCard category = "nutritions" params = {params} ideal_values = {ideal_values}/>
+                  </Grid>
+
+                  <Grid item md={4} xs={12}>
+                    <LikeAndDislikeInputCard setUseFoodNameDict = {setUseFoodNameDict} useFoodNameDict = {useFoodNameDict} setLikeAndDislikeFoodNameDict = {setLikeAndDislikeFoodNameDict} likeAndDislikeFoodNameDict = {likeAndDislikeFoodNameDict} allFoodArray = {allFoodArray}/>
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item xs={1}></Grid>
+
+              <Grid item xs={1}></Grid>
+              <Grid item xs={10}>
+                <UseFoodInputCard/>
+              </Grid>
+              <Grid item xs={1}></Grid>
           </Grid>
           <Tabs>
             <Grid container alignItems='center' justifyContent='center' direction="column">
@@ -229,7 +242,6 @@ const App = () => {
               <br/>
             </Grid>
           </Tabs>
-          {/* <ButtonOfCreateMenus/> */}
         </MenuSupecifiedContext.Provider>
         </TokenContext.Provider>
         </AllFoodNameDictContext.Provider>
