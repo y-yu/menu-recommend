@@ -167,7 +167,7 @@ const Result = () => {
         resultArray = resultArray.concat(<Grid container spacing={4}>{tmp}</Grid>);
         
         resultArray.push(<br />);
-        resultArray.push(<Divider/>);
+        resultArray.push(<Divider sx={{ borderBottomWidth: 5 }}/>);
         resultArray.push(<br />);
       }
 

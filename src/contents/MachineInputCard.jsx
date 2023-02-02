@@ -92,7 +92,7 @@ const MachineInputCard = () => {
                                       <Grid item xs={5}>
                                         <Input
                                           placeholder='トークン'
-                                          type = "text"
+                                          type = "password"
                                           id={"input_token"}
                                           value = {token}
                                           onChange={(event) => setToken(event.target.value)}
