@@ -6,28 +6,14 @@ import axios from "axios";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 
-import { render } from 'react-dom';
-import Autosuggest from 'react-autosuggest';
-
-
 import './styles/index.scss';
 import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import RangeSlider from 'react-bootstrap-range-slider';
-import Col from 'react-bootstrap/Col';
 
 import { BrowserRouter, Routes, Route, useNavigate, useLocation, Link} from "react-router-dom";
 
 import Grid from "@material-ui/core/Grid";
-import Image from 'mui-image'
-import Paper from '@material-ui/core/Paper' 
-import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
-import List from '@mui/joy/List';
-import ListItem from '@mui/joy/ListItem';
-import Checkbox from '@mui/joy/Checkbox';
-
-import BasicCard from './contents/Card';
 import Result from './contents/Result'
 import Header from './contents/Header';
 import MachineInputCard from './contents/MachineInputCard';
@@ -37,7 +23,7 @@ import LikeAndDislikeInputCard from './contents/LikeAndDislikeInputCard';
 import UseFoodInputCard from './contents/UseFoodInputCard';
 import ButtonOfCreateMenus from './contents/ButtonOfCreateMenus';
 
-import { ResourceContext,
+import {
   UseFoodNameDictContext,
   AllFoodArrayContext,
   LikeAndDislikeFoodNameDictContext,
@@ -58,24 +44,14 @@ let defaultNutritions  = data.defaultNutritions;
 let defaultTimeNames = data.defaultTimeNames;
 let defaultNutritionsParams = data.defaultNutritionsParams;
 let defaultTimeParams = data.defaultTimeParams;
-let machineNames = data.machineNames;
 let defaultMachine = data.defaultMachine;
-let choose_category = data.choose_category;
-let genreNames = data.genreNames;
 let defaultPeopleNum = data.defaultPeopleNum;
 let defaultMenuNum = data.defaultMenuNum;
 let defaultIdeal = data.defaultIdeal;
 let defaultLikeAndDislikeFoodNameDict = data.defaultLikeAndDislikeFoodNameDict;
 let defaultMainFood = data.defaultMainFood;
-let mainFoods = data.mainFoods;
 let defaultToken = data.defaultToken;
 
-// // サジェストに表示する項目
-// var allFoodArray = [];
-// //タブの名前とそのカテゴリーに属する配列の辞書
-// var allFoodNameDict = {};
-//好きな食材と嫌いな食材の名前の辞書
-// var likeAndDislikeFoodNameDict = {};
 
 // postする時に必要なデータ
 var ideal_values = 
@@ -91,19 +67,14 @@ var params =
 "vegetable":defaultNutritionsParams["vegetable"]["defaultValue"],
 "time":defaultTimeParams["time"]["defaultValue"],
 "use_up":0.1}
-//使う食材と使う量の辞書
-// let useFoodNameDict = {}
 
-// まずはここでコンテキストを作成。
-// const ResourceContext = React.createContext("light"); 
 
 
 const App = () => {
   // const url = "http://localhost:8000/foods/front";
   const url = "https://ising-menu-recommend-api.com/foods/front";
   const tabNames = ["手入力", "穀類", "いも及びデンプン類", "砂糖及び甘味類", "豆類", "種実類", "野菜類", "果実類", "キノコ類", "藻類", "魚介類", "肉類", "鶏卵", "乳類", "油脂類", "菓子類", "し好飲料", "調味料及び香辛料", "調理済み"];
-  // const [foodNameDict, setFoodNameDict] = useState({});
-  // const [foodNameArray, setFoodNameArray] = useState([]);
+
   const [machine, setMachine] = useState(defaultMachine);
   //使う食材と使う量の辞書
   const [useFoodNameDict, setUseFoodNameDict] = useState({});
@@ -151,16 +122,12 @@ const App = () => {
             var tmpArray = [];
             for(let food of res.data){
               if(tabNames[food.genre] in tmpDict){
-                // console.log(typeof tabNames[food.genre]);
                 tmpDict[tabNames[food.genre]].push(food.name);
               }else{
                 tmpDict[tabNames[food.genre]]=[food.name];
               }   
-              // console.log(food.name)
               tmpArray.push({"name":food.name});
             }
-            // setFoodNameDict(tmpDict);
-            // setFoodNameArray(tmpArray);
 
             setAllFoodArray(tmpArray);
             setAllFoodNameDict(tmpDict);
@@ -168,8 +135,6 @@ const App = () => {
         .catch(() => {console.log("Api落ちてるかも");});
       };
       getData();
-      // console.log(foodNameArray);
-      // setAllFoodArray(foodNameArray);
     },
     []);
   

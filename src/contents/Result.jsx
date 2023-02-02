@@ -23,7 +23,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Button from "@material-ui/core/Button";
 
-import { BrowserRouter, Routes, Route, useNavigate, useLocation, Link} from "react-router-dom";
+import {useLocation, Link} from "react-router-dom";
 
 //　デフォルトデータ
 import data from '../data/data.json';
@@ -100,9 +100,8 @@ const Result = () => {
 
         let tmp = resultMenu.menu.map(
           menu => {
-            // {console.log(Object.keys(menu))}
             return (
-                <Grid item xs={12} md={parseFloat(12/resultMenu.menu.length)} align="center"> 
+                <Grid item xs={12} md={Math.floor(12/resultMenu.menu.length)} align="center"> 
                   <Grid container spacing={1} alignItems="center" justify="center">
                     <Grid item xs ={3}>
                       <Item key={menuCategoryNames[menu["category"]]} elevation={2}>
@@ -117,6 +116,10 @@ const Result = () => {
             )
           }
         );
+
+        if(resultMenu.menu.length===5){
+          tmp = [<><Grid item xs={12} md={1}></Grid>{tmp}<Grid item xs={12} md={1}></Grid></>]
+        }
         
         const makeUnfeasibleCategory = () => {
           if(tabName == "制約満たしてない献立"){
@@ -126,7 +129,7 @@ const Result = () => {
               <Grid item align="center" xs={6}>
                 <Typography align="center">満たしていない項目</Typography>
                 <TableContainer component={Paper}>
-                  <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                  <Table aria-label="simple table">
                     <TableBody>
                       {resultMenu["penalty"].map((name)=><TableCell align="center">{unfeasibleName[name]}</TableCell>)}
                     </TableBody>
@@ -195,13 +198,9 @@ const Result = () => {
           </Tabs>
           {resultTabNames.map((resultTabName ,index) => {return <TabPanel value={value} index={index}>{MakeTabContents(resultTabName)}</TabPanel>})}
         </Box>
-      
-    {/* <Link to='/'>戻る</Link> */}
       <Grid container alignItems='center' justifyContent='center' direction="column">
         <Button
-          // sx={"background-color:blue;"}
           variant="contained"
-          // color = "success"
           component={Link}
           to="/"
           style={{ color: "#e0f2f1", backgroundColor: "#388e3c" }}

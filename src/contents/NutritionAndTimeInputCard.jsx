@@ -14,7 +14,7 @@ import FormControl from '@mui/material/FormControl';
 import Input from '@mui/material/Input';
 import InputAdornment from '@mui/material/InputAdornment';
 import PropTypes from 'prop-types';
-import Slider, { SliderThumb } from '@mui/material/Slider';
+import Slider from '@mui/material/Slider';
 import Tooltip from '@mui/material/Tooltip';
 import Divider from '@mui/material/Divider';
 
@@ -30,15 +30,6 @@ let cardSize = data.cardSize;
 
 
 export default class NutritionAndTimeInputCard extends React.Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            // paramsData : this.props.paramsData,
-            // category : this.props.category,
-        }
-    }
-
-
 
     makeNutritionsNames(){
 
@@ -60,7 +51,6 @@ export default class NutritionAndTimeInputCard extends React.Component {
           category="time"
       />)
       }
-      // return <div sx={{ display: "flex"}}>{tmpComp}</div>;
       return <Box sx={{ width:'95%', height:600, overflow: 'auto'}}>{tmpComp}</Box>;
     }
 
@@ -82,13 +72,11 @@ export default class NutritionAndTimeInputCard extends React.Component {
         );
     }
 }
-// class NutritionsAndTimeInput extends React.Component {
+
   const NutritionsAndTimeInput = (props) => {
 
     const name = props.name;
     const category = props.category;
-
-    // console.log(name);
 
     let name_ja;
     let defaultValue;
@@ -103,7 +91,6 @@ export default class NutritionAndTimeInputCard extends React.Component {
       defaultParameter = defaultTimeParams[name]["defaultValue"]
     }
 
-    // let params = defaultParameter;
     const [ideal, setIdeal] = React.useContext(NutritionAndTimeContext);
     const [value, setValue] = React.useState(defaultValue);
     const [param, setParam] = React.useState(defaultParameter);
@@ -120,12 +107,6 @@ export default class NutritionAndTimeInputCard extends React.Component {
     },
       [value, param]
     );
-
-    // componentDidUpdate=()=>{ 
-      // this.props.ideal_values[this.state.name] = Number(this.state.value);
-      // this.props.params[this.state.name] = Number(this.state.parameter);
-      // console.log(this.state.name+":"+this.state.value);
-    // }
 
     const AddProperAdornment=()=>{
       if(name=="energy"){
@@ -148,6 +129,8 @@ export default class NutritionAndTimeInputCard extends React.Component {
             endAdornment={<InputAdornment position="end">{AddProperAdornment()}</InputAdornment>}
             value = {value}
             onChange={(event) => setValue(event.target.value)}
+            min="0"
+            inputProps={{ min: 0}}
           />
         </FormControl>
         <br/>

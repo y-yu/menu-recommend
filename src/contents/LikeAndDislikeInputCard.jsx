@@ -7,18 +7,12 @@ import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
 import Box from '@mui/material/Box';
 
 import AutoSuggestFoodInput from './AutoSuggestFoodInput';
 
 //　デフォルトデータ
 import data from '../data/data.json';
-let machineNames = data.machineNames;
-let defaultMachine = data.defaultMachine;
 let cardSize = data.cardSize;
 
 //好き嫌いのカードの大枠を作る

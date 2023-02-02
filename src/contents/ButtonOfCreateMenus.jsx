@@ -1,39 +1,16 @@
 import * as React from 'react';
 import {useState,useEffect,createContext,useContext} from "react";
-import ReactDom from 'react-dom'
+
 import axios from "axios";
 
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
-
-import { render } from 'react-dom';
-import Autosuggest from 'react-autosuggest';
-
-
 import '../styles/index.scss';
 import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import RangeSlider from 'react-bootstrap-range-slider';
-import Col from 'react-bootstrap/Col';
-
-import { BrowserRouter, Routes, Route, useNavigate, useLocation, Link} from "react-router-dom";
-
-
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
+import {useNavigate} from "react-router-dom";
 import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import Grid from "@material-ui/core/Grid";
-import Image from 'mui-image'
-import Paper from '@material-ui/core/Paper' 
-import Tooltip from '@mui/material/Tooltip';
 
-import TextField from '@mui/material/TextField';
 import CircularProgress from '@mui/material/CircularProgress';
 
 import { 
@@ -44,22 +21,11 @@ import {
   PeopleNumContext, 
   MenuNumContext, 
   UseFoodNameDictContext, 
-  AllFoodArrayContext, 
   LikeAndDislikeFoodNameDictContext, 
-  AllFoodNameDictContext,
   TokenContext,
   MenuSupecifiedContext
 } from './context.js';
 
-//　デフォルトデータ
-import data from '../data/data.json';
-let defaultNutritions  = data.defaultNutritions;
-let defaultTimeNames = data.defaultTimeNames;
-let defaultNutritionsParams = data.defaultNutritionsParams;
-let defaultTimeParams = data.defaultTimeParams;
-let machineNames = data.machineNames;
-let defaultMachine = data.defaultMachine;
-let choose_category = data.choose_category
 
 // postする時に必要なデータ
 

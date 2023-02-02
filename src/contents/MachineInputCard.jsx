@@ -16,10 +16,6 @@ import FormControl from '@mui/material/FormControl';
 import Checkbox from '@mui/joy/Checkbox';
 import List from '@mui/joy/List';
 import ListItem from '@mui/joy/ListItem';
-import ListItemDecorator from '@mui/joy/ListItemDecorator';
-import LaptopIcon from '@mui/icons-material/Laptop';
-import TvIcon from '@mui/icons-material/Tv';
-import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
 import Sheet from '@mui/joy/Sheet';
 import Done from '@mui/icons-material/Done';
 import Input from '@mui/material/Input';
@@ -28,6 +24,9 @@ import Grid from "@material-ui/core/Grid";
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import Tooltip from '@mui/material/Tooltip';
 import Fade from '@mui/material/Fade';
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import classes from '../styles/index.scss'
 
 import {MachineContext, StapleContext, GenreContext, PeopleNumContext, MenuNumContext, TokenContext, MenuSupecifiedContext} from './context.js';
 
@@ -39,17 +38,8 @@ let defaultMachine = data.defaultMachine;
 let mainFoods = data.mainFoods;
 let genreNames = data.genreNames;
 let cardSize = data.cardSize;
-let defaultMainFood = data.defaultMainFood;
-let defaultMenuNum = data.defaultMenuNum;
 
 const MachineInputCard = () => {
-
-    // constructor(props){
-    //     super(props);
-    //     this.state = {
-    //         value : []
-    //     }
-    // }
 
     const [machine, setMachine] = useContext(MachineContext);
     const [staple, setStaple] = useContext(StapleContext);
@@ -58,9 +48,13 @@ const MachineInputCard = () => {
     const [menuNum, setMenuNum] = useContext(MenuNumContext);
     const [token, setToken] = useContext(TokenContext);
     const [isSupecified, setIsSupecified] = useContext(MenuSupecifiedContext);
-
+    const [isRevealPassword, setIsRevealPassword] = useState(false);
     
     defaultMachine = machine;
+
+    const togglePassword = () => {
+      setIsRevealPassword((prevState) => !prevState);
+    }
 
 
         return (
@@ -86,18 +80,32 @@ const MachineInputCard = () => {
                                 if(machineName=="amplify" && machine == "amplify"){
                                   return (
                                     <Grid container spacing={2}>
-                                      <Grid item xs={6}>
+                                      <Grid item xs={5}>
                                       <FormControlLabel value = {machineName} control={<Radio sx={{'&.Mui-checked': { color: '#52af77'}}}/>} label={machineNames[machineName]} onChange = {e => setMachine(e.target.value)}/>
                                       </Grid>
                                       <Grid item xs={5}>
                                         <Input
                                           placeholder='トークン'
-                                          type = "password"
+                                          type={isRevealPassword ? 'text' : 'password'}
                                           id={"input_token"}
                                           value = {token}
                                           onChange={(event) => setToken(event.target.value)}
                                         />
-                                      </Grid>                                 
+                                      </Grid>     
+                                      <Grid item xs={1}>
+                                        <span
+                                          xs={1}
+                                          onClick={togglePassword}
+                                                role="presentation"
+                                          className={classes.PasswordReveal}
+                                            >
+                                              {isRevealPassword ? (
+                                          <RemoveRedEyeIcon />
+                                              ) : (
+                                          <VisibilityOffIcon />
+                                              )}
+                                        </span>  
+                                      </Grid>                          
                                       <Grid item xs={1}>
                                         <Tooltip 
                                         title={"ここからトークンを取得してください\nhttps://amplify.fixstars.com/ja/register"} 
@@ -171,6 +179,8 @@ const MachineInputCard = () => {
                       endAdornment={<InputAdornment position="end">{"人"}</InputAdornment>}
                       value = {peopleNum}
                       onChange={(event) => setPeopleNum(event.target.value)}
+                      min="0"
+                      inputProps={{ min: 0}}
                     />
                   </FormControl>
                 </CardActions>
@@ -207,6 +217,9 @@ const MachineInputCard = () => {
                                           endAdornment={<InputAdornment position="end">{"個"}</InputAdornment>}
                                           value = {menuNum}
                                           onChange={(event) => setMenuNum(event.target.value)}
+                                          min="0"
+                                          max="5"
+                                          inputProps={{ min: 0, max: 5 }}
                                         />
                                       </Grid>
                                     </Grid>
@@ -229,16 +242,9 @@ const MachineInputCard = () => {
   
   function ExampleChoiceChipCheckbox() {
       const [value, setValue] = useContext(GenreContext);
-      // const [value, setValue] = React.useState(["全て","和風","洋風","中華風","韓国風","エスニック"]);
       console.log("バリュー:"+value);
       return (
-        <Sheet
-          // variant="outlined"
-          // sx={{ width: 360, p: 2, borderRadius: 'sm', bgcolor: 'background.body' }}
-        >
-          {/* <Typography id="rank" level="body2" fontWeight="lg" sx={{ mb: 1.5 }}>
-            Choose amenities
-          </Typography> */}
+        <Sheet>
           <Box role="group" aria-labelledby="rank">
             <List
               row
@@ -261,7 +267,6 @@ const MachineInputCard = () => {
                     )}
                     <Checkbox
                       size="sm"
-                      // disabled={index === 0}
                       disableIcon
                       overlay
                       label={item}

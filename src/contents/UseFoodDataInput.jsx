@@ -1,17 +1,9 @@
 import * as React from 'react';
-import {useState,useEffect,createContext,useContext} from "react";
+import {useState,useContext} from "react";
 import 'react-tabs/style/react-tabs.css';
 import '../styles/index.scss';
 import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Typography from '@mui/material/Typography';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -26,23 +18,8 @@ const UseFoodDataInput = (props) => {
     const [value, setValue] = useState(() =>{if(foodName in useFoodNameDict){return useFoodNameDict[foodName]['gram']}else{return 0}});
     const [buy, setBuy] = useState(false);
     const [useUp,setUseUp] = useState(false);
-    // console.log(foodName)
-    // console.log(useFoodNameDict)
-    // setUseFoodNameDict({"a":{"gram":"food"}});
-    // console.log(useFoodNameDict);
-    
-    useEffect(()=>{
-          // console.log(useFoodNameDict);
-          // console.log(value);
-    // console.log(useFoodNameDict)
-    // setUseFoodNameDict({"a":{"gram":"food"}});
-    // console.log(useFoodNameDict);
-    },[])
-
-    // useEffect(()=>{makeValue('gram')},[value]);
 
     const makeValue=()=>{
-      // console.log(useFoodNameDict)
 
       if(foodName in useFoodNameDict){
         if(useFoodNameDict[foodName]['gram']!=value){
@@ -65,16 +42,12 @@ const UseFoodDataInput = (props) => {
     }
 
     const setV=(value)=>{
-      // console.log(useFoodNameDict);
-      // console.log(value)
       let newUseFoodNameDict = Object.assign(useFoodNameDict); 
-      // console.log(newUseFoodNameDict)
       if(foodName in newUseFoodNameDict){
         newUseFoodNameDict[foodName]['gram'] = value; 
       }else{
         newUseFoodNameDict[foodName] = {'gram':value,'buy':false,'use_up':false};
       }
-      // console.log(newUseFoodNameDict)
       setUseFoodNameDict(newUseFoodNameDict);
       setValue(value);
     }
@@ -116,7 +89,7 @@ const UseFoodDataInput = (props) => {
     }
 
     const addDeleteButton=(type)=>{
-      if(type=="入力"){
+      if(type=="使用食材"){
         return (
         <Tooltip title="Delete">
           <IconButton onClick={()=>{deleteComponent(foodName)}}>
@@ -130,30 +103,18 @@ const UseFoodDataInput = (props) => {
 
     return (
       <>
-      {/* {console.log(useFoodNameDict)} */}
       {makeValue()}
           <label>{foodName}：
             <input 
             type="number" 
             value = {value}
-            // value={makeValue('gram')} 
             name={foodName} 
             onChange={
               (event) =>
                setV(event.target.value)
-              // {console.log(useFoodNameDict);
-              //   setUseFoodNameDict((useFoodNameDict) => 
-              //   {
-              //     let newUseFoodNameDict = Object.create(useFoodNameDict); 
-              //     if(foodName in newUseFoodNameDict){
-              //       newUseFoodNameDict[foodName]['gram'] = event.target.value; 
-              //     }else{
-              //       newUseFoodNameDict[foodName] = {'gram':event.target.value,'buy':false,'use_up':false};
-              //     }
-              //     console.log(newUseFoodNameDict)
-              //   return newUseFoodNameDict})
-              // }
             }
+            min="0"
+            inputProps={{ min: 0}}
             />
           </label>
           <label>　買う：
@@ -175,16 +136,6 @@ const UseFoodDataInput = (props) => {
             onChange={(event) => 
               {
                 setU(event.target.checked);
-                // setUseFoodNameDict((useFoodNameDict) =>
-                // {
-                //   let newUseFoodNameDict = Object.assign(useFoodNameDict); 
-                //   if(foodName in newUseFoodNameDict){
-                //     newUseFoodNameDict[foodName]['use_up'] = event.target.checked; 
-                //   }else{
-                //     newUseFoodNameDict[foodName] = {'gram':0,'buy':false,'use_up':event.target.checked};
-                //   }
-                //   return newUseFoodNameDict
-                // })
               }
             } 
             value={useUp}/>

@@ -1,48 +1,23 @@
 import * as React from 'react';
 import {useState,useEffect,createContext,useContext} from "react";
 import PropTypes from 'prop-types';
-import ReactDom from 'react-dom'
-import axios from "axios";
-
-
-import { render } from 'react-dom';
-import Autosuggest from 'react-autosuggest';
 
 
 import '../styles/index.scss';
 import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import RangeSlider from 'react-bootstrap-range-slider';
-import Col from 'react-bootstrap/Col';
 
-import { BrowserRouter, Routes, Route, useNavigate, useLocation, Link} from "react-router-dom";
-
-
-import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-import Grid from "@material-ui/core/Grid";
-import Image from 'mui-image'
-import Paper from '@material-ui/core/Paper' 
-import Tooltip from '@mui/material/Tooltip';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import clsx from 'clsx';
-import { styled } from '@mui/material/styles';
-import TableCell from '@mui/material/TableCell';
-import { AutoSizer, Column, Table } from 'react-virtualized';
 
-  
 
-import { ResourceContext,
+import {
     UseFoodNameDictContext,
-    AllFoodArrayContext,
-    LikeAndDislikeFoodNameDictContext,
     AllFoodNameDictContext} from './context.js';
 
 import UseFoodDataInput from './UseFoodDataInput';
@@ -57,10 +32,6 @@ const tabNames = data.foodTabNames;
 
 const UseFoodInputCard = () => {
     const [value, setValue] = useState(0);
-    // const allFoodNameDict = useContext(AllFoodNameDictContext);
-    // console.log(useContext(AllFoodArrayContext))
-    // console.log(useContext(AllFoodNameDictContext))
-
 
     const handleChange = (event, newValue) => {
       setValue(newValue);
@@ -73,11 +44,12 @@ const UseFoodInputCard = () => {
                 使用食材
             </Typography>
             <Typography variant="body2">
-                <br/>使用する食材を選択してください
+                <br/>使用したい食材のg数を入力してください
+                <br/>入力すると使用食材のタブにその食材が表示されるようになります
+                <br/>使い切りたい場合には、使い切りにチェックを入れてください
             </Typography>
             </CardContent>
             <CardActions>
-            {/* <Box sx={{ width: '100%', height:500, overflow: 'auto'}}> */}
             <Box sx={{ width: '100%'}}>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                     <Tabs
@@ -153,15 +125,13 @@ const MakeTabs = () => {
         tmpArray.push(<Tab label={tabNames[i]} {...a11yProps(i)}/>)
     }
     return tmpArray
-    {/* {tabNames.map((tabName) => {return <Tab label={tabName} {...a11yProps(0)}/>})} */}
-
 }
 
 const MakeTabPanels = (props) => {
 
     let tmpArray =[];
     for (let i=0;i<tabNames.length;i++){
-        if(tabNames[i] == "入力"){
+        if(tabNames[i] == "使用食材"){
             tmpArray.push(<TabPanel value={props} index={i}>
               <Box sx={{ width: '100%', height:400, overflow: 'auto'}}>
                 <AutoSuggestFoodInput type="useFood"/>
@@ -170,7 +140,6 @@ const MakeTabPanels = (props) => {
           }else{
             tmpArray.push(<TabPanel value={props} index={i}>{MakeTabContents(tabNames[i])}</TabPanel>);
           }
-        // tmpArray.push(<TabPanel value={props} index={i}><div></div>{tabNames[i]}</TabPanel>);
     }
     return tmpArray;
 }
