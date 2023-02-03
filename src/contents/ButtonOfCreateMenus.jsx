@@ -10,6 +10,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {useNavigate} from "react-router-dom";
 import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
+import Typography from '@mui/material/Typography';
 
 import CircularProgress from '@mui/material/CircularProgress';
 
@@ -44,6 +45,7 @@ const ButtonOfCreateMenus=()=>{
   const [isSupecified, setIsSupecified] = useContext(MenuSupecifiedContext);
 
   const [loading, setLoading] = useState(false);
+  const [error_message, setErrorMessage] = useState("");
 
   
   const createRequest=()=>{
@@ -79,16 +81,22 @@ const ButtonOfCreateMenus=()=>{
       "count" : (isSupecified == "指定なし"?0:Number(count)),
       "token" : token
     };
-    createMenus(navigate,requestBody)
+    createMenus(navigate,requestBody, setLoading, setErrorMessage)
     setLoading(true);
   }
 
   const makeButtonOrNot = ()=>{
     if(!loading){
-    return (    
-      <Button color="success" variant="contained" endIcon={<SendIcon />} onClick={() => {createRequest()}}>
-        献立を作成
-      </Button>);
+    return (  
+      <div style={{"text-align": "center"}}>
+        <Button color="success" variant="contained" endIcon={<SendIcon />} onClick={() => {createRequest()}}>
+          献立を作成
+        </Button>
+        <Typography color="red">
+            <br/>{error_message}
+        </Typography>
+      </div>  
+      );
     }else{
       return <CircularProgress color="success" />
     }
@@ -104,50 +112,54 @@ const ButtonOfCreateMenus=()=>{
 // 
 var pageTransition = false;
 
-const createMenus = (navigate, requestBody) => {
-
-    let menus = {}
+const createMenus = (navigate, requestBody, setLoading, setErrorMessage) => {
+    setErrorMessage("");
     console.log(requestBody);
-
-
-    // axiosで書き直す
-
 
     // fetch('http://localhost:8000/menu', {
     fetch('https://ising-menu-recommend-api.com/menu', {
       method: 'POST',
       body: JSON.stringify(requestBody),
       headers: new Headers({ 'Content-type' : 'application/json', 'Access-Control-Allow-Origin': '*' })
-    }).then(res => res.json())
+    })
+    .then(res => {
+      if (!res.ok) {
+        console.log("エラー")
+      }
+      console.log(res.ok)
+      console.log(res.status); 
+      console.log(res.statusText);
+      return res.json()
+    })
     .then(data => {
-      console.log(data);
-      menus = data;
-      // pageTransition = true;
+      console.log(data)
 
-      // setPageTransition(true);
       // 成功した時だけ
-      if(menus["status"] == "Done"){
-        navigate('/result', {state: {'body':menus}});
+      if(data["status"] == "Done"){
+        navigate('/result', {state: {'body':data}});
       }else{
-        console.log("ステータス的に失敗");
+        setLoading(false); //ローディングやめる
+        if(data["detail"]["title"] == "Unauthorized"){
+          setErrorMessage("マシンのトークンを確認してください")
+          console.log(data["detail"]["message"])
+        }
+        else if(data["detail"]["title"] == "Internal Server Error"){
+          setErrorMessage("エラーが起きました。時間を置いてもう一度お試しください。")
+          console.log(data["detail"]["message"])
+          console.log(data["detail"]["error"])
+        }
+        else{
+          setErrorMessage("エラーが起きました。時間を置いてもう一度お試しください。")
+          console.log("わからないエラー")
+        }
       }
     })
     .catch(error => {
+      setLoading(false); //ローディングやめる
       console.log(error)
       console.error('通信に失敗しました', error);
     })
 
-    
-
-    // axios
-    //   .post("http://localhost:8000/test", {
-    //     body: JSON.stringify(requestBody),
-    //     contentType: 'application/json', // リクエストの Content-Type
-    //     dataType: "json", 
-    //   })
-    //   .then((response) => {
-    //     console.log(response);
-    //   });
   }
 
   export default ButtonOfCreateMenus
