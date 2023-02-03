@@ -9,7 +9,7 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Box from '@mui/material/Box';
 
-import AutoSuggestFoodInput from './AutoSuggestFoodInput';
+import AutoSuggestForLike from './AutoSuggestForLike';
 
 //　デフォルトデータ
 import data from '../data/data.json';
@@ -29,8 +29,8 @@ const LikeAndDislikeInputCard=()=>{
                     </Typography>
                 </CardContent>
                 <CardActions>
-                    <Box sx={{ width: '100%', height:400, overflow: 'auto'}}>
-                        <AutoSuggestFoodInput type = "likeAndDislike"/>
+                    <Box sx={{ width: '100%', overflow: 'auto'}}>
+                        <AutoSuggestForLike />
                     </Box>
                 </CardActions>
           </Card>

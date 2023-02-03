@@ -38,7 +38,7 @@ const UseFoodInputCard = () => {
     };
 
     return (
-        <Card sx={{ minWidth: 275}} elevation={3}>
+        <Card elevation={3}>
             <CardContent>
             <Typography variant="h5" component="div">
                 使用食材

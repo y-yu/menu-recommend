@@ -16,7 +16,8 @@ import Tooltip from '@mui/material/Tooltip';
 import { LikeAndDislikeFoodNameDictContext , LikeAndDislikeFoodNameSelectedListContext} from './context.js';
 
 const LikeAndDislikeFoodNameInput=(props)=>{
-    const[foodName, setFoodName] = useState(props.name);
+
+    const foodName = props.name;
     const[like, setLike] = useState(false);
     const[dislike, setDislike] = useState(false);
     const[likeAndDislikeFoodNameDict, setLikeAndDislikeFoodNameDict] = useContext(LikeAndDislikeFoodNameDictContext);

@@ -142,13 +142,9 @@ const App = () => {
   function Footer() {
     return (
       <Typography variant="body2" color="textSecondary" align="center">
-        {'Copyright © '}
-        <Link color="inherit" href="https://material-ui.com/">
-          献立作成
-        </Link>
-        {' '}
-        {new Date().getFullYear()}
-        {'.'}
+        {"このサービスで使用しているレシピデータは「レシピ大百科」に掲載されているものです"}
+        <br />
+        <br />
       </Typography>
     );
   }
@@ -173,12 +169,11 @@ const App = () => {
         <AllFoodNameDictContext.Provider value = {allFoodNameDict}>
         <TokenContext.Provider value ={[token, setToken]}>
         <MenuSupecifiedContext.Provider value ={[isSupecified, setIsSupecified]}>
-
-          <Grid container spacing={5}>
-            
+          <br />
+          <Grid container spacing={3}> 
               <Grid item xs={1}></Grid>
               <Grid item xs={10}>
-                <Grid container spacing={5}>
+                <Grid container spacing={3}> 
                   <Grid item md={4} xs={12}>
                     <MachineInputCard />
                   </Grid>
@@ -199,6 +194,7 @@ const App = () => {
                 <UseFoodInputCard/>
               </Grid>
               <Grid item xs={1}></Grid>
+
           </Grid>
           <Tabs>
             <Grid container alignItems='center' justifyContent='center' direction="column">

@@ -50,9 +50,7 @@ const ButtonOfCreateMenus=()=>{
   
   const createRequest=()=>{
     let menus = {}
-    // setValue((val) => val.filter((text) => text !== "all"));
     let newGenre = [];
-    // console.log(genre)
     for(let g of genre){
       if(g!="all"){
         newGenre.push(g);
@@ -81,7 +79,7 @@ const ButtonOfCreateMenus=()=>{
       "count" : (isSupecified == "指定なし"?0:Number(count)),
       "token" : token
     };
-    createMenus(navigate,requestBody, setLoading, setErrorMessage)
+    createMenus(navigate,requestBody)
     setLoading(true);
   }
 
@@ -102,17 +100,7 @@ const ButtonOfCreateMenus=()=>{
     }
   }
 
- 
-  //画面遷移
-  const navigate = useNavigate();
-  return (<>{makeButtonOrNot()}</>);
-    
-}
-
-// 
-var pageTransition = false;
-
-const createMenus = (navigate, requestBody, setLoading, setErrorMessage) => {
+  const createMenus = (navigate, requestBody) =>{
     setErrorMessage("");
     console.log(requestBody);
 
@@ -161,5 +149,25 @@ const createMenus = (navigate, requestBody, setLoading, setErrorMessage) => {
     })
 
   }
+
+  //画面遷移
+  const navigate = useNavigate();
+  return (<>{makeButtonOrNot()}</>);
+  
+
+}
+
+// 
+var pageTransition = false;
+
+    // axios
+    //   .post("http://localhost:8000/test", {
+    //     body: JSON.stringify(requestBody),
+    //     contentType: 'application/json', // リクエストの Content-Type
+    //     dataType: "json", 
+    //   })
+    //   .then((response) => {
+    //     console.log(response);
+    //   });
 
   export default ButtonOfCreateMenus
