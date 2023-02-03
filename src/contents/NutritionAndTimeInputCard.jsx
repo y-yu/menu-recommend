@@ -62,7 +62,8 @@ export default class NutritionAndTimeInputCard extends React.Component {
                         栄養素と調理時間
                     </Typography>
                     <Typography variant="body2">
-                        <br/>栄養素の値と値の重みを設定してください<br/>パラメータは0だとこの制限は効かなくなります
+                        <br/>栄養素の値と値の重みを設定してください
+                        <br/>スライダーの値が0だと対応する制約は考慮されません
                     </Typography>
                 </CardContent>
                 <CardActions>

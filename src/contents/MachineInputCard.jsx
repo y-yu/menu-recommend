@@ -190,7 +190,7 @@ const MachineInputCard = () => {
                     メニュー数
                 </Typography>
                 <Typography variant="body2">
-                    <br/>推薦する献立のメニュー数を入力してください
+                    <br/>推薦する献立のメニュー数を入力してください(1〜5個)
                 </Typography>
                 </CardContent>
                 <CardActions>
