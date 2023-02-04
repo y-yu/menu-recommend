@@ -122,6 +122,9 @@ const App = () => {
             var tmpDict = {};
             var tmpArray = [];
             for(let food of res.data){
+              if(food.category==="seasoning"){
+                continue;
+              }
               if(tabNames[food.genre] in tmpDict){
                 tmpDict[tabNames[food.genre]].push(food.name);
               }else{
