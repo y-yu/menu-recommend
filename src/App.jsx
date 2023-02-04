@@ -20,8 +20,9 @@ import MachineInputCard from './contents/MachineInputCard';
 import NutritionAndTimeInputCard from './contents/NutritionAndTimeInputCard';
 import ImageOfMenu from './contents/ImageOfMenu';
 import LikeAndDislikeInputCard from './contents/LikeAndDislikeInputCard';
-import UseFoodInputCard from './contents/UseFoodInputCard';
+// import UseFoodInputCard_2 from './contents/UseFoodInputCard_2';
 import ButtonOfCreateMenus from './contents/ButtonOfCreateMenus';
+import UseFoodInputCard from './contents/UseFoodInputCard';
 
 import {
   UseFoodNameDictContext,
@@ -95,7 +96,7 @@ const App = () => {
   const [staple, setStaple] = useState(defaultMainFood);
 
   //ジャンル
-  const [genre, setGenre] = useState(["korean"]);
+  const [genre, setGenre] = useState(["japanese"]);
 
   //値と重みの理想値
   const [ideal, setIdeal] = useState(defaultIdeal);

@@ -24,7 +24,10 @@ const LikeAndDislikeFoodNameInput=(props)=>{
     const[likeAndDislikeFoodNameSelectedList, setLikeAndDislikeFoodNameSelectedList] = useContext(LikeAndDislikeFoodNameSelectedListContext);
 
     useEffect(()=>{
-        let newLikeAndDislikeFoodNameDict = Object.assign(likeAndDislikeFoodNameDict);
+        let newLikeAndDislikeFoodNameDict = {}
+        for(let food in likeAndDislikeFoodNameDict){
+          newLikeAndDislikeFoodNameDict[food]=likeAndDislikeFoodNameDict[food]
+        }
       
         if ((!(newLikeAndDislikeFoodNameDict["like"].includes(foodName))) && like){
           newLikeAndDislikeFoodNameDict["like"].push(foodName);
@@ -50,7 +53,11 @@ const LikeAndDislikeFoodNameInput=(props)=>{
     newSelectedList.delete(foodName);
     setLikeAndDislikeFoodNameSelectedList(newSelectedList);
     
-    let newLikeAndDislikeFoodNameDict = Object.assign(likeAndDislikeFoodNameDict);
+    let newLikeAndDislikeFoodNameDict = {}
+    for(let food in likeAndDislikeFoodNameDict){
+      newLikeAndDislikeFoodNameDict[food]=likeAndDislikeFoodNameDict[food]
+    }
+
     if (newLikeAndDislikeFoodNameDict["like"].includes(foodName)){
       newLikeAndDislikeFoodNameDict["like"] = newLikeAndDislikeFoodNameDict["like"].filter(x => x !== foodName)
     }

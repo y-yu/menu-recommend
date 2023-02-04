@@ -14,21 +14,20 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-
+import Grid from "@material-ui/core/Grid";
+import Divider from '@mui/material/Divider';
 
 import {
     UseFoodNameDictContext,
     AllFoodNameDictContext} from './context.js';
 
-import UseFoodDataInput from './UseFoodDataInput';
-import AutoSuggestFoodInput from './AutoSuggestFoodInput';
+import UseFoodDataInput from './UseFoodDataInput'
+import AutoSuggestForFood from './AutoSuggestForFood'
 
 //　デフォルトデータ
 import data from '../data/data.json';
+
 const tabNames = data.foodTabNames;
-
-
-
 
 const UseFoodInputCard = () => {
     const [value, setValue] = useState(0);
@@ -52,40 +51,22 @@ const UseFoodInputCard = () => {
             </Typography>
             </CardContent>
             <CardActions>
-            <Box sx={{ width: '100%'}}>
-                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                    <Tabs
-                        value={value}
-                        onChange={handleChange}
-                        variant="scrollable"
-                        scrollButtons={false}
-                        aria-label="scrollable prevent tabs"
-                    >
-                        {MakeTabs()}
-                    </Tabs>
+                <Box sx={{ width: '100%'}}>
+                    <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                        <Tabs
+                            value={value}
+                            onChange={handleChange}
+                            variant="scrollable"
+                            scrollButtons={false}
+                            aria-label="scrollable prevent tabs"
+                        >
+                            {MakeTabs()}
+                        </Tabs>
+                    </Box>
+                        {MakeTabPanels(value)}
                 </Box>
-                    {MakeTabPanels(value)}
-            </Box>
             </CardActions>
         </Card>);
-}
-
-
-const MakeTabContents = (tabName) => {
-    const allFoodNameDict = useContext(AllFoodNameDictContext);
-    // console.log(allFoodNameDict)
-    const [useFoodNameDict, setUseFoodNameDict] = useContext(UseFoodNameDictContext);
-    var tabContents = [];
-    if(tabName in allFoodNameDict){
-        for(let foodName of allFoodNameDict[tabName]){
-        let isInUseDict = foodName in useFoodNameDict;
-        tabContents.push(
-        <ul>
-            <UseFoodDataInput name={foodName} type={tabName}/>
-        </ul>);
-        }
-    }
-    return <Box sx={{ width: '100%', height:400, overflow: 'auto'}}>{tabContents}</Box>;
 }
 
 function TabPanel(props) {
@@ -136,7 +117,8 @@ const MakeTabPanels = (props) => {
         if(tabNames[i] == "使用食材"){
             tmpArray.push(<TabPanel value={props} index={i}>
               <Box sx={{ width: '100%', height:400, overflow: 'auto'}}>
-                <AutoSuggestFoodInput type="useFood"/>
+                {/* <AutoSuggestFoodInput type="useFood"/> */}
+                <AutoSuggestForFood />
               </Box>
             </TabPanel>);
           }else{
@@ -146,4 +128,23 @@ const MakeTabPanels = (props) => {
     return tmpArray;
 }
 
-export default UseFoodInputCard
+const MakeTabContents = (tabName) => {
+    const allFoodNameDict = useContext(AllFoodNameDictContext);
+    const [useFoodNameDict, setUseFoodNameDict] = useContext(UseFoodNameDictContext);
+    var tabContents = [];
+    if(tabName in allFoodNameDict){
+        for(let foodName of allFoodNameDict[tabName]){
+            tabContents.push(
+            <ul>
+                <Grid container spacing={2}>
+                    <UseFoodDataInput name={foodName}/>
+                </Grid>
+                <Divider/>
+            </ul>);
+        }
+    }
+    return <Box sx={{ width: '100%', height:400, overflow: 'auto'}}>{tabContents}</Box>;
+
+}
+
+export default UseFoodInputCard;

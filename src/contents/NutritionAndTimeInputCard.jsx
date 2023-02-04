@@ -98,7 +98,10 @@ export default class NutritionAndTimeInputCard extends React.Component {
 
     React.useEffect(() =>
     {      
-      let tmpIdeal = Object.assign(ideal);
+      let tmpIdeal = {}
+      for(let id in ideal){
+        tmpIdeal[id] = ideal[id]
+      }
       tmpIdeal[name] = {
         "value" :  value,
         "param" : param
@@ -120,7 +123,7 @@ export default class NutritionAndTimeInputCard extends React.Component {
     
     return (
       <>
-        <FormControl variant="standard" sx={{ m: 1, mt: 3, width: '25ch' }}>
+        <FormControl variant="standard" sx={{ m: 1, mt: 3 , width:150}}>
           <Typography variant="h9" component="div">
             {name_ja}
           </Typography>

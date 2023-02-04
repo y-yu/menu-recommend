@@ -174,13 +174,14 @@ const MachineInputCard = () => {
                 <CardActions>
                   <FormControl variant="standard" sx={{ m: 1, mt: 3}}>
                     <Input
+                      sx={{width:150}}
                       type = "number"
                       id={"input_people"}
                       endAdornment={<InputAdornment position="end">{"人"}</InputAdornment>}
                       value = {peopleNum}
                       onChange={(event) => setPeopleNum(event.target.value)}
                       min="0"
-                      inputProps={{ min: 0}}
+                      inputProps={{ min: 1}}
                     />
                   </FormControl>
                 </CardActions>
@@ -212,6 +213,7 @@ const MachineInputCard = () => {
                                       </Grid>
                                       <Grid item xs={6}>
                                         <Input
+                                          sx={{width:150}}
                                           type = "number"
                                           id={"input_menu_num"}
                                           endAdornment={<InputAdornment position="end">{"個"}</InputAdornment>}
@@ -219,7 +221,7 @@ const MachineInputCard = () => {
                                           onChange={(event) => setMenuNum(event.target.value)}
                                           min="0"
                                           max="5"
-                                          inputProps={{ min: 0, max: 5 }}
+                                          inputProps={{ min: 1, max: 5 }}
                                         />
                                       </Grid>
                                     </Grid>

@@ -13,6 +13,8 @@ import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import Box from '@mui/material/Box';
 
+import Divider from '@mui/material/Divider'
+
 import UseFoodDataInput from './UseFoodDataInput';
 import LikeAndDislikeFoodNameInput from './LikeAndDislikeFoodNameInput';
 import { AllFoodArrayContext, LikeAndDislikeFoodNameSelectedListContext} from './context.js';
@@ -32,20 +34,20 @@ const AutoSuggestForLike = (props) => {
         var s = [];
         for(let likeAndDislikeFoodName of likeAndDislikeFoodNameSelectedList){
             console.log(likeAndDislikeFoodName)
-        s.push(<ul><LikeAndDislikeFoodNameInput name={likeAndDislikeFoodName}/></ul>);
+        s.push(<ul><LikeAndDislikeFoodNameInput name={likeAndDislikeFoodName}/><Divider /></ul>);
         }
         return <div>{s}</div>;
     }
 
     return(<>
         {console.log(likeAndDislikeFoodNameSelectedList)}
-        <Autocomplete
+        <Autocomplete        
         disablePortal
         options={allFoodArray}
         getOptionLabel={(food)=> food.name}
         id="like-and-dislike-input"
         renderInput={(params) => (
-          <TextField {...params} label="好きな食材・嫌いな食材" variant="standard" />
+          <TextField {...params} label="好きな食材・嫌いな食材" variant="standard" sx={{width:250}} />
         )}
         onChange={(event, newValue)=>{if(newValue!=null)setLikeAndDislikeFoodNameSelectedList(new Set([...likeAndDislikeFoodNameSelectedList,newValue.name]))}}
       />

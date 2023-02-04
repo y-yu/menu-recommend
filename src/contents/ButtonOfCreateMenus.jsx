@@ -56,13 +56,20 @@ const ButtonOfCreateMenus=()=>{
         newGenre.push(g);
       }
     }
-    let newIdeal = Object.assign(ideal)
+
+    let newIdeal = {}
+    for(let id in ideal){
+      newIdeal[id]=ideal[id]
+    }
     for(let category of Object.keys(newIdeal)){
       newIdeal[category]["value"]=Number(newIdeal[category]["value"])
       newIdeal[category]["param"]=parseFloat(newIdeal[category]["param"])
     }
 
-    let newWantFood = Object.assign(want_food)
+    let newWantFood = {}
+    for(let food in want_food){
+      newWantFood[food] = want_food[food]
+    }
     for(let food of Object.keys(newWantFood)){
       newWantFood[food]["gram"] = Number(newWantFood[food]["gram"])
     }
@@ -157,17 +164,7 @@ const ButtonOfCreateMenus=()=>{
 
 }
 
-// 
-var pageTransition = false;
 
-    // axios
-    //   .post("http://localhost:8000/test", {
-    //     body: JSON.stringify(requestBody),
-    //     contentType: 'application/json', // リクエストの Content-Type
-    //     dataType: "json", 
-    //   })
-    //   .then((response) => {
-    //     console.log(response);
-    //   });
+var pageTransition = false;
 
   export default ButtonOfCreateMenus

@@ -4,145 +4,188 @@ import 'react-tabs/style/react-tabs.css';
 import '../styles/index.scss';
 import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
-import DeleteIcon from '@mui/icons-material/Delete';
+
+import Checkbox from '@mui/material/Checkbox';
+import Input from '@mui/material/Input';
+import InputAdornment from '@mui/material/InputAdornment';
+import Grid from "@material-ui/core/Grid";
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+
 
 import {UseFoodNameDictContext} from './context.js';
 
-const UseFoodDataInput = (props) => {
+
+const UseFoodDataInput=(props)=>{
 
     const foodName = props.name
-    const type = props.type
     const [useFoodNameDict, setUseFoodNameDict] = useContext(UseFoodNameDictContext);
     const [value, setValue] = useState(() =>{if(foodName in useFoodNameDict){return useFoodNameDict[foodName]['gram']}else{return 0}});
-    const [buy, setBuy] = useState(false);
-    const [useUp,setUseUp] = useState(false);
 
-    const makeValue=()=>{
+    const [use, setUse] = useState((foodName in useFoodNameDict));
+    const [useUp,setUseUp] = useState(((foodName in useFoodNameDict) && (useFoodNameDict[foodName]['use_up'])));
+    const [buy, setBuy] = useState(((foodName in useFoodNameDict) && (useFoodNameDict[foodName]['buy'])));
+    const [isSupecified, setIsSupecified] = useState(((foodName in useFoodNameDict) && (!useFoodNameDict[foodName]['buy'])))
+    
 
-      if(foodName in useFoodNameDict){
-        if(useFoodNameDict[foodName]['gram']!=value){
-          setValue(useFoodNameDict[foodName]['gram']);
+    const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
+
+    const setRadio=(val)=>{
+        if(val==="buy"){
+            setBuy(true);
+            let newUseFoodNameDict ={}
+            for (let useFood in useFoodNameDict){
+                newUseFoodNameDict[useFood]=useFoodNameDict[useFood]
+            }     
+            newUseFoodNameDict[foodName]['buy']=true;        
+            setUseFoodNameDict(newUseFoodNameDict);                            
+            setIsSupecified(false);
+        }else{
+            setBuy(false);
+            let newUseFoodNameDict ={}
+            for (let useFood in useFoodNameDict){
+                newUseFoodNameDict[useFood]=useFoodNameDict[useFood]
+            }     
+            newUseFoodNameDict[foodName]['buy']=false;        
+            setUseFoodNameDict(newUseFoodNameDict);        
+            setIsSupecified(true);
         }
-      }
+    }
 
-      if(foodName in useFoodNameDict){
-        if(useFoodNameDict[foodName]['buy']!=buy){
-          setBuy(useFoodNameDict[foodName]['buy']);
+    const fetch=()=>{
+        if((foodName in useFoodNameDict) && !use){
+            setUse(true)
+        }else if(!(foodName in useFoodNameDict) && use){
+            setUse(false)
         }
-      }
-
-      if(foodName in useFoodNameDict){
-        if(useFoodNameDict[foodName]['use_up']!=useUp){
-          setUseUp(useFoodNameDict[foodName]['use_up']);
-        }
-      }
-      
     }
-
-    const setV=(value)=>{
-      let newUseFoodNameDict = Object.assign(useFoodNameDict); 
-      if(foodName in newUseFoodNameDict){
-        newUseFoodNameDict[foodName]['gram'] = value; 
-      }else{
-        newUseFoodNameDict[foodName] = {'gram':value,'buy':false,'use_up':false};
-      }
-      setUseFoodNameDict(newUseFoodNameDict);
-      setValue(value);
-    }
-
-    const setB=(B)=>{
-      let newUseFoodNameDict = Object.assign(useFoodNameDict); 
-      if(foodName in newUseFoodNameDict){
-        newUseFoodNameDict[foodName]['buy'] = B; 
-      }else{
-        newUseFoodNameDict[foodName] = {'gram':0,'buy':B,'use_up':false};
-      }
-      setUseFoodNameDict(newUseFoodNameDict);
-      console.log(B);
-      setBuy(B);
-    }
-
-    const setU=(U)=>{
-      let newUseFoodNameDict = Object.assign(useFoodNameDict); 
-      if(foodName in newUseFoodNameDict){
-        newUseFoodNameDict[foodName]['use_up'] = U; 
-      }else{
-        newUseFoodNameDict[foodName] = {'gram':0,'buy':false,'use_up':U};
-      }
-      setUseFoodNameDict(newUseFoodNameDict);
-      console.log(U);
-      setUseUp(U);
-    }
-
-    const deleteComponent=(foodName)=>{
-      let newUseFoodNameDict = {};
-      for(let i in useFoodNameDict){
-        newUseFoodNameDict[i]=useFoodNameDict[i];
-      }
-      delete newUseFoodNameDict[foodName]; 
-      setUseFoodNameDict(newUseFoodNameDict);
-      console.log(newUseFoodNameDict)
-      console.log(foodName+"を消しました")
-      return;
-    }
-
-    const addDeleteButton=(type)=>{
-      if(type=="使用食材"){
-        return (
-        <Tooltip title="Delete">
-          <IconButton onClick={()=>{deleteComponent(foodName)}}>
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>);
-      }
-    }
-
-
 
     return (
-      <>
-      {makeValue()}
-          <label>{foodName}：
-            <input 
-            type="number" 
-            value = {value}
-            name={foodName} 
-            onChange={
-              (event) =>
-               setV(event.target.value)
-            }
-            min="0"
-            inputProps={{ min: 0}}
-            />
-          </label>
-          <label>　買う：
-            <input
-             type="checkbox" name={foodName+"Buy"} 
-             checked={buy} 
-             onChange={(event) => 
-              {
-                setB(event.target.checked)
-              }
-            } 
-             value={buy}/>
-          </label>
-          <label>　使い切り：
-            <input 
-            type="checkbox" 
-            name={foodName+"UseUp"} 
-            checked={useUp} 
-            onChange={(event) => 
-              {
-                setU(event.target.checked);
-              }
-            } 
-            value={useUp}/>
-          </label>
-          {addDeleteButton(type)}
-      </>
-    );
-};
+        <>
+            {/* {console.log(foodName,use)} */}
+            {fetch()}
+            <Grid item xs={12} md={6}>
+                <label>       
+                    <Checkbox 
+                        {...label} 
+                        checked={use} 
+                        color="success" 
+                        onChange={(event) => 
+                            {
+                                let newUse = !use
+                                setUse(newUse);
+                                if(newUse){
+                                    //　使う食材として登録
+                                    // let newUseFoodNameDict = Object.assign(useFoodNameDict); 
+                                    let newUseFoodNameDict ={}
+                                    for (let useFood in useFoodNameDict){
+                                        newUseFoodNameDict[useFood]=useFoodNameDict[useFood]
+                                    }     
+                                    newUseFoodNameDict[foodName] = {'gram':value,'buy':true,'use_up':false};                                                              
+                                    setUseFoodNameDict(newUseFoodNameDict); 
+                                    setBuy(true)        
+                                    setIsSupecified(false)                                                           
+                                }else{
+                                    //　使わない食材として辞書から消す
+                                    console.log("あーーーー")
 
-export default UseFoodDataInput
+                                    console.log(foodName)
+                                    let newUseFoodNameDict ={}
+                                    for (let useFood in useFoodNameDict){
+                                        newUseFoodNameDict[useFood]=useFoodNameDict[useFood]
+                                    }     
+                                    if(foodName in newUseFoodNameDict){
+                                        delete newUseFoodNameDict[foodName]
+                                    }
+                                    
+                                    setUseFoodNameDict(newUseFoodNameDict);
+                                    setBuy(false)
+                                    setUseUp(false)
+                                    setIsSupecified(false)
+                                    setValue(0)
+                                }
+                            }
+                        } 
+                    />
+                    {foodName}
+                </label>
+            </Grid>
+            <Grid item xs={12} md={6}>
+                {
+                    use 
+                    && 
+                    <FormControl>
+                        {console.log(useFoodNameDict)}
+                        <RadioGroup
+                        row
+                        defaultValue={(()=>{if((foodName in useFoodNameDict) && useFoodNameDict[foodName]['buy']){console.log(foodName,"buy");return "buy"}else{console.log(foodName,"isSupecified");return "isSupecified"}})()}
+                        name="buy_or_g"
+                        >
+                        {console.log(123)}
+                        <FormControlLabel value={"buy"} control={<Radio sx={{'&.Mui-checked': { color: '#52af77'}}}/>} label="買う" onChange = {e => setRadio(e.target.value)}/>
+                        <FormControlLabel value={"isSupecified"} control={<Radio sx={{'&.Mui-checked': { color: '#52af77'}}} />} label="g入力" onChange = {e => setRadio(e.target.value)}/>
+                        {
+                            isSupecified
+                            &&
+                            <> 
+                                <Grid item>
+                                    <Input
+                                        type = "number"
+                                        sx={{width:{md:150,xs:'100%'}}}
+                                        id={"input_"+foodName+'_g'}
+                                        endAdornment={<InputAdornment position="end">g</InputAdornment>}
+                                        value = {value}
+                                        onChange={(event) => 
+                                            {
+                                                setValue(event.target.value);
+                                                // let newUseFoodNameDict = Object.assign(useFoodNameDict); 
+                                                let newUseFoodNameDict ={}
+                                                for (let useFood in useFoodNameDict){
+                                                    newUseFoodNameDict[useFood]=useFoodNameDict[useFood]
+                                                }     
+                                                newUseFoodNameDict[foodName]['gram']=event.target.value                                              
+                                                setUseFoodNameDict(newUseFoodNameDict); 
+                                            }
+                                        }
+                                        min="0"
+                                        inputProps={{ min: 0}}
+                                    />
+                                </Grid>
+
+                                <Grid item>
+                                    <label>
+                                        使い切り
+                                        <Checkbox
+                                            {...label} 
+                                            checked={useUp} 
+                                            color="success" 
+                                            onChange={(event) => 
+                                                {
+                                                setUseUp(!useUp);
+                                                // let newUseFoodNameDict = Object.assign(useFoodNameDict); 
+                                                let newUseFoodNameDict ={}
+                                                for (let useFood in useFoodNameDict){
+                                                    newUseFoodNameDict[useFood]=useFoodNameDict[useFood]
+                                                }     
+                                                newUseFoodNameDict[foodName]['use_up']=!useUp                                                     
+                                                setUseFoodNameDict(newUseFoodNameDict); 
+                                                }
+                                            } 
+                                        />
+                                    </label>
+                                </Grid>                           
+                            </>
+                        }
+
+                        </RadioGroup>
+                    </FormControl>
+                }
+            </Grid>
+        </>   
+    );
+
+}
+
+export default UseFoodDataInput;
