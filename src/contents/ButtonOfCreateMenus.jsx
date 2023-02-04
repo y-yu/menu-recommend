@@ -151,6 +151,7 @@ const ButtonOfCreateMenus=()=>{
     })
     .catch(error => {
       setLoading(false); //ローディングやめる
+      setErrorMessage("エラーが起きました。時間を置いてもう一度お試しください。")
       console.log(error)
       console.error('通信に失敗しました', error);
     })
