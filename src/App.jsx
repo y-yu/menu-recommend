@@ -141,10 +141,12 @@ const App = () => {
 
   function Footer() {
     return (
-      <Typography variant="body2" color="textSecondary" align="center">
-        {"このサービスで使用しているレシピデータは「レシピ大百科」に掲載されているものです"}
-        <br />
-        <br />
+        <Typography variant="body2" color="textSecondary" align="center">
+          {"このサービスで使用しているレシピデータは"} <br />
+          <a href="https://park.ajinomoto.co.jp/recipe/" target="_blank" rel="noopener noreferrer">「レシピ大百科」</a><br />
+          {"に掲載されているものです"}
+          <br />
+          <br />
       </Typography>
     );
   }
