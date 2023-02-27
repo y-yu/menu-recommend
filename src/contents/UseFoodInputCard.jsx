@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useState,useEffect,createContext,useContext} from "react";
+import {useState,useContext} from "react";
 import PropTypes from 'prop-types';
 
 
@@ -17,14 +17,14 @@ import Tab from '@mui/material/Tab';
 import Grid from "@material-ui/core/Grid";
 import Divider from '@mui/material/Divider';
 
-import {
-    UseFoodNameDictContext,
-    AllFoodNameDictContext} from './context.js';
+import {UseFoodNameDictContext} from './context.js';
 
 import UseFoodDataInput from './UseFoodDataInput'
 import AutoSuggestForFood from './AutoSuggestForFood'
 
 //　デフォルトデータ
+import labelToAccurate from '../data/labelToAccurate.json';
+
 import data from '../data/data.json';
 
 const tabNames = data.foodTabNames;
@@ -117,7 +117,6 @@ const MakeTabPanels = (props) => {
         if(tabNames[i] == "使用食材"){
             tmpArray.push(<TabPanel value={props} index={i}>
               <Box sx={{ width: '100%', height:400, overflow: 'auto'}}>
-                {/* <AutoSuggestFoodInput type="useFood"/> */}
                 <AutoSuggestForFood />
               </Box>
             </TabPanel>);
@@ -128,8 +127,14 @@ const MakeTabPanels = (props) => {
     return tmpArray;
 }
 
-const MakeTabContents = (tabName) => {
-    const allFoodNameDict = useContext(AllFoodNameDictContext);
+const MakeTabContents =(tabName) => {
+    let allFoodNameDict = {}
+    const categoryNames = Object.keys(labelToAccurate)
+    for(let categoryName of categoryNames){
+        const labels = Object.keys(labelToAccurate[categoryName])
+        allFoodNameDict[categoryName]=labels
+    }
+
     const [useFoodNameDict, setUseFoodNameDict] = useContext(UseFoodNameDictContext);
     var tabContents = [];
     if(tabName in allFoodNameDict){
@@ -137,7 +142,7 @@ const MakeTabContents = (tabName) => {
             tabContents.push(
             <ul>
                 <Grid container spacing={2}>
-                    <UseFoodDataInput name={foodName}/>
+                    <UseFoodDataInput name={foodName} genre={tabName}/>
                 </Grid>
                 <Divider/>
             </ul>);

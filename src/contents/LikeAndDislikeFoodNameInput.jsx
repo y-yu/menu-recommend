@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useState,useEffect,createContext,useContext} from "react";
+import {useState,useEffect,useContext} from "react";
 import 'react-tabs/style/react-tabs.css';
 import '../styles/index.scss';
 import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
@@ -15,7 +15,17 @@ import Tooltip from '@mui/material/Tooltip';
 
 import { LikeAndDislikeFoodNameDictContext , LikeAndDislikeFoodNameSelectedListContext} from './context.js';
 
+import labelToAccurate from '../data/labelToAccurate.json';
+
 const LikeAndDislikeFoodNameInput=(props)=>{
+
+    let allCategory = Object.values(labelToAccurate)
+    let allFood = {}
+    for(let category of allCategory){
+      Object.assign(allFood, category);
+    }
+
+    const foodAccurateNames = allFood[props.name] // 通称名に紐づいている正しい名称の食材の配列名
 
     const foodName = props.name;
     const[like, setLike] = useState(false);
@@ -24,29 +34,34 @@ const LikeAndDislikeFoodNameInput=(props)=>{
     const[likeAndDislikeFoodNameSelectedList, setLikeAndDislikeFoodNameSelectedList] = useContext(LikeAndDislikeFoodNameSelectedListContext);
 
     useEffect(()=>{
-        let newLikeAndDislikeFoodNameDict = {}
-        for(let food in likeAndDislikeFoodNameDict){
-          newLikeAndDislikeFoodNameDict[food]=likeAndDislikeFoodNameDict[food]
+      // console.log(props.name)
+      // console.log(foodAccurateNames)
+      let newLikeAndDislikeFoodNameDict = {}
+      for(let food in likeAndDislikeFoodNameDict){
+        newLikeAndDislikeFoodNameDict[food]=likeAndDislikeFoodNameDict[food]
+      }
+      if (foodAccurateNames!=undefined){
+        for(let foodAccurateName of foodAccurateNames){
+          if ((!(newLikeAndDislikeFoodNameDict["like"].includes(foodAccurateName))) && like){
+            newLikeAndDislikeFoodNameDict["like"].push(foodAccurateName);
+          }
+          if ((!(newLikeAndDislikeFoodNameDict["dislike"].includes(foodAccurateName))) && dislike){
+            newLikeAndDislikeFoodNameDict["dislike"].push(foodAccurateName);
+          }
+          if ((newLikeAndDislikeFoodNameDict["like"].includes(foodAccurateName)) && !like){
+            newLikeAndDislikeFoodNameDict["like"] = newLikeAndDislikeFoodNameDict["like"].filter(x => x !== foodAccurateName)
+          }
+          if ((newLikeAndDislikeFoodNameDict["dislike"].includes(foodAccurateName)) && !dislike){
+            newLikeAndDislikeFoodNameDict["dislike"] = newLikeAndDislikeFoodNameDict["dislike"].filter(x => x !== foodAccurateName)
+          }
         }
+      }
+
+      setLikeAndDislikeFoodNameDict(newLikeAndDislikeFoodNameDict);
+      console.log(newLikeAndDislikeFoodNameDict);    
       
-        if ((!(newLikeAndDislikeFoodNameDict["like"].includes(foodName))) && like){
-          newLikeAndDislikeFoodNameDict["like"].push(foodName);
-        }
-        if ((!(newLikeAndDislikeFoodNameDict["dislike"].includes(foodName))) && dislike){
-          newLikeAndDislikeFoodNameDict["dislike"].push(foodName);
-        }
-        if ((newLikeAndDislikeFoodNameDict["like"].includes(foodName)) && !like){
-          newLikeAndDislikeFoodNameDict["like"] = newLikeAndDislikeFoodNameDict["like"].filter(x => x !== foodName)
-        }
-        if ((newLikeAndDislikeFoodNameDict["dislike"].includes(foodName)) && !dislike){
-          newLikeAndDislikeFoodNameDict["dislike"] = newLikeAndDislikeFoodNameDict["dislike"].filter(x => x !== foodName)
-        }
-
-        setLikeAndDislikeFoodNameDict(newLikeAndDislikeFoodNameDict);
-        console.log(newLikeAndDislikeFoodNameDict);    
-      },[like,dislike]
-    );
-
+    },[like,dislike]
+  );
 
   const deleteComponent=(foodName)=>{
     let newSelectedList = new Set(likeAndDislikeFoodNameSelectedList);

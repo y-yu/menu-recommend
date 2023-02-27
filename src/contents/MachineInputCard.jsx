@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useState,useEffect,createContext,useContext} from "react";
+import {useState,useContext} from "react";
 import 'react-tabs/style/react-tabs.css';
 import '../styles/index.scss';
 import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
@@ -56,10 +56,9 @@ const MachineInputCard = () => {
       setIsRevealPassword((prevState) => !prevState);
     }
 
-
-        return (
-            <Card sx={{ height:cardSize, overflow: 'auto'}}  elevation={3}>
-                <CardContent>
+    const MachineComponent=()=>{
+      return (<>
+      <CardContent>
                 <Typography variant="h5" component="div">
                     マシン
                 </Typography>
@@ -127,8 +126,13 @@ const MachineInputCard = () => {
                         </RadioGroup>                    
                     </FormControl>
                 </CardActions>
+      </>);
+    }
 
-                <CardContent>
+    const StapleComponent=()=>{
+      return (
+        <>
+        <CardContent>
                 <Typography variant="h5" component="div">
                     主食
                 </Typography>
@@ -147,105 +151,123 @@ const MachineInputCard = () => {
                         </RadioGroup>
                     </FormControl>
                 </CardActions>
+                </>
+      );
+    }
 
-                <CardContent>
-                <Typography variant="h5" component="div">
-                    ジャンル
-                </Typography>
-                <Typography variant="body2">
-                    <br/>推薦する献立のジャンルを選択してください
-                </Typography>
-                </CardContent>
-                <CardActions>
-                    {/* <ExampleButtonCheckbox/> */}
-                    {console.log("ジャンル:"+genre)}
-                    <ExampleChoiceChipCheckbox/>
-                    {/* <IconlessCheckbox/> */}
-                </CardActions>
+    const CountsComponent =()=>{
+      return (
+        <>
+        <CardContent>
+        <Typography variant="h5" component="div">
+            人数
+        </Typography>
+        <Typography variant="body2">
+            <br/>推薦する献立の人数を入力してください
+        </Typography>
+        </CardContent>
+        <CardActions>
+          <FormControl variant="standard" sx={{ m: 1, mt: 3}}>
+            <Input
+              sx={{width:150}}
+              type = "number"
+              id={"input_people"}
+              endAdornment={<InputAdornment position="end">{"人"}</InputAdornment>}
+              value = {peopleNum}
+              onChange={(event) => setPeopleNum(event.target.value)}
+              min="0"
+              inputProps={{ min: 1}}
+            />
+          </FormControl>
+        </CardActions>
+        </>
+      );
+    }
 
-                <CardContent>
-                <Typography variant="h5" component="div">
-                    人数
-                </Typography>
-                <Typography variant="body2">
-                    <br/>推薦する献立の人数を入力してください
-                </Typography>
-                </CardContent>
-                <CardActions>
-                  <FormControl variant="standard" sx={{ m: 1, mt: 3}}>
-                    <Input
-                      sx={{width:150}}
-                      type = "number"
-                      id={"input_people"}
-                      endAdornment={<InputAdornment position="end">{"人"}</InputAdornment>}
-                      value = {peopleNum}
-                      onChange={(event) => setPeopleNum(event.target.value)}
-                      min="0"
-                      inputProps={{ min: 1}}
-                    />
-                  </FormControl>
-                </CardActions>
+    const CountsOfMenuComponent =()=>{
+      return (
+        <>
+        <CardContent>
+        <Typography variant="h5" component="div">
+            メニュー数
+        </Typography>
+        <Typography variant="body2">
+            <br/>推薦する献立のメニュー数を入力してください(1〜5個)
+        </Typography>
+        </CardContent>
+        <CardActions>
+          <FormControl variant="standard" sx={{ m: 1, mt: 3}}>
+              <RadioGroup
+                aria-labelledby="demo-radio-buttons-group-label"
+                defaultValue={isSupecified}
+                // defaultValue={(()=>{if(menuNum == 0) {console.log("指定なしです");return "指定なし"}else{return "入力"}})()}
+                name="radio-buttons-group"
+                >
+                  {["指定なし","入力"].map
+                    (
+                      (name) => {
+                        if(name == "入力" && isSupecified == "入力"){
+                          return (
+                            <Grid container spacing={2}>
+                              <Grid item xs={6}>
+                              <FormControlLabel value = {name} control={<Radio sx={{'&.Mui-checked': { color: '#52af77'}}}/>} label={name} onChange = {e => setIsSupecified(e.target.value)}/>
+                              </Grid>
+                              <Grid item xs={6}>
+                                <Input
+                                  sx={{width:150}}
+                                  type = "number"
+                                  id={"input_menu_num"}
+                                  endAdornment={<InputAdornment position="end">{"個"}</InputAdornment>}
+                                  value = {menuNum}
+                                  onChange={(event) => setMenuNum(event.target.value)}
+                                  min="0"
+                                  max="5"
+                                  inputProps={{ min: 1, max: 5 }}
+                                />
+                              </Grid>
+                            </Grid>
+                          );
+                        }else{
+                          console.log(name);
+                          return <FormControlLabel value = {name} control={<Radio sx={{'&.Mui-checked': { color: '#52af77'}}}/>} label={name} onChange = {e => setIsSupecified(e.target.value)}/>
+                        }
+                      }
+                    )
+                  }
+              </RadioGroup>
+          </FormControl>
+        </CardActions>
+        </>
+      );
+    }
 
-                <CardContent>
-                <Typography variant="h5" component="div">
-                    メニュー数
-                </Typography>
-                <Typography variant="body2">
-                    <br/>推薦する献立のメニュー数を入力してください(1〜5個)
-                </Typography>
-                </CardContent>
-                <CardActions>
-                  <FormControl variant="standard" sx={{ m: 1, mt: 3}}>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        defaultValue={isSupecified}
-                        // defaultValue={(()=>{if(menuNum == 0) {console.log("指定なしです");return "指定なし"}else{return "入力"}})()}
-                        name="radio-buttons-group"
-                        >
-                          {["指定なし","入力"].map
-                            (
-                              (name) => {
-                                if(name == "入力" && isSupecified == "入力"){
-                                  return (
-                                    <Grid container spacing={2}>
-                                      <Grid item xs={6}>
-                                      <FormControlLabel value = {name} control={<Radio sx={{'&.Mui-checked': { color: '#52af77'}}}/>} label={name} onChange = {e => setIsSupecified(e.target.value)}/>
-                                      </Grid>
-                                      <Grid item xs={6}>
-                                        <Input
-                                          sx={{width:150}}
-                                          type = "number"
-                                          id={"input_menu_num"}
-                                          endAdornment={<InputAdornment position="end">{"個"}</InputAdornment>}
-                                          value = {menuNum}
-                                          onChange={(event) => setMenuNum(event.target.value)}
-                                          min="0"
-                                          max="5"
-                                          inputProps={{ min: 1, max: 5 }}
-                                        />
-                                      </Grid>
-                                    </Grid>
-                                  );
-                                }else{
-                                  console.log(name);
-                                  return <FormControlLabel value = {name} control={<Radio sx={{'&.Mui-checked': { color: '#52af77'}}}/>} label={name} onChange = {e => setIsSupecified(e.target.value)}/>
-                                }
-                              }
-                            )
-                          }
-                      </RadioGroup>
-                  </FormControl>
-                </CardActions>
-                
+
+        return (
+            <Card sx={{ height:cardSize, overflow: 'auto'}}  elevation={3}>
+                <MachineComponent/>
+                <StapleComponent/>
+                <GenreComponent />
+                <CountsComponent/>
+                <CountsOfMenuComponent />                
             </Card>);
 }
 
 
   
-  function ExampleChoiceChipCheckbox() {
+  function GenreComponent() {
       const [value, setValue] = useContext(GenreContext);
       console.log("バリュー:"+value);
       return (
+        <>
+        <CardContent>
+        <Typography variant="h5" component="div">
+            ジャンル
+        </Typography>
+        <Typography variant="body2">
+            <br/>推薦する献立のジャンルを選択してください
+        </Typography>
+        </CardContent>
+        <CardActions>
         <Sheet>
           <Box role="group" aria-labelledby="rank">
             <List
@@ -316,6 +338,8 @@ const MachineInputCard = () => {
             </List>
           </Box>
         </Sheet>
+        </CardActions>
+        </>
       );
     }
   

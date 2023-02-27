@@ -1,7 +1,5 @@
 import * as React from 'react';
-import {useState,useEffect,createContext,useContext} from "react";
-
-import axios from "axios";
+import {useState,useContext} from "react";
 
 import 'react-tabs/style/react-tabs.css';
 import '../styles/index.scss';
@@ -13,6 +11,9 @@ import SendIcon from '@mui/icons-material/Send';
 import Typography from '@mui/material/Typography';
 
 import CircularProgress from '@mui/material/CircularProgress';
+
+import labelToAccurate from '../data/labelToAccurate.json';
+
 
 import { 
   MachineContext,
@@ -49,7 +50,6 @@ const ButtonOfCreateMenus=()=>{
 
   
   const createRequest=()=>{
-    let menus = {}
     let newGenre = [];
     for(let g of genre){
       if(g!="all"){
@@ -66,20 +66,35 @@ const ButtonOfCreateMenus=()=>{
       newIdeal[category]["param"]=parseFloat(newIdeal[category]["param"])
     }
 
-    let newWantFood = {}
+    let tmpWantFood = {}
     for(let food in want_food){
-      newWantFood[food] = want_food[food]
+      tmpWantFood[food] = want_food[food]
     }
-    for(let food of Object.keys(newWantFood)){
-      newWantFood[food]["gram"] = Number(newWantFood[food]["gram"])
+    for(let food of Object.keys(tmpWantFood)){
+      tmpWantFood[food]["gram"] = Number(tmpWantFood[food]["gram"])
     }
 
+    // 食材名を食材の正しい名前に直してwantfoodを作り直す
+    let allCategory = Object.values(labelToAccurate)
+    let allFood = {}
+    for(let category of allCategory){
+      Object.assign(allFood, category);
+    }
+    let newWantFood = {}
+    for(let food in want_food){
+      let accurateFoodNames = allFood[food]
+      for(let accurateFoodName of accurateFoodNames){
+        newWantFood[accurateFoodName]=tmpWantFood[food]
+      }
+    }
+
+    console.log(newWantFood)
 
     let requestBody = {
       "machine" : machine,
       "ideal" : newIdeal,
       "my_food" : my_food,
-      "want_food" : want_food,
+      "want_food":newWantFood,
       "staple" : staple,
       "genre" : newGenre,
       "people" : Number(people),

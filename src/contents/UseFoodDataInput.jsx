@@ -21,6 +21,8 @@ import {UseFoodNameDictContext} from './context.js';
 const UseFoodDataInput=(props)=>{
 
     const foodName = props.name
+    const genreName = props.genre
+
     const [useFoodNameDict, setUseFoodNameDict] = useContext(UseFoodNameDictContext);
     const [value, setValue] = useState(() =>{if(foodName in useFoodNameDict){return useFoodNameDict[foodName]['gram']}else{return 0}});
 
@@ -64,7 +66,6 @@ const UseFoodDataInput=(props)=>{
 
     return (
         <>
-            {/* {console.log(foodName,use)} */}
             {fetch()}
             <Grid item xs={12} md={6}>
                 <label>       
@@ -78,7 +79,6 @@ const UseFoodDataInput=(props)=>{
                                 setUse(newUse);
                                 if(newUse){
                                     //　使う食材として登録
-                                    // let newUseFoodNameDict = Object.assign(useFoodNameDict); 
                                     let newUseFoodNameDict ={}
                                     for (let useFood in useFoodNameDict){
                                         newUseFoodNameDict[useFood]=useFoodNameDict[useFood]
@@ -89,8 +89,6 @@ const UseFoodDataInput=(props)=>{
                                     setIsSupecified(false)                                                           
                                 }else{
                                     //　使わない食材として辞書から消す
-                                    console.log("あーーーー")
-
                                     console.log(foodName)
                                     let newUseFoodNameDict ={}
                                     for (let useFood in useFoodNameDict){
@@ -140,7 +138,6 @@ const UseFoodDataInput=(props)=>{
                                         onChange={(event) => 
                                             {
                                                 setValue(event.target.value);
-                                                // let newUseFoodNameDict = Object.assign(useFoodNameDict); 
                                                 let newUseFoodNameDict ={}
                                                 for (let useFood in useFoodNameDict){
                                                     newUseFoodNameDict[useFood]=useFoodNameDict[useFood]
@@ -164,7 +161,6 @@ const UseFoodDataInput=(props)=>{
                                             onChange={(event) => 
                                                 {
                                                 setUseUp(!useUp);
-                                                // let newUseFoodNameDict = Object.assign(useFoodNameDict); 
                                                 let newUseFoodNameDict ={}
                                                 for (let useFood in useFoodNameDict){
                                                     newUseFoodNameDict[useFood]=useFoodNameDict[useFood]

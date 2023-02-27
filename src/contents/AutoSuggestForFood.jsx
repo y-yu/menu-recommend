@@ -4,9 +4,6 @@ import {useState,useEffect,useContext} from "react";
 
 import 'react-tabs/style/react-tabs.css';
 
-import Autosuggest from 'react-autosuggest';
-
-
 import '../styles/index.scss';
 import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -17,22 +14,35 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid'
 import Divider from '@mui/material/Divider'
 
-import LikeAndDislikeFoodNameInput from './LikeAndDislikeFoodNameInput';
 import UseFoodDataInput from './UseFoodDataInput';
-import { UseFoodNameDictContext, AllFoodArrayContext, LikeAndDislikeFoodNameDictContext, LikeAndDislikeFoodNameSelectedListContext} from './context.js';
+import { UseFoodNameDictContext} from './context.js';
 
-let FoodArray;
 
-const AutoSuggestForFood = (props) => {
+import typeToLabel from '../data/typeToLabel.json';
+
+const AutoSuggestForFood = () => {
     //全部の食材名の配列
-    const allFoodArray = useContext(AllFoodArrayContext)
+    let allCategory = Object.values(typeToLabel)
+    let allFood = {}
+    for(let category of allCategory){
+      Object.assign(allFood, category)
+    }
+    
+    let allType = Object.keys(allFood)
+    let allLabel = Array.from(new Set(Object.values(allFood)))
+    console.log(allLabel)
+    console.log(allType)
+
+
     //使う予定の食材の辞書(そのまま食材選択のボタンにする)
     const [useFoodNameDict, setUseFoodNameDict] = useContext(UseFoodNameDictContext)
 
     // クリックされた時に使用食材に入れる
     const addUseFoodNameDict=(newValue)=>{
+        console.log(newValue)
         if(newValue != null){
-            let foodName = newValue.name
+            let foodName = newValue
+            console.log(foodName)
             if(!(foodName in useFoodNameDict)){
                 let newUseFoodNameDict ={}
                 for (let useFood in useFoodNameDict){
@@ -60,22 +70,43 @@ const AutoSuggestForFood = (props) => {
         return <>{tabContents}</>;
     }
 
-    return(<>
-        {console.log(useFoodNameDict)}
-        <Autocomplete        
-        disablePortal
-        options={allFoodArray}
-        getOptionLabel={(food)=> food.name}
-        id="like-and-dislike-input"
-        renderInput={(params) => (
-          <TextField {...params} label="使用食材" variant="standard" sx={{width:250}} />
-        )}
-        onChange={(event, newValue)=>{addUseFoodNameDict(newValue)}}
-      />
-      <Box sx={{ width: '100%', height: 350, overflow: 'auto'}}>
-      {showInputComponents()}
-      </Box>
-      </>
+    //　フィルターにかける
+    const filterOptions = (options, state) => {
+        console.log(options)
+        console.log(state)
+        let newOptions = new Set();
+        
+        options.forEach((elem) => {
+          if(elem.includes(state.inputValue)){
+            newOptions.add(allFood[elem]);
+          }
+        });
+        console.log(newOptions)
+        return Array.from(newOptions);
+      }
+
+    return (
+        <>
+            <Autocomplete 
+                filterOptions={filterOptions}       
+                disablePortal
+                options={allType}
+                getOptionLabel = {(food)=> food}
+                id="like-and-dislike-input"
+                renderInput={(params) => (
+                <TextField {...params} label="使用食材" variant="standard" sx={{width:250}} />
+                )}
+                onChange ={
+                (event, newValue) => {
+                    console.log(newValue)
+                    addUseFoodNameDict(newValue)
+                }
+                }
+                />
+            <Box sx={{ width: '100%', height: 350, overflow: 'auto'}}>
+                {showInputComponents()}
+            </Box>
+        </>
     );
 }
 export default AutoSuggestForFood
