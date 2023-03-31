@@ -1,70 +1,96 @@
-# Getting Started with Create React App
+# Menu-recommend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Overview
 
-## Available Scripts
+2023年度の未踏ターゲット事業[^1]で作成したアプリです。アニーリングマシン、もしくはSAを使用して、ユーザの条件に適したレシピの組み合わせ、1食分の献立を推薦します。
 
-In the project directory, you can run:
 
-### `npm start`
+## Usage
+(2023.3　現在)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+https://mitou-tg-recipe.github.io/menu-recommend/
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+上記のURLからアプリにアクセスします。様々な条件を入力し、ページ下部にある「献立を作成」ボタンを押します。レシピ大百科[^2]に掲載されているレシピを組み合わせて、複数の献立を推薦します。
 
-### `npm test`
+## Features
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 入力ページ
+#### マシン
+(必須)
 
-### `npm run build`
+組合せ最適化問題を解く際に使用するマシンを「Simulated Annealing」か「Fixstars Amplify AE」のどちらかを選択してください。「Fixstars Amplify AE」をマシンとして選択した場合、トークンの入力が必要になります。
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+##### トークン取得方法
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. fixstarsのamplify[^3]のアカウント登録をします。
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+2. 右上の「プロフィール」をクリックする。
+![プロフィール](profile.png)
 
-### `npm run eject`
+3. プロフィールページの左のタブの「アクセストークン」をクリックする。
+![アクセストークン](token.png)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+4. アクセストークンを取得する。
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+#### 主食
+(必須)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+主食がご飯の場合「ご飯」を、それ以外、もしくは、指定がない場合「指定なし」を選択してください。
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+#### ジャンル
+(必須)
 
-## Learn More
+献立のジャンルを、「全て」「和風」「洋風」「中華風」「韓国風」の中から選択してください(複数可)。
+「和風」「洋風」を含むと献立作成に時間がかかってしまうので気をつけてください。
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+#### 人数
+(必須)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+推薦する献立の人数を入力してください。
 
-### Code Splitting
+#### メニュー数
+(必須)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+1食分のメニュー数を「指定なし」か「入力」を選択してください。「入力」を選択した場合、メニュー数を1~5の範囲で入力してください。
 
-### Analyzing the Bundle Size
+#### 栄養素と調理時間
+(必須)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+「塩分」「たんぱく質」「野菜摂取量」「調理時間」の値を数値で入力、そしてその値の重みをスライダーで設定してください。重みは0~0.5の範囲で設定できます。重みが0の時は対応する制約は考慮されません。デフォルト値として、「塩分」は3g、「たんぱく質」は30g、「野菜摂取量」は100g、「調理時間」は60分、すべての重みは0.1となっています。
 
-### Making a Progressive Web App
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+#### 好き嫌い
+(任意)
 
-### Advanced Configuration
+食材名で検索をすると、サジェストされた食材名をクリックすると検索窓の下に食材名のボタン群が出現します。好きな食材として登録したい場合、ハートマークのLikeボタンをクリック、嫌いな食材として登録したい場合、サムズダウンマークのDislikeボタンをクリックします。その食材を使用しない場合、ゴミ箱マークのDeleteボタンをクリックして食材名のボタン群を消すことができます。
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+#### 使用食材
+(任意)
 
-### Deployment
+1. 1番左のタブの「使用食材」の使用したい食材名を検索します。もしくは、使用したい食材が属するタブをクリックし、使用したい食材にクリックをします。
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+2. 量を考慮しない場合は「買う」を選択し、g数を考慮したい場合は「g入力」を選択しgを入力します。さらに、使い切りたい場合は、「使い切り」にチェックをいれます。
 
-### `npm run build` fails to minify
+3. 最終的に使用したい食材群は1番左のタブの「使用食材」に表示されている食材を使用したい食材として設定します。
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### 結果ページ
+
+入力条件によっては献立が表示されない可能性があります。表示されない場合は、入力条件を変更してみてください。
+
+#### 制約満たしている献立
+
+ユーザの入力条件を全て満たしている献立を表示します。
+献立を構成するレシピ名と一食分の献立の栄養素と時間を表示します。
+
+#### 制約満たしてない献立
+
+ユーザの入力条件を破っている献立を表示します。
+条件を満たしていない項目と、献立を構成するレシピ名と一食分の献立の栄養素と時間を表示します。
+
+
+
+[^1]: https://www.ipa.go.jp/jinzai/target/2022/gaiyou_tr-1.html
+
+[^2]: https://park.ajinomoto.co.jp/recipe/
+
+[^3]: https://amplify.fixstars.com/ja/register
