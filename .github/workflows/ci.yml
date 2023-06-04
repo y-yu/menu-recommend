@@ -3,15 +3,14 @@ name: Test
 on:
   pull_request:
   push:
-    branches:
-      - main
+
 
 jobs:
   build:
     strategy:
       matrix:
         os: [ ubuntu-latest ]
-        node: [ 18.x, 20.x ]
+        node: [ 16.x, 18.x ]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
